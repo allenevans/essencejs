@@ -1,0 +1,20 @@
+{
+  "name": "essencejs",
+  "version": "0.0.1",
+  "description": "IoC framework for Node.js",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "IoC",
+    "DI",
+    "dependency",
+    "injection",
+    "inversion",
+    "of",
+    "control"
+  ],
+  "author": "Allen Evans",
+  "license": "MIT"
+}
