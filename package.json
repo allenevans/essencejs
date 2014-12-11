@@ -16,5 +16,8 @@
     "control"
   ],
   "author": "Allen Evans",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "nodeunit": "^0.9.0"
+  }
 }
