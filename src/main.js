@@ -1,8 +1,9 @@
 /*
-    main.js
+ * File         :   main.js
+ * Description  :   Main entry point for essencejs library.
+ * ------------------------------------------------------------------------------------------------ */
 
-    Main entry point for essencejs library.
- */
+var parser = require("./parser.js");
 
 /**
  * Register an object by a given injectable name.
