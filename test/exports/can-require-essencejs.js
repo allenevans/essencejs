@@ -2,9 +2,6 @@
  * TEST : Can require essencejs.
  */
 module.exports = {
-    setUp : function (callback) { callback(); },
-    tearDown : function (callback) { callback(); },
-
     "Can require essencejs"
         : function (test) {
         var essencejs,
