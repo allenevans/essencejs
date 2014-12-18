@@ -6,6 +6,7 @@
 (function () {
     var defaultConfig = require("./config.js"),
         parser = require("./parser.js"),
+        util = require("./util.js"),
 
         registrations = {};
 
@@ -29,8 +30,14 @@
         timeout = (typeof timeout !== "undefined") && timeout !== null ? timeout : defaultConfig.timeout;
 
         var watch = setTimeout(function () {
-            callback("Timed out", mapped);
-        }, timeout),
+                var debugMapped =  { };
+                args.forEach(function (arg, i) {
+                    debugMapped[arg] = !!mapped[i];
+                });
+
+                callback && callback("Timed out", debugMapped);
+                callback = null;
+            }, timeout),
             notifiedError = false,
             mapped = [];
 
@@ -51,7 +58,8 @@
                 // successfully retrieved ALL items to be resolved. Execute the callback.
                 clearTimeout(watch);
 
-                callback(null, mapped);
+                callback && callback(null, mapped);
+                callback = null;
             }
 
             function notifyIfError(err) {
@@ -65,7 +73,8 @@
                 clearTimeout(watch);
 
                 // report error back.
-                callback(err, mapped);
+                callback && callback(err, mapped);
+                callback = null;
             }
 
             if (overrides[arg]) {
@@ -80,6 +89,7 @@
             if (!registration) {
                 // no registration currently exists. create a temporary one for holding waitFors.
                 registrations[arg] = {
+                    name : arg,
                     isPlaceholder : true,
                     waitFors : []
                 };
@@ -137,10 +147,21 @@
      * @param {function} callback Callback function to return the result of invoking the function.
      */
     function invoke(func, resolvedArgs, context, callback) {
-        var result = func.apply(context, resolvedArgs);
+        if (util.isObjectConstructor(func)) {
+            try {
+                // success callback passing the instantiated object as the result.
+                callback.call(null, null, util.instantiateObject(func, resolvedArgs));
+            } catch (x) {
+                // callback with error.
+                callback.call(null, x);
+            }
+        } else {
+            var result = func.apply(context, resolvedArgs);
 
-        if (callback) {
-            callback.call(null, null, result);
+            if (callback) {
+                // success callback passing the result of applying the function.
+                callback.call(null, null, result);
+            }
         }
     }
 
@@ -181,20 +202,29 @@
 
             registrations[key] = {
                 /**
+                 * @prop {string} name of the registration.
+                 */
+                name : key,
+
+                /**
                  * @returns {Object} return exactly what was put into the registration.
                  */
                 get : function (callback) {
-                    if (typeof item === "function") {
-
+                    if (typeof item === "function" && item.name === "__essencejs_container") {
+                        // item is a container that needs to be executed to get the value to inject.
+                        // execute the function and pass to the callback the result.
+                        item(callback);
                     } else {
                         // return what was stored for this registration.
                         callback(null, item);
                     }
                 },
+
                 /**
                  * @prop indicates that this registration is registered.
                  */
                 isPlaceholder : false,
+
                 /**
                  * @prop waitFors listeners to be executed when this registration is registered
                  */
@@ -223,9 +253,52 @@
 
     /**
      * Register a single instance (singleton) of an object that can be instantiated.
+     * @param {object|string} itemOrKey Singleton to register, or key - requires 2 parameters. If single parameter then the key
+     *    will be determined from the object e.g. constructor.name.
+     * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
      */
-    function singleton() {
+    function singleton(itemOrKey, item) {
+        var key = itemOrKey,
+            instance;
 
+        if (arguments.length === 1) {
+            // single argument specified, calculate key.
+            if (typeof itemOrKey === "function") {
+                key = itemOrKey.name;
+            } else {
+                throw "No key specified for object type " +
+                typeof itemOrKey +
+                ". Unable to determine a suitable key."
+            }
+
+            item = itemOrKey;
+
+            if (item === undefined) {
+                throw "Cannot create a singleton instance for an undefined item.";
+            }
+        }
+
+        (function () {
+            var error,
+                instance;
+
+            // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
+            // because object will be an instance of the class being registered.
+            key = util.isObjectConstructor(item) ? util.lowerCaseFirst(key) : key;
+
+            // register a container against the key to resolve the single instance of the item.
+            register(key, function __essencejs_container(callback) {
+                if (error || instance) {
+                    callback(error, instance);
+                } else {
+                    inject(item, null, function (err, value) {
+                        error = err;
+                        instance = value;
+                        callback(error, instance);
+                    });
+                }
+            });
+        }());
     }
 
     /**

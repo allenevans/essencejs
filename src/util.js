@@ -4,6 +4,29 @@
  * ------------------------------------------------------------------------------------------------ */
 
 /**
+ * Create an instance of the object using the given arguments.
+ * @param constructor
+ * @param args
+ * @returns {instantiateObject.F}
+ */
+function instantiateObject(constructor, args) {
+    function F() {
+        constructor.apply(this, args);
+    }
+
+    args = args || [];
+
+    if (!Array.isArray(args)) {
+        throw "Arguments passed to constructObject must be in the form of an array.";
+    } else if (!constructor || !constructor.apply) {
+        throw "Constructor passed does not support apply method.";
+    } else {
+        F.prototype = constructor.prototype;
+        return new F();
+    }
+};
+
+/**
  *   @function isObjectConstructor.
  *   @description checks to see if object can be instantiated.
  *   @param {Object} obj object to check.
@@ -20,6 +43,17 @@ function isObjectConstructor(obj) {
     return false;
 };
 
+/**
+ * Convert the first character of a string into its lowercase representation.
+ * @param {string} str
+ * @returns {string}
+ */
+function lowerCaseFirst(str) {
+    return str && str.replace(/^\w/, function (character) { return character.toLowerCase(); });
+}
+
 module.exports = {
-    isObjectConstructor : isObjectConstructor
+    instantiateObject : instantiateObject,
+    isObjectConstructor : isObjectConstructor,
+    lowerCaseFirst : lowerCaseFirst
 };
