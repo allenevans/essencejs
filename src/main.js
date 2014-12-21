@@ -23,7 +23,7 @@
      * @param {number} timeout Number of milliseconds to complete the resolving of all arguments before timing out.
      * @param {object} overrides Override any defined entries using this custom object.
      * @param {function} callback Callback method once all arguments have been resolved, or a timeout has occurred.
-     *  Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
+     * Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
      */
     function resolveArgs(args, timeout, overrides, callback) {
         overrides = overrides || {};
@@ -302,10 +302,51 @@
     }
 
     /**
-     * Register a factory to create new instances of an object that can be instantiated.
+     * Register a factory that will invoke or construct new instances of the function as required.
+     * @param {object|string} itemOrKey Factory to register, or key - requires 2 parameters. If single parameter then the key
+     *    will be determined from the object e.g. constructor.name.
+     * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
      */
-    function factory() {
+    function factory(itemOrKey, item) {
+        var key = itemOrKey,
+            instance;
 
+        if (arguments.length === 1) {
+            // single argument specified, calculate key.
+            if (typeof itemOrKey === "function") {
+                key = itemOrKey.name;
+            } else {
+                throw "No key specified for object type " +
+                typeof itemOrKey +
+                ". Unable to determine a suitable key."
+            }
+
+            item = itemOrKey;
+
+            if (item === undefined) {
+                throw "Cannot create a singleton instance for an undefined item.";
+            }
+        }
+
+        (function () {
+            var error;
+
+            // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
+            // because object will be an instance of the class being registered.
+            key = util.isObjectConstructor(item) ? util.lowerCaseFirst(key) : key;
+
+            // register a container against the key to resolve the single instance of the item.
+            register(key, function __essencejs_container(callback) {
+                if (error) {
+                    callback(error);
+                } else {
+                    inject(item, null, function (err, value) {
+                        error = err;
+                        callback(error, value);
+                    });
+                }
+            });
+        }());
     }
 
     /**
@@ -320,12 +361,10 @@
             context = func,
             timeout = defaultConfig.timeout;
 
-        if (arguments.length === 2) {
-            if (typeof config === "function") {
-                // config is the callback function. remap.
-                callback = config;
-                config = null;
-            }
+        if (arguments.length === 2 && typeof config === "function") {
+            // config is the callback function. remap.
+            callback = config;
+            config = null;
         }
 
         timeout = config && typeof config.timeout !== "undefined" ? config.timeout : timeout;
