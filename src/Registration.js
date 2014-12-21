@@ -2,7 +2,6 @@
  * File         :   Registration.js
  * Description  :   Registration class for holding dependencies.
  * ------------------------------------------------------------------------------------------------ */
-
 var Resolvable = require("./Resolvable.js");
 
 /**
@@ -12,7 +11,7 @@ var Resolvable = require("./Resolvable.js");
 var Registration = function Registration() {
     /**
      * Dictionary of key / value registrations
-     * @type {Object} key value dictionary for looking up resolvables.
+     * @type {Object.<string, Resolvable>}
      */
     this.dictionary = {};
 };

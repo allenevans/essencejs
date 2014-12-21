@@ -10,8 +10,9 @@ var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
 
 /**
  * reflects to get the arguments of the given function.
- * @param {function|Array} itemDeclaration function to get arguments for.
- * @returns {Array} Array of any argument names for the given function.
+ * @param {function|Array} itemDeclaration function to get arguments for, or an array of [arg1, arg2, ..., function (arg1, arg2, ...) { ... }]
+ * @returns {string[]} Array of any argument names for the given function.
+ * @memberof parser
  */
 function getArgs(itemDeclaration) {
     if (itemDeclaration && itemDeclaration.constructor === Array) {
@@ -38,6 +39,10 @@ function getArgs(itemDeclaration) {
     }
 }
 
+/**
+ * parser namespace.
+ * @namespace parser
+ */
 module.exports = {
     getArgs : getArgs
 };

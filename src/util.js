@@ -8,6 +8,7 @@
  * @param constructor
  * @param args
  * @returns {instantiateObject.F}
+ * @memberof util
  */
 function instantiateObject(constructor, args) {
     function F() {
@@ -27,10 +28,11 @@ function instantiateObject(constructor, args) {
 };
 
 /**
- *   @function isObjectConstructor.
- *   @description checks to see if object can be instantiated.
- *   @param {Object} obj object to check.
- *   @returns {Boolean} True if the object can be instantiated with the new command.
+ * @function isObjectConstructor.
+ * @description checks to see if object can be instantiated.
+ * @param {Object} obj object to check.
+ * @returns {boolean} True if the object can be instantiated with the new command, else false.
+ * @memberof util
  */
 function isObjectConstructor(obj) {
     if (obj && typeof obj === "function") {
@@ -45,13 +47,18 @@ function isObjectConstructor(obj) {
 
 /**
  * Convert the first character of a string into its lowercase representation.
- * @param {string} str
- * @returns {string}
+ * @param {string} str To to make the first character lowercase for.
+ * @returns {string} String where the first character is in its lowercase representation.
+ * @memberof util
  */
 function lowerCaseFirst(str) {
     return str && str.replace(/^\w/, function (character) { return character.toLowerCase(); });
 }
 
+/**
+ * Utilities namespace
+ * @namespace util
+ */
 module.exports = {
     instantiateObject : instantiateObject,
     isObjectConstructor : isObjectConstructor,
