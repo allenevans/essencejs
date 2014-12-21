@@ -4,11 +4,11 @@
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
-var path = path = require("path"),
+var path = require("path"),
     essencejs;
 
 function setup() {
-    essencejs = require(path.join(process.cwd(), "src/main.js"));
+    essencejs = new (require(path.join(process.cwd(), "src/main.js")))();
 }
 
 function tearDown() {
@@ -40,7 +40,7 @@ module.exports = {
             setup();
             var timeout = setTimeout(function timeout() { test.done(); }, 1000);
 
-            essencejs.config.timeout = 1;
+            essencejs.defaultConfig.timeout = 1;
             test.expect(1);
 
             essencejs.inject(function (neverResolveArg) { }, function callback(err) {

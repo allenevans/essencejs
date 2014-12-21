@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
-var path = path = require("path"),
+var path = require("path"),
     parser = require(path.join(process.cwd(), "src/parser.js"));
 
 module.exports = {

@@ -4,13 +4,15 @@
 module.exports = {
     "Can require essencejs"
         : function (test) {
-        var essencejs,
+        var EssenceJs,
+            essencejs,
             error,
 
             path = require("path");
 
         try {
-            essencejs = require(path.join(process.cwd(), "src/main.js"));
+            EssenceJs = require(path.join(process.cwd(), "src/main.js"));
+            essencejs = new EssenceJs();
         } catch (x) {
             error = x;
         }

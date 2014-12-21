@@ -4,12 +4,12 @@
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
-var path = path = require("path"),
+var path = require("path"),
     essencejs;
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = require(path.join(process.cwd(), "src/main.js"));
+        essencejs = new (require(path.join(process.cwd(), "src/main.js")))();
         callback();
     },
     tearDown : function(callback) {

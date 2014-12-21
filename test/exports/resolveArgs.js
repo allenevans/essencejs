@@ -4,12 +4,12 @@
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
-var path = path = require("path"),
+var path = require("path"),
     essencejs;
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = require(path.join(process.cwd(), "src/main.js"));
+        essencejs = new (require(path.join(process.cwd(), "src/main.js")))();
         callback();
     },
     tearDown : function(callback) {
@@ -138,9 +138,16 @@ module.exports = {
                 testObject3 = { c : 3};
 
             essencejs.register("testObject", testObject);
+
             setTimeout(function () {
-                essencejs.register("testObject2", testObject2);
+                try {
+                    essencejs.register("testObject2", testObject2);
+                } catch (x) {
+                    // ignore any exception caused by test tearing down essencejs then this trying to register
+                    // something against it.
+                }
             }, 99);
+
             essencejs.register("testObject3", testObject3);
 
             setTimeout(function () {

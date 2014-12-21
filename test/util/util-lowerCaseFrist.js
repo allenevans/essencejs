@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
-var path = path = require("path"),
+var path = require("path"),
     util = require(path.join(process.cwd(), "src/util.js"));
 
 module.exports = {
