@@ -14,6 +14,19 @@ var Registration = function Registration() {
      * @type {Object.<string, Resolvable>}
      */
     this.dictionary = {};
+
+    /**
+     * Get the list of registration keys stored within the dictionary.
+     * @name keys
+     * @memberOf! Registration
+     * @type {string[]}
+     * @readonly
+     */
+    Object.defineProperty(this, "keys", {
+        get : function () {
+            return Object.keys(this.dictionary);
+        }
+    });
 };
 
 /**

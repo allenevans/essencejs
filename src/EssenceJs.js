@@ -126,6 +126,14 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item) {
 };
 
 /**
+ * Get the list of registration key names.
+ * @returns {string[]}
+ */
+EssenceJs.prototype.getKeys = function getKeys() {
+    return (this.registrations && this.registrations.keys) || [];
+};
+
+/**
  * @callback EssenceJs~injectCallback function to execute containing any errors, and the result.
  * @param {object|string} error Object or string that contains the error that occurred.
  * @param {object} result The result of the injected function.
