@@ -16,6 +16,9 @@ var EssenceJs = function EssenceJs() {
     this.registrations = new Registration();
 
     this._timers = [];
+
+    // register this instance as $essence.
+    this.register("$essence", this);
 };
 
 /**
