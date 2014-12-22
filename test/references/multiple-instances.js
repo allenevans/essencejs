@@ -5,7 +5,7 @@
 "use strict";
 
 var path = require("path"),
-    EssenceJs = require(path.join(process.cwd(), "src/main.js")),
+    EssenceJs = require(path.join(process.cwd(), "src/EssenceJs")),
     essencejs1,
     essencejs2;
 

@@ -8,7 +8,7 @@ var path = require("path"),
     essencejs;
 
 function setup() {
-    essencejs = new (require(path.join(process.cwd(), "src/main.js")))();
+    essencejs = new (require(path.join(process.cwd(), "src/EssenceJs")))();
 }
 
 function tearDown() {

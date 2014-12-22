@@ -1,8 +1,8 @@
 {
   "name": "essencejs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "IoC framework for Node.js",
-  "main": "src/main.js",
+  "main": "src/EssenceJs.js",
   "scripts": {
     "test": "node_modules/nodeunit/bin/nodeunit test/**/*"
   },

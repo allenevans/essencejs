@@ -9,7 +9,7 @@ var path = require("path"),
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = new (require(path.join(process.cwd(), "src/main.js")))();
+        essencejs = new (require(path.join(process.cwd(), "src/EssenceJs")))();
         callback();
     },
     tearDown : function(callback) {

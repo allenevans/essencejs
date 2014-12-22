@@ -2,17 +2,17 @@
  * File         :   main.js
  * Description  :   Main entry point for essencejs library.
  * ------------------------------------------------------------------------------------------------ */
-var parser = require("./parser.js"),
-    util = require("./util.js"),
-    Resolvable = require("./Resolvable.js"),
-    Registration = require("./Registration.js");
+var parser = require("./parser"),
+    util = require("./util"),
+    Resolvable = require("./Resolvable"),
+    Registration = require("./Registration");
 
 /**
  * EssenceJs class constructor.
  * @constructor
  */
 var EssenceJs = function EssenceJs() {
-    this.defaultConfig = require("./config.js");
+    this.defaultConfig = require("./config");
     this.registrations = new Registration();
 
     this._timers = [];

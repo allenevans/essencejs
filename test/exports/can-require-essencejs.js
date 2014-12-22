@@ -11,7 +11,7 @@ module.exports = {
             path = require("path");
 
         try {
-            EssenceJs = require(path.join(process.cwd(), "src/main.js"));
+            EssenceJs = require(path.join(process.cwd(), "src/EssenceJs"));
             essencejs = new EssenceJs();
         } catch (x) {
             error = x;
