@@ -15,7 +15,8 @@ gulp.task("docs", function () {
         })).
         pipe(jsdoc.generator(
             "./docs", {
-                theme : "cerulean",
+
+                theme : "simplex",
                 path : "ink-docstrap",
                 systemName : 'essence.js',
                 footer          : "essence.js",
@@ -23,7 +24,19 @@ gulp.task("docs", function () {
                 navType         : "vertical",
                 linenums        : true,
                 collapseSymbols : false,
-                inverseNav      : false
+                inverseNav      : false,
+                footer          : '' +
+                    '<script>function scrollInit() {' +
+                        'function menuHack() {' +
+                            'var viewPortTooSmall = $("#toc").position().top + $("#toc").height() > $(window).height();' +
+                            '$("#toc").css("position", "absolute"); ' +
+                            '$(".quick-search").css("position", "absolute"); ' +
+                            '$("#toc").css("margin-top", viewPortTooSmall ? 0 : window.scrollY); ' +
+                            '$(".quick-search").css("margin-top", viewPortTooSmall ? 0 : window.scrollY); ' +
+                        '}' +
+                        'window.onscroll = menuHack;' +
+                        '' +
+                    '}; document.addEventListener("DOMContentLoaded", scrollInit, false);</script>'
             }));
 });
 
