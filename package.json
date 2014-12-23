@@ -27,5 +27,8 @@
     "gulp-jsdoc": "^0.1.4",
     "nodeunit": "^0.9.0",
     "run-sequence": "^1.0.2"
+  },
+  "dependencies": {
+    "glob": "^4.3.2"
   }
 }

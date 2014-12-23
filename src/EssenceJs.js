@@ -2,7 +2,9 @@
  * File         :   main.js
  * Description  :   Main entry point for essencejs library.
  * ------------------------------------------------------------------------------------------------ */
-var parser = require("./parser"),
+var glob = require("glob").Glob,
+    parser = require("./parser"),
+    path = require("path"),
     util = require("./util"),
     Resolvable = require("./Resolvable"),
     Registration = require("./Registration");
@@ -176,7 +178,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
     // resolve the arguments and wait for the callback.
     self.resolveArgs(args, timeout, null, function (err, resolvedArgs) {
         if (err) {
-            callback(err);
+            callback && callback(err);
             return;
         }
 
@@ -279,6 +281,81 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
             placeholderResolvable = null;
         }
     }
+};
+
+/**
+ * @callback EssenceJs~registeredCallback Callback function to execute containing any errors, and the file names matching
+ * the given pattern.
+ * @param {object|string} error Object or string that contains the error that occurred.
+ * @param {string[]} matches Files matching the pattern.
+ */
+
+/**
+ * @callback EssenceJs~strategyCallback Callback function executing within the context of this essence js instance.
+ * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, factory, singleton.
+ * @param {string} path File path to module to be required and registered with the essence.js instance.
+ */
+
+/**
+ * Register all exported objects from files matching the specified pattern with this essence.js instance.
+ * @param {string|string[]} pattern Pattern to search for
+ * @param {EssenceJs~strategyCallback} [strategy] Function that determines how the required file is registered with the essence js instance.
+ * @param {Object} [options] Options object for glob.
+ * @param {EssenceJs~registeredCallback} callback function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerPath = function registerPath(pattern, strategy, options, callback) {
+    var self = this,
+        cwd = (options && options.cwd) || process.cwd();
+
+    strategy = strategy || function (filePath) {
+        this.register(path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""), require(path.join(cwd, filePath)));
+    };
+
+    glob(pattern, options, function (err, files) {
+        files = files || [];
+
+        if (!err) {
+            files.forEach(function (filePath) {
+                strategy.call(self, filePath);
+            });
+        }
+
+        callback(err, files);
+    });
+};
+
+/**
+ * Register all exported functions as singletons from files matching the specified pattern with this essence.js instance.
+ * @param {string|string[]} pattern Pattern to search for
+ * @param {Object} [options] Options object for glob.
+ * @param {EssenceJs~registeredCallback} callback function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, options, callback) {
+    var cwd = (options && options.cwd) || process.cwd();
+
+    this.registerPath(pattern, function (filePath) {
+        this.singleton(
+            path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
+            require(path.join(cwd, filePath))
+        );
+    }, options, callback);
+};
+
+/**
+ * Register all exported functions as factories from files matching the specified pattern with this essence.js instance.
+ * @param {string|string[]} pattern Pattern to search for
+ * @param {Object} [options] Options object for glob.
+ * @param {EssenceJs~registeredCallback} callback function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerFactories = function registerFactories(pattern, options, callback) {
+    var cwd = (options && options.cwd) || process.cwd();
+
+    this.registerPath(pattern, function (filePath) {
+        this.factory(
+            path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
+            require(path.join(cwd, filePath))
+        );
+    }, options, callback);
 };
 
 /**
