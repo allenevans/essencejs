@@ -2,8 +2,8 @@
  * File         :   MyModel.js
  * Description  :   Test factory registration. A module that return the MyModule class.
  * ------------------------------------------------------------------------------------------------ */
-function MyModel(params) {
-    this.name = (params && params.name) || "no name defined"
+function MyModel() {
+    this.name = "a name";
 };
 
 MyModel.prototype.getName = function () {

@@ -297,17 +297,18 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
  */
 
 /**
- * Register all exported objects from files matching the specified pattern with this essence.js instance.
+ * Register all exported objects from files matching the specified pattern with this essence.js instance using the given strategy.
  * @param {string|string[]} pattern Pattern to search for
- * @param {EssenceJs~strategyCallback} [strategy] Function that determines how the required file is registered with the essence js instance.
- * @param {Object} [options] Options object for glob.
- * @param {EssenceJs~registeredCallback} callback function containing any errors and files matched.
+ * @param {?EssenceJs~strategyCallback} [strategy] Function that determines how the required file is registered with the essence js instance.
+ * Default is to register exactly what was exported.
+ * @param {?Object} [options] Options object for glob.
+ * @param {?EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
-EssenceJs.prototype.registerPath = function registerPath(pattern, strategy, options, callback) {
+EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, strategy, options, callback) {
     var self = this,
         cwd = (options && options.cwd) || process.cwd();
 
-    strategy = strategy || function (filePath) {
+    strategy = strategy || function defaultStrategy(filePath) {
         this.register(path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""), require(path.join(cwd, filePath)));
     };
 
@@ -320,20 +321,44 @@ EssenceJs.prototype.registerPath = function registerPath(pattern, strategy, opti
             });
         }
 
-        callback(err, files);
+        callback && callback(err, files);
     });
+};
+
+/**
+ * Register all exported objects from files matching the specified pattern with this essence.js instance using the register exact strategy.
+ * @param {string|string[]} pattern Pattern to search for.
+ * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
+ * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerPath = function registerByStrategy(pattern, options, callback) {
+    if (arguments.length === 2 && typeof options === "function") {
+        callback = options;
+        options = null;
+    }
+
+    var cwd = (options && options.cwd) || process.cwd();
+
+    this.registerByStrategy(pattern, function exactStrategy(filePath) {
+        this.register(path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""), require(path.join(cwd, filePath)));
+    }, options, callback);
 };
 
 /**
  * Register all exported functions as singletons from files matching the specified pattern with this essence.js instance.
  * @param {string|string[]} pattern Pattern to search for
- * @param {Object} [options] Options object for glob.
- * @param {EssenceJs~registeredCallback} callback function containing any errors and files matched.
+ * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
+ * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
 EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, options, callback) {
+    if (arguments.length === 2 && typeof options === "function") {
+        callback = options;
+        options = null;
+    }
+
     var cwd = (options && options.cwd) || process.cwd();
 
-    this.registerPath(pattern, function (filePath) {
+    this.registerByStrategy(pattern, function singletonStrategy(filePath) {
         this.singleton(
             path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
             require(path.join(cwd, filePath))
@@ -344,13 +369,18 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
 /**
  * Register all exported functions as factories from files matching the specified pattern with this essence.js instance.
  * @param {string|string[]} pattern Pattern to search for
- * @param {Object} [options] Options object for glob.
- * @param {EssenceJs~registeredCallback} callback function containing any errors and files matched.
+ * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
+ * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
 EssenceJs.prototype.registerFactories = function registerFactories(pattern, options, callback) {
+    if (arguments.length === 2 && typeof options === "function") {
+        callback = options;
+        options = null;
+    }
+
     var cwd = (options && options.cwd) || process.cwd();
 
-    this.registerPath(pattern, function (filePath) {
+    this.registerByStrategy(pattern, function factoryStrategy(filePath) {
         this.factory(
             path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
             require(path.join(cwd, filePath))

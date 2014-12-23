@@ -1,6 +1,6 @@
 /*
- * File         :   registerFactories.js
- * Description  :   TEST register factories method.
+ * File         :   registerSingletons.js
+ * Description  :   TEST register singletons method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
@@ -16,11 +16,11 @@ module.exports = {
         essencejs.dispose();
         callback();
     },
-    "Should be able to register all files matching the pattern as factories":
+    "Should be able to register all files matching the pattern as singletons":
         function (test) {
             test.expect(8);
 
-            essencejs.registerFactories("test/register/sample/**/*.js", null, function (err) {
+            essencejs.registerSingletons("test/register/sample/**/*.js", null, function (err) {
                 var keys = essencejs.getKeys();
 
                 test.equal(!!err, false);
@@ -38,11 +38,11 @@ module.exports = {
                 });
             });
         },
-    "Should be able to register all files matching the pattern as factories without options":
+    "Should be able to register all files matching the pattern as singletons without options":
         function (test) {
             test.expect(8);
 
-            essencejs.registerFactories("test/register/sample/**/*.js", function (err) {
+            essencejs.registerSingletons("test/register/sample/**/*.js", function (err) {
                 var keys = essencejs.getKeys();
 
                 test.equal(!!err, false);
