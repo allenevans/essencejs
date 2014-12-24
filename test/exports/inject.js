@@ -40,7 +40,7 @@ module.exports = {
             setup();
             var timeout = setTimeout(function timeout() { test.done(); }, 1000);
 
-            essencejs.defaultConfig.timeout = 1;
+            essencejs.config.timeout = 1;
             test.expect(1);
 
             essencejs.inject(function (neverResolveArg) { }, function callback(err) {

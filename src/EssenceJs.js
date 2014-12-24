@@ -1,11 +1,12 @@
 /*
- * File         :   main.js
+ * File         :   EssenceJs.js
  * Description  :   Main entry point for essencejs library.
  * ------------------------------------------------------------------------------------------------ */
 var glob = require("glob").Glob,
     parser = require("./parser"),
     path = require("path"),
     util = require("./util"),
+    Config = require("./Config"),
     Resolvable = require("./Resolvable"),
     Registration = require("./Registration");
 
@@ -14,7 +15,7 @@ var glob = require("glob").Glob,
  * @constructor
  */
 var EssenceJs = function EssenceJs() {
-    this.defaultConfig = require("./config");
+    this.config = new Config();
     this.registrations = new Registration();
 
     this._timers = [];
@@ -152,7 +153,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
     var self = this,
         args = parser.getArgs(func),
         context = func,
-        timeout = this.defaultConfig.timeout;
+        timeout = this.config.timeout;
 
     if (arguments.length === 2 && typeof config === "function") {
         // config is the callback function. remap.
@@ -404,7 +405,7 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
  */
 EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides, callback) {
     overrides = overrides || {};
-    timeout = (typeof timeout !== "undefined") && timeout !== null ? timeout : this.defaultConfig.timeout;
+    timeout = (typeof timeout !== "undefined") && timeout !== null ? timeout : this.config.timeout;
 
     var self = this,
         watch = self.setTimeout(function () {

@@ -1,6 +1,6 @@
 {
   "name": "essencejs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "IoC framework for Node.js",
   "main": "src/EssenceJs.js",
   "scripts": {

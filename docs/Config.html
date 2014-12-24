@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>essence.js Namespace: util</title>
+	<title>essence.js Class: Config</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -79,12 +79,12 @@
 					
 
 
-	<h1 class="page-title">Namespace: util</h1>
+	<h1 class="page-title">Class: Config</h1>
 <section>
 
 <header>
     <h2>
-    util
+    Config
     </h2>
     
 </header>
@@ -95,10 +95,75 @@
 
     
         
-            <div class="description">Utilities namespace</div>
+<dt>
+    <h4 class="name" id="Config"><span class="type-signature"></span>new Config<span class="signature">(params)</span><span class="type-signature"></span></h4>
+    
+    
+</dt>
+<dd>
+    
+    
+    <div class="description">
+        Essence js configuration class.
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
         
 
-        
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Config.html#Params">Config~Params</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Class property initialisation object.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    
+    
 <dl class="details">
     
 
@@ -121,7 +186,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#sunlight-1-line-58">line 58</a>
+        <a href="Config.js.html">Config.js</a>, <a href="Config.js.html#sunlight-1-line-18">line 18</a>
     </li></ul></dd>
     
 
@@ -132,8 +197,20 @@
     
 </dl>
 
+    
+    
 
-        
+    
+
+    
+    
+    
+    
+    
+    
+    
+</dd>
+
     
     </div>
 
@@ -148,230 +225,34 @@
     
 
     
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h3 class="subsection-title">Members</h3>
 
         <dl>
             
 <dt>
-    <h4 class="name" id="instantiateObject"><span class="type-signature">&lt;static> </span>instantiateObject<span class="signature">(constructor, args)</span><span class="type-signature"> &rarr; {instantiateObject.F}</span></h4>
+    <h4 class="name" id="timeout"><span class="type-signature"></span>timeout<span class="type-signature"> :number</span></h4>
     
     
 </dt>
 <dd>
     
-    
     <div class="description">
-        Create an instance of the object using the given arguments.
+        Maximum number of milliseconds to wait for dependencies of the injected function to be resolved.
     </div>
     
-
     
     
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>constructor</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-	
-
-        <tr>
-            
-                <td class="name"><code>args</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"></td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#sunlight-1-line-13">line 13</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">instantiateObject.F</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="isObjectConstructor."><span class="type-signature">&lt;static> </span>isObjectConstructor.<span class="signature">(obj)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        checks to see if object can be instantiated.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>obj</code></td>
-            
-
-            <td class="type">
-            
+        <h5>Type:</h5>
+        <ul>
+            <li>
                 
-<span class="param-type">Object</span>
+<span class="param-type">number</span>
 
 
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">object to check.</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
+            </li>
+        </ul>
     
-    
+
     
 <dl class="details">
     
@@ -395,7 +276,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#sunlight-1-line-30">line 30</a>
+        <a href="Config.js.html">Config.js</a>, <a href="Config.js.html#sunlight-1-line-23">line 23</a>
     </li></ul></dd>
     
 
@@ -406,180 +287,6 @@
     
 </dl>
 
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    True if the object can be instantiated with the new command, else false.
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">boolean</span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="lowerCaseFirst"><span class="type-signature">&lt;static> </span>lowerCaseFirst<span class="signature">(str)</span><span class="type-signature"> &rarr; {string}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Convert the first character of a string into its lowercase representation.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>str</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">To to make the first character lowercase for.</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="util.js.html">util.js</a>, <a href="util.js.html#sunlight-1-line-54">line 54</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    String where the first character is in its lowercase representation.
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type">string</span>
-
-
-	</dd>
-</dl>
-
-
-        
     
     
 </dd>
@@ -587,6 +294,138 @@
         </dl>
     
 
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
+<dt>
+    <h4 class="name" id="Params">Params</h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Resolvable constructor initialisation parameters.
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">Object</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+        <h5 class="subsection-title">Properties:</h5>
+
+        <dl>
+
+<table class="props table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>timeout</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Maximum number of milliseconds to wait for dependencies of the injected function to be resolved.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+</dl>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Config.js.html">Config.js</a>, <a href="Config.js.html#sunlight-1-line-7">line 7</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+            </dl>
     
 
     
