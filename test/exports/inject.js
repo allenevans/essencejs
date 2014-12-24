@@ -7,22 +7,21 @@
 var path = require("path"),
     essencejs;
 
-function setup() {
-    essencejs = new (require(path.join(process.cwd(), "src/EssenceJs")))();
-}
-
-function tearDown() {
-    essencejs.dispose();
-}
-
 function createTimeout(test, duration) {
-    return setTimeout(function timeout() { test.done(); }, 1000);
+    return setTimeout(function timeout() { test.done(); }, duration);
 }
 
 module.exports = {
+    setUp : function (callback) {
+        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        callback();
+    },
+    tearDown : function (callback) {
+        essencejs.dispose();
+        callback();
+    },
     "Should execute immediately if no arguments":
         function (test) {
-            setup();
             var timeout = createTimeout(test, 1);
             test.expect(2);
 
@@ -32,12 +31,10 @@ module.exports = {
                 test.done();
 
                 clearTimeout(timeout);
-                tearDown();
             });
         },
     "Should timeout if arguments cannot be resolved":
         function (test) {
-            setup();
             var timeout = setTimeout(function timeout() { test.done(); }, 1000);
 
             essencejs.config.timeout = 1;
@@ -48,7 +45,6 @@ module.exports = {
                 test.done();
 
                 clearTimeout(timeout);
-                tearDown();
             });
         }
 };

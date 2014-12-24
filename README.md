@@ -15,13 +15,13 @@ Install
 Getting Started
 ---------------
     // require the EssenceJs class.
-    var EssenceJs = require("essencejs");
+    var EssenceJs = require("essencejs").EssenceJs;
 
     // create a new instance of EssenceJs.
     var essence = new EssenceJs();
 
     // ALTERNATIVELY - to do the same in a single line:
-    var essence = new (require("essencejs"))();
+    var essence = new (require("essencejs").EssenceJs)();
 
     // add objects to the essence js container
     essence.register("message", { text : "thingy bobs" });

@@ -1,8 +1,8 @@
 {
   "name": "essencejs",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "IoC framework for Node.js",
-  "main": "src/EssenceJs.js",
+  "main": "index.js",
   "scripts": {
     "test": "node_modules/nodeunit/bin/nodeunit test/**/*"
   },
@@ -25,6 +25,7 @@
     "gulp": "^3.8.10",
     "gulp-bump": "^0.1.11",
     "gulp-jsdoc": "^0.1.4",
+    "gulp-rimraf": "^0.1.1",
     "nodeunit": "^0.9.0",
     "run-sequence": "^1.0.2"
   },

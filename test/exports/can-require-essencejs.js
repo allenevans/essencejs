@@ -1,6 +1,9 @@
-/**
- * TEST : Can require essencejs.
- */
+/*
+ * File         :   can-require-essence.js
+ * Description  :   TEST exported EssenceJs class.
+ * ------------------------------------------------------------------------------------------------ */
+"use strict";
+
 module.exports = {
     "Can require essencejs"
         : function (test) {

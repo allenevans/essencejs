@@ -5,10 +5,16 @@
 var gulp = require("gulp"),
     runSequence = require("run-sequence"),
     jsdoc = require("gulp-jsdoc"),
-    bump = require("gulp-bump");
+    bump = require("gulp-bump"),
+    remove = require("gulp-rimraf");
 
-gulp.task("docs", function () {
-    return gulp.src(["./src/**/*.js", "README.md"]).
+gulp.task("clean-docs", function () {
+    return gulp.src(["./docs"], { read : false }).
+        pipe(remove({force : true}));
+});
+
+gulp.task("generate-docs", function () {
+    return gulp.src(["index.js", "./src/**/*.js", "README.md"]).
         pipe(jsdoc.parser({
             description : "Node.js dependency injection framework.",
             licenses : "MIT"
@@ -56,6 +62,14 @@ gulp.task("patch-version-bump", function () {
     gulp.src("./package.json")
         .pipe(bump({type : "patch"}))
         .pipe(gulp.dest("./"));
+});
+
+gulp.task("docs", function (callback) {
+    runSequence(
+        "clean-docs",
+        "generate-docs",
+        callback
+    );
 });
 
 gulp.task("default", function (callback) {
