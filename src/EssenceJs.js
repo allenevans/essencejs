@@ -2,7 +2,8 @@
  * File         :   EssenceJs.js
  * Description  :   Main entry point for essencejs library.
  * ------------------------------------------------------------------------------------------------ */
-var glob = require("glob").Glob,
+var clone = require("clone"),
+    glob = require("glob").Glob,
     parser = require("./parser"),
     path = require("path"),
     util = require("./util"),
@@ -81,10 +82,10 @@ EssenceJs.prototype.dispose = function dispose() {
 };
 
 /**
- * Register a factory that will invoke or construct new instances of the function as required.
- * @param {object|string} itemOrKey Factory to register, or key - requires 2 parameters. If single parameter then the key
+ * Register a factory that will invoke, clone or construct new instances of the function / object as required.
+ * @param {object|string|function} itemOrKey Factory to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
- * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {object|factory} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
  */
 EssenceJs.prototype.factory = function factory(itemOrKey, item) {
     var self = this,
@@ -119,10 +120,16 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item) {
             if (error) {
                 callback(error);
             } else {
-                self.inject(item, null, function (err, value) {
-                    error = err;
-                    callback(error, value);
-                });
+                // if item is an object and not a function, then create a cloned instance of this object.
+                if (typeof item === "object") {
+                    callback(null, clone(item));
+                } else {
+                    // inject into the function.
+                    self.inject(item, null, function (err, value) {
+                        error = err;
+                        callback(error, value);
+                    });
+                }
             }
         });
     }());
@@ -516,10 +523,10 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
 };
 
 /**
- * Register a single instance (singleton) of an object that can be instantiated.
- * @param {object|string} itemOrKey Singleton to register, or key - requires 2 parameters. If single parameter then the key
+ * Register a single instance (singleton) of a function that can be instantiated or an object that will be cloned.
+ * @param {object|string|function} itemOrKey Singleton to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
- * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {object|function} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
  */
 EssenceJs.prototype.singleton = function singleton(itemOrKey, item) {
     var self = this,
@@ -555,11 +562,17 @@ EssenceJs.prototype.singleton = function singleton(itemOrKey, item) {
             if (error || instance) {
                 callback(error, instance);
             } else {
-                self.inject(item, null, function (err, value) {
-                    error = err;
-                    instance = value;
-                    callback(error, instance);
-                });
+                // if item is an object and not a function, then create a cloned instance of this object.
+                if (typeof item === "object") {
+                    instance = clone(item);
+                    callback(null, instance);
+                } else {
+                    self.inject(item, null, function (err, value) {
+                        error = err;
+                        instance = value;
+                        callback(error, instance);
+                    });
+                }
             }
         });
     }());
