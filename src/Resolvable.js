@@ -51,14 +51,21 @@ var Resolvable = function Resolvable(params) {
  */
 
 /**
+ * Config object passed through to the get command for the resolvable.
+ * @typedef {Object} Resolvable~getConfig
+ * @prop {number} timeout number of milliseconds that a get command has for execution.
+ */
+
+/**
  * Get the resolvable item.
+ * @param {?Resolvable~getConfig|Object} config Configuration object passed through into the get.
  * @param {Resolvable~getCallback} callback Handle the retrieval of the item in the resolvable.
  */
-Resolvable.prototype.get = function get(callback) {
+Resolvable.prototype.get = function get(config, callback) {
     if (typeof this.item === "function" && this.item.name === "__essencejs_container") {
         // item is a container that needs to be executed to get the value to inject.
         // execute the function and pass to the callback the result.
-        this.item(callback);
+        this.item(config, callback);
     } else {
         // return what was stored for this registration.
         callback(null, this.item);

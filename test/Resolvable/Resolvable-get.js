@@ -25,7 +25,7 @@ module.exports = {
                 item : 123
             });
 
-            resolvable.get(function (err, value) {
+            resolvable.get(null, function (err, value) {
                 test.equal(!!err, false);
                 test.equal(value, 123);
                 test.done()

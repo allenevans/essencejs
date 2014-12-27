@@ -135,7 +135,7 @@ module.exports = {
         function (test) {
             var testObject = { a : 1 },
                 testObject2 = { b : 2 },
-                testObject3 = { c : 3};
+                testObject3 = { c : 3 };
 
             essencejs.register("testObject", testObject);
 
@@ -218,6 +218,49 @@ module.exports = {
                 r4 = args[2];
 
                 resolve2Finished = true;
+            });
+        },
+    "Resolve arguments immediately providing undefined for unresolvable references":
+        function (test) {
+            var testObject = { a : 1 },
+                testObject2 = { b : 2 },
+                immediateTimeout = -1;
+
+            essencejs.register("testObject", testObject);
+            essencejs.register("testObject2", testObject2);
+
+            test.expect(4);
+
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], immediateTimeout, null, function (err, args) {
+                test.equal(!!err, false);
+                test.equal(args[0], testObject, "First test object was not correctly retrieved.");
+                test.equal(args[1], testObject2, "Second test object was not correctly retrieved.");
+                test.equal(args[2] === null, true, "Third, non-existent object should be undefined.");
+                test.done();
+            });
+        },
+    "Resolve arguments immediately even if an argument if a nested argument cannot be resolved.":
+        function (test) {
+            var testNested = function (unresolvableArg) {
+                    // because timeout will be -1, this should return true as unresolved arguments are set to null.
+                    return unresolvableArg === null;
+                },
+                testOuter = function (testNested, testObject) { return !!testNested && !!testObject; },
+                testObject = { a : 1 },
+
+                immediateTimeout = -1;
+
+            essencejs.factory("testOuter", testOuter);
+            essencejs.singleton("testNested", testNested);
+            essencejs.register("testObject", testObject);
+
+            test.expect(3);
+
+            essencejs.resolveArgs(["testNested", "testOuter", "testObject"], immediateTimeout, null, function (err, args) {
+                test.equal(!!err, false);
+                test.equal(args[0], true, "Expected first argument in the testOuter function to be the result of evaluating testNested.");
+                test.equal(args[2], testObject);
+                test.done();
             });
         }
 };

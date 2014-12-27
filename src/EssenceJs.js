@@ -73,12 +73,17 @@ EssenceJs.prototype.dispose = function dispose() {
     delete self.registrations;
 
     for (method in self) {
-        if (!self.hasOwnProperty(method) && typeof self[method] === "function") {
+        if (!self.hasOwnProperty(method) &&
+            typeof self[method] === "function" &&
+            ["clearTimeout"].indexOf(method) < 0
+        ) {
             self[method] = function () {
                 throw "Instance disposed.";
             }
         }
     }
+
+    self.isDisposed = function () { return true; };
 };
 
 /**
@@ -116,7 +121,7 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item) {
         key = util.isObjectConstructor(item) ? util.lowerCaseFirst(key) : key;
 
         // register a container against the key to resolve the single instance of the item.
-        self.register(key, function __essencejs_container(callback) {
+        self.register(key, function __essencejs_container(config, callback) {
             if (error) {
                 callback(error);
             } else {
@@ -125,7 +130,7 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item) {
                     callback(null, clone(item));
                 } else {
                     // inject into the function.
-                    self.inject(item, null, function (err, value) {
+                    self.inject(item, config, function (err, value) {
                         error = err;
                         callback(error, value);
                     });
@@ -228,6 +233,14 @@ EssenceJs.prototype.invoke = function invoke(func, resolvedArgs, context, callba
 };
 
 /**
+ * Check if this essence js instance have been disposed of.
+ * @returns {boolean} True if this essence js container is in the disposed state and no longer usable.
+ */
+EssenceJs.prototype.isDisposed = function isDisposed() {
+    return false;
+};
+
+/**
  * Check if an item is registered.
  * @param {string} key Key to lookup the item by.
  * @returns {boolean} True if there is a item registered.
@@ -283,7 +296,7 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
             // notify any waitFors in the placeholder registration
             placeholderResolvable.waitFors && placeholderResolvable.waitFors.forEach(function (waitFor) {
                 var resolvable = self.registrations.get(key);
-                resolvable.get(waitFor);
+                resolvable.get(null, waitFor);
             });
 
             placeholderResolvable = null;
@@ -472,13 +485,36 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
             return;
         }
 
+        if (timeout === -1) {
+            // -1 timeout indicates that items should be resolved immediately, or be set to undefined if they
+            // cannot be resolved.
+
+            if (resolvable) {
+                resolvable.get({ timeout : timeout }, function (err, value) {
+                    // ignore errors. value should be set to null if err.
+                    if (err) {
+                        err = null;
+                        value = null;
+                    }
+
+                    mapped[i] = value;
+                    notifyIfComplete();
+                });
+            } else {
+                mapped[i] = null;
+                notifyIfComplete();
+            }
+
+            return;
+        }
+
+        // get a resolvable, or create one if one does not currently exist.
         if (!resolvable) {
-            // no registration currently exists. create a temporary one for holding waitFors.
+            // no resolvable registration currently exists. create a temporary one for holding waitFors.
             self.registrations.add(new Resolvable({
                 name         : arg,
                 isPlaceholder: true
             }));
-
             resolvable = self.registrations.get(arg);
         }
 
@@ -505,16 +541,15 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
             resolvable.waitFors.push(waitFor);
         } else {
             // some kind of registration already exists for this.
-            resolvable.get(function (err, value) {
+            resolvable.get({ timeout : timeout }, function (err, value) {
                 if (err) {
                     notifyIfError(err);
                     return;
                 }
 
-                if (value && !resolvable.isPlaceholder) {
+                if (value !== undefined && !resolvable.isPlaceholder) {
                     // successfully retrieved the item from the registrations.
                     mapped[i] = value;
-
                     notifyIfComplete();
                 }
             });
@@ -558,7 +593,7 @@ EssenceJs.prototype.singleton = function singleton(itemOrKey, item) {
         key = util.isObjectConstructor(item) ? util.lowerCaseFirst(key) : key;
 
         // register a container against the key to resolve the single instance of the item.
-        self.register(key, function __essencejs_container(callback) {
+        self.register(key, function __essencejs_container(config, callback) {
             if (error || instance) {
                 callback(error, instance);
             } else {
@@ -567,7 +602,7 @@ EssenceJs.prototype.singleton = function singleton(itemOrKey, item) {
                     instance = clone(item);
                     callback(null, instance);
                 } else {
-                    self.inject(item, null, function (err, value) {
+                    self.inject(item, config, function (err, value) {
                         error = err;
                         instance = value;
                         callback(error, instance);
