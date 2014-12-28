@@ -32,8 +32,8 @@ var Resolvable = function Resolvable(params) {
     this.isPlaceholder = (params && params.isPlaceholder) || false;
 
     /**
-     * A string list of things that need to be resolved before this resolvable can be resolved.
-     * @type {string[]}
+     * A function list of callbacks that are waiting on this thing to resolve.
+     * @type {WaitFor[]}
      */
     this.waitFors = (params && params.waitFors) || [];
 
@@ -54,6 +54,7 @@ var Resolvable = function Resolvable(params) {
  * Config object passed through to the get command for the resolvable.
  * @typedef {Object} Resolvable~getConfig
  * @prop {number} timeout number of milliseconds that a get command has for execution.
+ * @prop {string[]} resolveStack stack of calls that require arguments to be resolved.
  */
 
 /**

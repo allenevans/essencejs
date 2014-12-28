@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>essence.js Namespace: exports</title>
+	<title>essence.js Source: src/ResolveError.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -93,90 +93,64 @@
 	<div class="row-fluid">
 
 		
-		<div class="span8">
-			
+			<div class="span12">
+				
 				<div id="main">
 					
 
 
-	<h1 class="page-title">Namespace: exports</h1>
-<section>
-
-<header>
-    <h2>
-    exports
-    </h2>
+		<h1 class="page-title">Source: src/ResolveError.js</h1>
     
-</header>
+    <section>
+        <article>
+            <pre class="sunlight-highlight-javascript linenums">/*
+ * File         :   ResolveError.js
+ * Description  :   Error object related to resolving of arguments errors.
+ * ------------------------------------------------------------------------------------------------ */
+"use strict";
 
-<article>
-    <div class="container-overview">
-    
+var BaseError = require("./BaseError");
 
-    
-        
-            <div class="description">Exported EssenceJs namespace.</div>
-        
+/**
+ * Resolvable constructor initialisation parameters.
+ * @typedef {Object} ResolveError~Params
+ * @prop {string} [message] Message about the error. Default = 'Failed to resolve one or more dependencies.'.
+ */
 
-        
-<dl class="details">
-    
+/**
+ * Essence js resolve error class.
+ * @param {ResolveError~Params} params Class property initialisation object.
+ * @constructor
+ */
+var ResolveError = function ResolveError(params) {
+    BaseError.call(this, params);
 
-    
+    /**
+     * Message about the error. Default = 'Failed to resolve one or more dependencies.'.
+     * @type {string}
+     */
+    this.message = (params &amp;&amp; params.message) || "Failed to resolve one or more dependencies.";
 
-    
+    /**
+     * List of unresolved names.
+     * @type {string[]}
+     */
+    this.unresolved = (params &amp;&amp; params.unresolved) || [];
 
-    
+    /**
+     * Resolve callstack trace.
+     * @type {string[]}
+     */
+    this.resolveStack = (params &amp;&amp; params.resolveStack) || [];
+};
 
-    
+ResolveError.prototype = new BaseError();
+ResolveError.prototype.constructor = ResolveError;
 
-    
+module.exports = ResolveError;</pre>
+        </article>
+    </section>
 
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#sunlight-1-line-11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
 
 
 
@@ -202,10 +176,6 @@
 				</footer>
 			</div>
 
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
 			
 			<br clear="both">
 		</div>

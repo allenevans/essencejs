@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>essence.js Namespace: exports</title>
+	<title>essence.js Source: src/WaitFor.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -93,90 +93,51 @@
 	<div class="row-fluid">
 
 		
-		<div class="span8">
-			
+			<div class="span12">
+				
 				<div id="main">
 					
 
 
-	<h1 class="page-title">Namespace: exports</h1>
-<section>
-
-<header>
-    <h2>
-    exports
-    </h2>
+		<h1 class="page-title">Source: src/WaitFor.js</h1>
     
-</header>
+    <section>
+        <article>
+            <pre class="sunlight-highlight-javascript linenums">/*
+ * File         :   WaitFor.js
+ * Description  :   Essencejs wait for callback object
+ * ------------------------------------------------------------------------------------------------ */
+"use strict";
 
-<article>
-    <div class="container-overview">
-    
+/**
+ * WaitFor constructor initialisation parameters.
+ * @typedef {Object} WaitFor~Params
+ * @prop {function} [callback] Function to call once the resolvable item has been resolved.
+ */
 
-    
-        
-            <div class="description">Exported EssenceJs namespace.</div>
-        
+/**
+ * Essence js wait for class.
+ * @param {WaitFor~Params} params Class property initialisation object.
+ * @constructor
+ */
+var WaitFor = function WaitFor(params) {
+    /**
+     * Resolve stack of calls leading up to this wait for creation.
+     * @type {string[]}
+     */
+    this.resolveStack = params &amp;&amp; params.resolveStack;
 
-        
-<dl class="details">
-    
+    /**
+     * Function to call once the resolvable item has been resolved.
+     * @type {function}
+     */
+    this.callback = (params &amp;&amp; params.callback) || function noop() {};
+};
 
-    
+module.exports = WaitFor;</pre>
+        </article>
+    </section>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#sunlight-1-line-11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
 
 
 
@@ -202,10 +163,6 @@
 				</footer>
 			</div>
 
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
 			
 			<br clear="both">
 		</div>

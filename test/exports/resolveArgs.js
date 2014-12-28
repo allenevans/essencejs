@@ -5,6 +5,7 @@
 "use strict";
 
 var path = require("path"),
+    CancelError = require(path.join(process.cwd(), "src/CancelError")),
     essencejs;
 
 module.exports = {
@@ -35,11 +36,13 @@ module.exports = {
             var testObject = { a : 1 };
 
             essencejs.register("test", testObject);
-            test.expect(2);
+            test.expect(4);
 
             essencejs.resolveArgs(["test", "argThatWillNeverExist"], 50, null, function (err, args) {
                 test.equal(!!err, true);
-                test.ok(args, "Expected array containing the instance of the test object, and an undefined reference.");
+                test.ok(err.unresolved, "Expected array containing the instance of the test object, and an undefined reference.");
+                test.equal(err.unresolved.length > 0, true);
+                test.equal(err.unresolved[0], "argThatWillNeverExist");
                 test.done();
             });
         },
@@ -155,11 +158,12 @@ module.exports = {
                 essencejs.register("testObject2", undefined);
             }, 1);
 
-            test.expect(2);
+            test.expect(3);
 
             essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], 50, null, function (err, args) {
                 test.equal(!!err, true);
-                test.equal("Cancelled", err);
+                test.equal(err instanceof CancelError, true);
+                test.equal(err.message, "Cancelled.");
                 test.done();
             });
         },

@@ -7,19 +7,37 @@ var clone = require("clone"),
     parser = require("./parser"),
     path = require("path"),
     util = require("./util"),
+    CancelError = require("./CancelError"),
     Config = require("./Config"),
+    Registration = require("./Registration"),
     Resolvable = require("./Resolvable"),
-    Registration = require("./Registration");
+    ResolveError = require("./ResolveError"),
+    WaitFor = require("./WaitFor");
 
 /**
  * EssenceJs class constructor.
  * @constructor
  */
 var EssenceJs = function EssenceJs() {
+    /**
+     * EssenceJs configuration.
+     * @type {Config}
+     */
     this.config = new Config();
+
+    /**
+     * Dependency registration storage.
+     * @type {Registration}
+     */
     this.registrations = new Registration();
 
+    /**
+     * Array of active timers.
+     * @type {Array}
+     * @private
+     */
     this._timers = [];
+
 
     // register this instance as $essence.
     this.register("$essence", this);
@@ -196,7 +214,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
         }
 
         self.invoke(func, resolvedArgs, context, callback);
-    });
+    }, config && config.resolveStack);
 };
 
 /**
@@ -278,7 +296,7 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
         if (resolvable && resolvable.isPlaceholder) {
             // cancel any waitFors callbacks.
             self.registrations.get(key).waitFors.forEach(function (waitFor) {
-                waitFor("Cancelled");
+                waitFor.callback(new CancelError());
             });
         }
 
@@ -296,7 +314,7 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
             // notify any waitFors in the placeholder registration
             placeholderResolvable.waitFors && placeholderResolvable.waitFors.forEach(function (waitFor) {
                 var resolvable = self.registrations.get(key);
-                resolvable.get(null, waitFor);
+                resolvable.get(null, waitFor.callback);
             });
 
             placeholderResolvable = null;
@@ -421,24 +439,50 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
  * @param {number} [timeout] Number of milliseconds to complete the resolving of all arguments before timing out.
  * @param {object} [overrides] Override any defined entries using this custom object.
  * @param {EssenceJs~resolveArgsCallback} callback Callback method once all arguments have been resolved, or a timeout has occurred.
+ * @param {string[]} [resolveStack] Recursive resolve stack array holding the initiator of the resolveArgs request.
+ * This parameter should only be used internally by EssenceJs.
  * Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
  */
-EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides, callback) {
+EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides, callback, resolveStack) {
     overrides = overrides || {};
     timeout = (typeof timeout !== "undefined") && timeout !== null ? timeout : this.config.timeout;
+    resolveStack = resolveStack || [];
 
     var self = this,
-        watch = self.setTimeout(function () {
-            var debugMapped = {};
-            args.forEach(function (arg, i) {
-                debugMapped[arg] = !!mapped[i];
-            });
-
-            callback && callback("Timed out", debugMapped);
-            callback = null;
-        }, timeout),
+        watch,
         notifiedError = false,
         mapped = [];
+
+    // get the 4th line from the stack trace because this should contain the initiator of the resolveArgs function.
+    resolveStack.push(
+        "[" +
+            args.reduce(function (argStr, arg) {
+                if (argStr !== "") { argStr += ", "; }
+
+                var resolvable = self.registrations.get(arg);
+
+                argStr += ((!resolvable || resolvable.isPlaceholder) ? "*" : "") + arg;
+
+                return argStr;
+            }, "") +
+        "]\n" +
+        new Error().stack.toString().split(/\n/)[3].trim());
+
+    watch = self.setTimeout(function () {
+        var error = new ResolveError({
+            resolveStack : resolveStack
+        });
+
+        args.forEach(function (arg, i) {
+            if (!mapped[i]) {
+                // argument failed to resolve.
+                error.unresolved.push(arg);
+            }
+        });
+
+        callback && callback(error);
+        callback = null;
+    }, timeout);
 
     args.map(function (arg, i) {
         var resolvable = self.registrations.get(arg);
@@ -521,17 +565,19 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
         if (resolvable.isPlaceholder) {
             // a placeholder registration exists for this key. add to waitFors queue.
             var waitForTimeout,
-                waitFor = function deferredResolveCallback(err, value) {
-                    self.clearTimeout(waitForTimeout);
+                waitFor = new WaitFor({
+                    resolveStack : resolveStack,
+                    callback : function deferredResolveCallback(err, value) {
+                        self.clearTimeout(waitForTimeout);
 
-                    if (err) {
-                        // error resolving this argument.
-                        notifyIfError(err);
-                    } else {
-                        mapped[i] = value;
-                        notifyIfComplete();
-                    }
-                };
+                        if (err) {
+                            // error resolving this argument.
+                            notifyIfError(err);
+                        } else {
+                            mapped[i] = value;
+                            notifyIfComplete();
+                        }
+                    }});
 
             waitForTimeout = self.setTimeout(function () {
                 resolvable.waitFors &&
@@ -541,7 +587,10 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
             resolvable.waitFors.push(waitFor);
         } else {
             // some kind of registration already exists for this.
-            resolvable.get({ timeout : timeout }, function (err, value) {
+            resolvable.get({
+                timeout : timeout,
+                resolveStack : resolveStack
+            }, function (err, value) {
                 if (err) {
                     notifyIfError(err);
                     return;

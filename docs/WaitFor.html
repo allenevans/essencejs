@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>essence.js Class: Registration</title>
+	<title>essence.js Class: WaitFor</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -99,12 +99,12 @@
 					
 
 
-	<h1 class="page-title">Class: Registration</h1>
+	<h1 class="page-title">Class: WaitFor</h1>
 <section>
 
 <header>
     <h2>
-    Registration
+    WaitFor
     </h2>
     
 </header>
@@ -116,7 +116,7 @@
     
         
 <dt>
-    <h4 class="name" id="Registration"><span class="type-signature"></span>new Registration<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="WaitFor"><span class="type-signature"></span>new WaitFor<span class="signature">(params)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -124,7 +124,7 @@
     
     
     <div class="description">
-        Registration record class for maintaining the list of dependency registrations.
+        Essence js wait for class.
     </div>
     
 
@@ -132,6 +132,55 @@
     
     
     
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table table-striped">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="WaitFor.html#Params">WaitFor~Params</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Class property initialisation object.</td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
     
     
     
@@ -157,7 +206,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-11">line 11</a>
+        <a href="WaitFor.js.html">src/WaitFor.js</a>, <a href="WaitFor.js.html#sunlight-1-line-18">line 18</a>
     </li></ul></dd>
     
 
@@ -201,14 +250,78 @@
         <dl>
             
 <dt>
-    <h4 class="name" id="keys"><span class="type-signature">&lt;static, readonly> </span>keys<span class="type-signature"> :string[]</span></h4>
+    <h4 class="name" id="callback"><span class="type-signature"></span>callback<span class="type-signature"> :function</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        Get the list of registration keys stored within the dictionary.
+        Function to call once the resolvable item has been resolved.
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">function</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="WaitFor.js.html">src/WaitFor.js</a>, <a href="WaitFor.js.html#sunlight-1-line-29">line 29</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="resolveStack"><span class="type-signature"></span>resolveStack<span class="type-signature"> :string[]</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        Resolve stack of calls leading up to this wait for creation.
     </div>
     
     
@@ -247,7 +360,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-18">line 18</a>
+        <a href="WaitFor.js.html">src/WaitFor.js</a>, <a href="WaitFor.js.html#sunlight-1-line-23">line 23</a>
     </li></ul></dd>
     
 
@@ -262,17 +375,25 @@
     
 </dd>
 
-        
-            
+        </dl>
+    
+
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        <dl>
+                
 <dt>
-    <h4 class="name" id="dictionary"><span class="type-signature"></span>dictionary<span class="type-signature"> :Object.&lt;string, <a href="Resolvable.html">Resolvable</a>></span></h4>
+    <h4 class="name" id="Params">Params</h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        Dictionary of key / value registrations
+        WaitFor constructor initialisation parameters.
     </div>
     
     
@@ -281,7 +402,7 @@
         <ul>
             <li>
                 
-<span class="param-type">Object.&lt;string, <a href="Resolvable.html">Resolvable</a>></span>
+<span class="param-type">Object</span>
 
 
             </li>
@@ -292,71 +413,11 @@
 <dl class="details">
     
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-16">line 16</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-    
-    
-</dd>
-
-        </dl>
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
+        <h5 class="subsection-title">Properties:</h5>
 
         <dl>
-            
-<dt>
-    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(resolvable)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Register a resolvable instance using the name property as the key. Registering a resolvable with the same name
-will replace previous resolvable objects;
-    </div>
-    
 
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
+<table class="props table table-striped">
     <thead>
 	<tr>
 		
@@ -365,6 +426,8 @@ will replace previous resolvable objects;
 
 		<th>Type</th>
 
+		
+		<th>Argument</th>
 		
 
 		
@@ -378,361 +441,38 @@ will replace previous resolvable objects;
 
         <tr>
             
-                <td class="name"><code>resolvable</code></td>
+                <td class="name"><code>callback</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type"><a href="Resolvable.html">Resolvable</a></span>
+<span class="param-type">function</span>
 
 
             
             </td>
 
             
-
-            
-
-            <td class="description last">instance to store</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-37">line 37</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="dispose"><span class="type-signature"></span>dispose<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Dispose of this registration and any resolvables in the dictionary.
-    </div>
-    
-
-    
-    
-    
-    
-    
-    
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-72">line 72</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(name)</span><span class="type-signature"> &rarr; {<a href="Resolvable.html">Resolvable</a>}</span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Get the resolvable by name.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
+                <td class="attributes">
                 
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">of the resolvable stored in the dictionary.</td>
-        </tr>
-
-	
-	</tbody>
-</table>
-
-    
-    
-    
-<dl class="details">
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-56">line 56</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-    
-    
-
-    
-
-    
-    
-    
-    
-    
-    <h5>Returns:</h5>
-    
-            
-<div class="param-desc">
-    resolvable
-</div>
-
-
-
-<dl>
-	<dt>
-		Type
-	</dt>
-	<dd>
-		
-<span class="param-type"><a href="Resolvable.html">Resolvable</a></span>
-
-
-	</dd>
-</dl>
-
-
-        
-    
-    
-</dd>
-
-        
-            
-<dt>
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(name)</span><span class="type-signature"></span></h4>
-    
-    
-</dt>
-<dd>
-    
-    
-    <div class="description">
-        Removes and disposes of the resolvable by name.
-    </div>
-    
-
-    
-    
-    
-    
-    
-        <h5>Parameters:</h5>
-        
-
-<table class="params table table-striped">
-    <thead>
-	<tr>
-		
-		<th>Name</th>
-		
-
-		<th>Type</th>
-
-		
-
-		
-
-		<th class="last">Description</th>
-	</tr>
-	</thead>
-
-	<tbody>
-	
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
+                    &lt;optional><br>
                 
-<span class="param-type">string</span>
 
-
-            
-            </td>
-
+                
+                </td>
             
 
             
 
-            <td class="description last">of the resolvable stored in the dictionary.</td>
+            <td class="description last">Function to call once the resolvable item has been resolved.</td>
         </tr>
 
 	
 	</tbody>
 </table>
+</dl>
 
-    
-    
-    
-<dl class="details">
     
 
     
@@ -754,7 +494,7 @@ will replace previous resolvable objects;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-64">line 64</a>
+        <a href="WaitFor.js.html">src/WaitFor.js</a>, <a href="WaitFor.js.html#sunlight-1-line-7">line 7</a>
     </li></ul></dd>
     
 
@@ -767,21 +507,9 @@ will replace previous resolvable objects;
 
     
     
-
-    
-
-    
-    
-    
-    
-    
-    
-    
 </dd>
 
-        </dl>
-    
-
+            </dl>
     
 
     

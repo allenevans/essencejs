@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>essence.js Namespace: exports</title>
+	<title>essence.js Source: src/BaseError.js</title>
 
 	<!--[if lt IE 9]>
 	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -93,90 +93,45 @@
 	<div class="row-fluid">
 
 		
-		<div class="span8">
-			
+			<div class="span12">
+				
 				<div id="main">
 					
 
 
-	<h1 class="page-title">Namespace: exports</h1>
-<section>
-
-<header>
-    <h2>
-    exports
-    </h2>
+		<h1 class="page-title">Source: src/BaseError.js</h1>
     
-</header>
+    <section>
+        <article>
+            <pre class="sunlight-highlight-javascript linenums">/*
+ * File         :   BaseError.js
+ * Description  :   Base error object from which other error objects should inherit.
+ * ------------------------------------------------------------------------------------------------ */
+"use strict";
 
-<article>
-    <div class="container-overview">
-    
+/**
+ * Resolvable constructor initialisation parameters.
+ * @typedef {Object} BaseError~Params
+ * @prop {string} [message] Message about the error. Default = 'An error occurred.'.
+ */
 
-    
-        
-            <div class="description">Exported EssenceJs namespace.</div>
-        
+/**
+ * Essence js base error class.
+ * @param {BaseError~Params} params Class property initialisation object.
+ * @constructor
+ */
+var BaseError = function BaseError(params) {
+    /**
+     * Generalised message about the type of error.
+     * @type {string}
+     */
+    this.message = (params &amp;&amp; params.message) || "An error occurred.";
+};
 
-        
-<dl class="details">
-    
+module.exports = BaseError;</pre>
+        </article>
+    </section>
 
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#sunlight-1-line-11">line 11</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
 
 
 
@@ -202,10 +157,6 @@
 				</footer>
 			</div>
 
-			
-			<div class="span3">
-				<div id="toc"></div>
-			</div>
 			
 			<br clear="both">
 		</div>
