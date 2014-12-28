@@ -1,0 +1,75 @@
+/*
+ * File         :   overrides.js
+ * Description  :   TEST overrides for factory dependencies.
+ * ------------------------------------------------------------------------------------------------ */
+"use strict";
+
+var path = require("path"),
+    essencejs;
+
+module.exports = {
+    setUp : function (callback) {
+        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        callback();
+    },
+    tearDown : function(callback) {
+        essencejs.dispose();
+        callback();
+    },
+    "Should be able to inject into function with a dependency that can only be resolved using an override":
+        function (test) {
+            test.expect(1);
+
+            function now(TheDateObject) {
+                return TheDateObject.now();
+            };
+
+            essencejs.factory("now", now, { TheDateObject : Date });
+
+            essencejs.inject(function (now) {
+                test.equal(!!now, true);
+
+                test.done();
+            });
+        },
+    "Should be able to set constructor parameters to null":
+        function (test) {
+            test.expect(2);
+
+            function MyModel(params) {
+                this.name = params && params.name;
+            }
+
+            MyModel.prototype.getName = function getName() {
+                return this.name;
+            };
+
+            essencejs.factory("MyModel", MyModel, { params : null });
+
+            essencejs.inject(function (myModel) {
+                test.equal(myModel instanceof MyModel, true);
+                test.equal(myModel.name, undefined);
+                test.done();
+            });
+        },
+    "Should be able to set constructor parameters":
+        function (test) {
+            test.expect(2);
+
+            function MyModel(params) {
+                this.name = params && params.name;
+            }
+
+            MyModel.prototype.getName = function getName() {
+                return this.name;
+            };
+
+            essencejs.factory("MyModel", MyModel, { params : { name : "bob" } });
+
+            essencejs.inject(function (myModel) {
+                test.equal(myModel instanceof MyModel, true);
+                test.equal(myModel.name, "bob" );
+                test.done();
+            });
+        }
+};

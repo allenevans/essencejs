@@ -109,8 +109,9 @@ EssenceJs.prototype.dispose = function dispose() {
  * @param {object|string|function} itemOrKey Factory to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
  * @param {object|factory} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {object} [overrides] Custom object to override registered dependencies.
  */
-EssenceJs.prototype.factory = function factory(itemOrKey, item) {
+EssenceJs.prototype.factory = function factory(itemOrKey, item, overrides) {
     var self = this,
         key = itemOrKey,
         instance;
@@ -147,6 +148,11 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item) {
                 if (typeof item === "object") {
                     callback(null, clone(item));
                 } else {
+                    if (overrides) {
+                        config = config || {};
+                        config.overrides = overrides;
+                    }
+
                     // inject into the function.
                     self.inject(item, config, function (err, value) {
                         error = err;
@@ -170,6 +176,7 @@ EssenceJs.prototype.getKeys = function getKeys() {
  * @callback EssenceJs~injectCallback function to execute containing any errors, and the result.
  * @param {object|string} error Object or string that contains the error that occurred.
  * @param {object} result The result of the injected function.
+ * @param {?object} [overrides] Custom object to override registered dependencies.
  */
 
 /**
@@ -183,7 +190,8 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
     var self = this,
         args = parser.getArgs(func),
         context = func,
-        timeout = this.config.timeout;
+        timeout = this.config.timeout,
+        overrides;
 
     if (arguments.length === 2 && typeof config === "function") {
         // config is the callback function. remap.
@@ -193,6 +201,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
 
     timeout = config && typeof config.timeout !== "undefined" ? config.timeout : timeout;
     context = config && config.context ? config.context : context;
+    overrides = (config && config.overrides) || null;
 
     if (Array.isArray(func)) {
         // the function is an array where the last argument of the array is the function to inject into.
@@ -207,7 +216,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
     }
 
     // resolve the arguments and wait for the callback.
-    self.resolveArgs(args, timeout, null, function (err, resolvedArgs) {
+    self.resolveArgs(args, timeout, overrides, function (err, resolvedArgs) {
         if (err) {
             callback && callback(err);
             return;
@@ -331,7 +340,7 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
 
 /**
  * @callback EssenceJs~strategyCallback Callback function executing within the context of this essence js instance.
- * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, factory, singleton.
+ * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, .siory, singleton.
  * @param {string} path File path to module to be required and registered with the essence.js instance.
  */
 
@@ -437,7 +446,7 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
  * Resolve the array of string name arguments
  * @param {string[]} args Array of arguments to resolve.
  * @param {number} [timeout] Number of milliseconds to complete the resolving of all arguments before timing out.
- * @param {object} [overrides] Override any defined entries using this custom object.
+ * @param {object} [overrides] Custom object to override registered dependencies.
  * @param {EssenceJs~resolveArgsCallback} callback Callback method once all arguments have been resolved, or a timeout has occurred.
  * @param {string[]} [resolveStack] Recursive resolve stack array holding the initiator of the resolveArgs request.
  * This parameter should only be used internally by EssenceJs.
@@ -520,7 +529,7 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
             callback = null;
         }
 
-        if (overrides[arg]) {
+        if (typeof overrides[arg] !== "undefined") {
             // an override has been defined for this registration.
             // use override.
             mapped[i] = overrides[arg];
@@ -611,8 +620,9 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
  * @param {object|string|function} itemOrKey Singleton to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
  * @param {object|function} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {object} [overrides] Custom object to override registered dependencies.
  */
-EssenceJs.prototype.singleton = function singleton(itemOrKey, item) {
+EssenceJs.prototype.singleton = function singleton(itemOrKey, item, overrides) {
     var self = this,
         key = itemOrKey,
         instance;
@@ -651,6 +661,11 @@ EssenceJs.prototype.singleton = function singleton(itemOrKey, item) {
                     instance = clone(item);
                     callback(null, instance);
                 } else {
+                    if (overrides) {
+                        config = config || {};
+                        config.overrides = overrides;
+                    }
+
                     self.inject(item, config, function (err, value) {
                         error = err;
                         instance = value;
