@@ -24,7 +24,7 @@ module.exports = {
             essencejs.register("test", testObject);
             test.expect(3);
 
-            essencejs.resolveArgs(["test"], null, null, function (err, args) {
+            essencejs.resolveArgs(["test"], null, null, null, function (err, args) {
                 test.equal(!!err, false);
                 test.ok(args, "Expected array containing the instance of the test object.");
                 test.equal(args[0], testObject, "Test object was not correctly retrieved.");
@@ -38,7 +38,7 @@ module.exports = {
             essencejs.register("test", testObject);
             test.expect(4);
 
-            essencejs.resolveArgs(["test", "argThatWillNeverExist"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["test", "argThatWillNeverExist"], null, 50, null, function (err, args) {
                 test.equal(!!err, true);
                 test.ok(err.unresolved, "Expected array containing the instance of the test object, and an undefined reference.");
                 test.equal(err.unresolved.length > 0, true);
@@ -58,7 +58,7 @@ module.exports = {
 
             test.expect(3);
 
-            essencejs.resolveArgs(["testObject", "testObject2"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2"], null, 50, null, function (err, args) {
                 test.equal(!!err, false);
                 test.equal(args[0], testObject, "First test object was not correctly retrieved.");
                 test.equal(args[1], testObject2, "Second test object was not correctly retrieved.");
@@ -79,7 +79,7 @@ module.exports = {
 
             test.expect(4);
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, 50, null, function (err, args) {
                 test.equal(!!err, false);
                 test.equal(args[0], testObject, "First test object was not correctly retrieved.");
                 test.equal(args[1], testObject2, "Second test object was not correctly retrieved.");
@@ -101,7 +101,7 @@ module.exports = {
 
             test.expect(4);
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, 50, null, function (err, args) {
                 test.equal(!!err, false);
                 test.equal(args[0], testObject, "First test object was not correctly retrieved.");
                 test.equal(args[1], testObject2, "Second test object was not correctly retrieved.");
@@ -126,7 +126,7 @@ module.exports = {
 
             test.expect(4);
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, overrides, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, null, overrides, function (err, args) {
                 test.equal(!!err, false);
                 test.equal(args[0], testObject, "First test object was not correctly retrieved.");
                 test.equal(args[1], testObject4, "Second test object was not correctly retrieved using override.");
@@ -160,7 +160,7 @@ module.exports = {
 
             test.expect(3);
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, 50, null, function (err, args) {
                 test.equal(!!err, true);
                 test.equal(err instanceof CancelError, true);
                 test.equal(err.message, "Cancelled.");
@@ -208,7 +208,7 @@ module.exports = {
                     }
                 }, 10);
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, 50, null, function (err, args) {
                 r1 = args[0];
                 r2 = args[1];
                 r3 = args[2];
@@ -216,7 +216,7 @@ module.exports = {
                 resolve1Finished = true;
             });
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject4"], 50, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject4"], null, 50, null, function (err, args) {
                 r1 = args[0];
                 r2 = args[1];
                 r4 = args[2];
@@ -235,7 +235,7 @@ module.exports = {
 
             test.expect(4);
 
-            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], immediateTimeout, null, function (err, args) {
+            essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, immediateTimeout, null, function (err, args) {
                 test.equal(!!err, false);
                 test.equal(args[0], testObject, "First test object was not correctly retrieved.");
                 test.equal(args[1], testObject2, "Second test object was not correctly retrieved.");
@@ -260,7 +260,7 @@ module.exports = {
 
             test.expect(3);
 
-            essencejs.resolveArgs(["testNested", "testOuter", "testObject"], immediateTimeout, null, function (err, args) {
+            essencejs.resolveArgs(["testNested", "testOuter", "testObject"], null, immediateTimeout, null, function (err, args) {
                 test.equal(!!err, false);
                 test.equal(args[0], true, "Expected first argument in the testOuter function to be the result of evaluating testNested.");
                 test.equal(args[2], testObject);

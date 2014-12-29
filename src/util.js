@@ -56,11 +56,42 @@ function lowerCaseFirst(str) {
 }
 
 /**
+ * Given a registration key, determine the namespace, and key name for the namespace (if provided).
+ * A namespace is denoted by the characters left of a double underscore `__` in the key name.
+ * e.g. namespace__keyName
+ * If not namespace is defined, then the returned namespace value will be an empty string.
+ * @param {string} str String key which may or may not contain a namespace.
+ * @returns {Object}
+ */
+function splitNamespaceKey(str) {
+    // get the namespace (if there is one) and remove from the key value.
+    var namespace = str.split(/\_\_/);
+    var key = (namespace[0] && namespace.slice(1).join("__")) || str;
+
+    function NamespaceKey (params) {
+        this.namespace = params && params.namespace;
+        this.key = params && params.key;
+    }
+
+    NamespaceKey.prototype.toString = function toString() {
+        return (this.namespace ? this.namespace + "__" : "") + this.key;
+    };
+
+    namespace = namespace.length > 1 ? namespace[0] : "";
+
+    return new NamespaceKey({
+        namespace : namespace,
+        key : key
+    });
+}
+
+/**
  * Utilities namespace
  * @namespace util
  */
 module.exports = {
     instantiateObject : instantiateObject,
     isObjectConstructor : isObjectConstructor,
-    lowerCaseFirst : lowerCaseFirst
+    lowerCaseFirst : lowerCaseFirst,
+    splitNamespaceKey : splitNamespaceKey
 };

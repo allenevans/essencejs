@@ -6,7 +6,8 @@
 /**
  * Resolvable constructor initialisation parameters.
  * @typedef {Object} Resolvable~Params
- * @prop {string} name Name of the resolvable argument.
+ * @prop {string} namespace Namespace the argument is registered in.
+ * @prop {string} key Name of the resolvable argument.
  * @prop {boolean} isPlaceholder Is placeholder flag.
  * @prop {string[]} waitFors String list of things needed to be resolved.
  * @prop {Object} item Item stored within the resolvable.
@@ -19,10 +20,16 @@
  */
 var Resolvable = function Resolvable(params) {
     /**
+     * Namespace the resolvable is assigned to.
+     * @type {string}
+     */
+    this.namespace = params && params.namespace;
+
+    /**
      * Name of the resolvable argument.
      * @type {string}
      */
-    this.name = params && params.name;
+    this.key = params && params.key;
 
     /**
      * Flag to indicate that this resolvable is a temporary placeholder that will be replaced once the

@@ -36,14 +36,14 @@ module.exports = {
             test.expect(7);
 
             var resolvable = new Resolvable({
-                name : "NAME",
+                key : "NAME",
                 isPlaceholder : true,
                 waitFors : ["SOMETHING"],
                 item : function item_function() {}
             });
 
             test.equal(resolvable instanceof Resolvable, true);
-            test.equal(resolvable.name, "NAME");
+            test.equal(resolvable.key, "NAME");
             test.equal(resolvable.isPlaceholder, true);
             test.equal(Array.isArray(resolvable.waitFors), true);
             test.equal(resolvable.waitFors.length, 1);

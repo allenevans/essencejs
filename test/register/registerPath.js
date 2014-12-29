@@ -16,7 +16,7 @@ module.exports = {
         essencejs.dispose();
         callback();
     },
-    "Should be able to register all files matching the pattern as factories":
+    "Should be able to register all files matching the pattern as objects":
         function (test) {
             test.expect(8);
 
@@ -59,5 +59,32 @@ module.exports = {
                     test.done();
                 });
             });
+        },
+    "Should be able to register all files matching the pattern as objects in the given namespace":
+        function (test) {
+            test.expect(8);
+
+            essencejs.registerPath("test/register/sample/**/*.js",
+                {
+                   namespace : "my_namespace"
+                }, function (err) {
+                    var keys = essencejs.getKeys();
+
+                    test.equal(!!err, false);
+                    test.equal(keys.length > 0, true);
+                    test.equal(keys.indexOf("my_namespace__now") >= 0, true);
+                    test.equal(keys.indexOf("my_namespace__MyModel") >= 0, true);
+
+                    essencejs.inject(function (now, MyModel) {
+                        test.equal(now instanceof Date, false);
+                        test.equal(!!MyModel, true);
+                        test.equal(MyModel.name, "MyModel");
+                    }, {
+                          namespaces : ["my_namespace"]
+                        } , function (err) {
+                        test.equal(!!err, false);
+                        test.done();
+                    });
+                });
         }
 };

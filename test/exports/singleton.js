@@ -27,7 +27,7 @@ module.exports = {
 
             essencejs.singleton("mySingleton", mySingleton);
 
-            essencejs.resolveArgs(["mySingleton"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["mySingleton"], null, null, null, function (err, resolved) {
                 test.equal(!!err, false);
                 test.equal(resolved.length, 1, "Incorrect number of resolved arguments returned.");
                 test.equal(resolved[0], 1, "The instance function registered as a singleton should be the result of a single increment to injectedCount.");
@@ -46,8 +46,8 @@ module.exports = {
 
             essencejs.singleton("mySingleton", mySingleton);
 
-            essencejs.resolveArgs(["mySingleton"], null, null, function () {
-                essencejs.resolveArgs(["mySingleton"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["mySingleton"], null, null, null, function () {
+                essencejs.resolveArgs(["mySingleton"], null, null, null, function (err, resolved) {
                     test.equal(!!err, false);
                     test.equal(resolved.length, 1, "Incorrect number of resolved arguments returned.");
                     test.equal(resolved[0], 1, "The instance function registered as a singleton should be the result of a single increment to injectedCount.");
@@ -73,8 +73,8 @@ module.exports = {
             essencejs.singleton("mySingleton", mySingleton);
             essencejs.register("incrementCounter", incrementCounter);
 
-            essencejs.resolveArgs(["mySingleton"], null, null, function () {
-                essencejs.resolveArgs(["mySingleton"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["mySingleton"], null, null, null, function () {
+                essencejs.resolveArgs(["mySingleton"], null, null, null, function (err, resolved) {
                     test.equal(!!err, false);
                     test.equal(resolved.length, 1, "Expected argument to be the return of mySingleton");
                     test.equal(resolved[0], 1, "Expected argument to be the result of executing mySingleton");
@@ -90,7 +90,7 @@ module.exports = {
 
             essencejs.singleton(MySingleton);
 
-            essencejs.resolveArgs(["mySingleton"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["mySingleton"], null, null, null, function (err, resolved) {
                 test.equal(!!err, false);
                 test.equal(resolved.length, 1, "Expected resolved to contain instanceof MySingleton");
                 test.equal(resolved[0] instanceof MySingleton, true, "Expected first item in resolved to be an instanceof MySingleton");
@@ -119,7 +119,7 @@ module.exports = {
 
             test.expect(5);
 
-            essencejs.resolveArgs(["singleton3"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["singleton3"], null, null, null, function (err, resolved) {
                 test.equal(!!err, false);
                 test.equal(resolved.length, 1, "Expected argument to be the instanceof of mySingleton3");
                 test.equal(resolved[0] instanceof Singleton3, true, "Expected first item in resolved to be an instanceof Singleton3");

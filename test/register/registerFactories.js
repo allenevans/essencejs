@@ -59,5 +59,34 @@ module.exports = {
                     test.done();
                 });
             });
+        },
+    "Should be able to register all files matching the pattern as factories in the given namespace":
+        function (test) {
+            test.expect(8);
+
+            essencejs.registerFactories("test/register/sample/**/*.js",
+                {
+                    namespace : "my_namespace"
+                },
+                function (err) {
+                var keys = essencejs.getKeys();
+
+                test.equal(!!err, false);
+                test.equal(keys.length > 0, true);
+                test.equal(keys.indexOf("my_namespace__now") >= 0, true);
+                test.equal(keys.indexOf("my_namespace__myModel") >= 0, true);
+
+                essencejs.inject(function (now, myModel) {
+                    test.equal(now instanceof Date, true);
+                    test.equal(!!myModel, true);
+                    test.equal(myModel.name, "a name");
+                }, {
+                  namespaces : ["my_namespace"]
+                },
+                    function (err) {
+                    test.equal(!!err, false);
+                    test.done();
+                });
+            });
         }
 };

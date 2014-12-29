@@ -27,7 +27,7 @@ module.exports = {
 
             essencejs.factory("myFactory", myFactory);
 
-            essencejs.resolveArgs(["myFactory"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["myFactory"], null, null, null, function (err, resolved) {
                 test.equal(!!err, false);
                 test.equal(resolved.length, 1, "Incorrect number of resolved arguments returned.");
                 test.equal(resolved[0], 1, "The instance function registered as a factory should be the result of a single increment to injectedCount.");
@@ -46,8 +46,8 @@ module.exports = {
 
             essencejs.factory("myFactory", myFactory);
 
-            essencejs.resolveArgs(["myFactory"], null, null, function () {
-                essencejs.resolveArgs(["myFactory"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["myFactory"], null, null, null, function () {
+                essencejs.resolveArgs(["myFactory"], null, null, null, function (err, resolved) {
                     test.equal(!!err, false);
                     test.equal(resolved.length, 1, "Incorrect number of resolved arguments returned.");
                     test.equal(resolved[0], 2, "The instance function registered as a factory should be the result of a double increment to injectedCount.");
@@ -73,8 +73,8 @@ module.exports = {
             essencejs.factory("myFactory", myFactory);
             essencejs.register("incrementCounter", incrementCounter);
 
-            essencejs.resolveArgs(["myFactory"], null, null, function () {
-                essencejs.resolveArgs(["myFactory"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["myFactory"], null, null, null, function () {
+                essencejs.resolveArgs(["myFactory"], null, null, null, function (err, resolved) {
                     test.equal(!!err, false);
                     test.equal(resolved.length, 1, "Expected argument to be the return of myFactory");
                     test.equal(resolved[0], 2, "Expected argument to be the result of executing myFactory");
@@ -90,7 +90,7 @@ module.exports = {
 
             essencejs.factory(MyFactory);
 
-            essencejs.resolveArgs(["myFactory"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["myFactory"], null, null, null, function (err, resolved) {
                 test.equal(!!err, false);
                 test.equal(resolved.length, 1, "Expected resolved to contain instanceof MyFactory");
                 test.equal(resolved[0] instanceof MyFactory, true, "Expected first item in resolved to be an instanceof MyFactory");
@@ -118,7 +118,7 @@ module.exports = {
             essencejs.factory(MyFactory);
             essencejs.factory(now);
 
-            essencejs.resolveArgs(["myFactory"], null, null, function (err, resolved) {
+            essencejs.resolveArgs(["myFactory"], null, null, null, function (err, resolved) {
                 test.equal(!!err, false);
                 test.equal(resolved.length, 1, "Expected resolved to contain instanceof MyFactory");
                 test.equal(resolved[0] instanceof MyFactory, true, "Expected first item in resolved to be an instanceof MyFactory");

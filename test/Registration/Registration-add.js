@@ -49,7 +49,7 @@ module.exports = {
 
             var registration = new Registration(),
                 resolvable = new Resolvable({
-                    name : "test",
+                    key : "test",
                     item : 123
                 });
 

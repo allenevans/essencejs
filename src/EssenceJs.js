@@ -133,14 +133,15 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item, overrides) {
     }
 
     (function () {
-        var error;
+        var error,
+            namespaceKey = util.splitNamespaceKey(key);
 
         // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
         // because object will be an instance of the class being registered.
-        key = util.isObjectConstructor(item) ? util.lowerCaseFirst(key) : key;
+        namespaceKey.key = util.isObjectConstructor(item) ? util.lowerCaseFirst(namespaceKey.key) : namespaceKey.key;
 
         // register a container against the key to resolve the single instance of the item.
-        self.register(key, function __essencejs_container(config, callback) {
+        self.register(namespaceKey.toString(), function __essencejs_container(config, callback) {
             if (error) {
                 callback(error);
             } else {
@@ -166,10 +167,25 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item, overrides) {
 
 /**
  * Get the list of registration key names.
+ * @param {string} [namespace] Filter the keys registered to the given namespace only.
  * @returns {string[]}
  */
-EssenceJs.prototype.getKeys = function getKeys() {
-    return (this.registrations && this.registrations.keys) || [];
+EssenceJs.prototype.getKeys = function getKeys(namespace) {
+    var keys = (this.registrations && this.registrations.keys) || [];
+
+    if (namespace) {
+        return keys.reduce(function (filtered, key) {
+            var namespaceKey = util.splitNamespaceKey(key);
+
+            if (namespaceKey.namespace === namespace) {
+                filtered.push(namespaceKey.key);
+            }
+
+            return filtered;
+        }, []);
+    }
+
+    return keys;
 };
 
 /**
@@ -177,6 +193,8 @@ EssenceJs.prototype.getKeys = function getKeys() {
  * @param {object|string} error Object or string that contains the error that occurred.
  * @param {object} result The result of the injected function.
  * @param {?object} [overrides] Custom object to override registered dependencies.
+ * @param {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
+ * falsey value means search in global and all namespaces to resolve the dependency.
  */
 
 /**
@@ -191,6 +209,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
         args = parser.getArgs(func),
         context = func,
         timeout = this.config.timeout,
+        namespaces,
         overrides;
 
     if (arguments.length === 2 && typeof config === "function") {
@@ -202,6 +221,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
     timeout = config && typeof config.timeout !== "undefined" ? config.timeout : timeout;
     context = config && config.context ? config.context : context;
     overrides = (config && config.overrides) || null;
+    namespaces = (config && config.namespaces) || null;
 
     if (Array.isArray(func)) {
         // the function is an array where the last argument of the array is the function to inject into.
@@ -216,7 +236,7 @@ EssenceJs.prototype.inject = function inject(func, config, callback) {
     }
 
     // resolve the arguments and wait for the callback.
-    self.resolveArgs(args, timeout, overrides, function (err, resolvedArgs) {
+    self.resolveArgs(args, namespaces, timeout, overrides, function (err, resolvedArgs) {
         if (err) {
             callback && callback(err);
             return;
@@ -285,7 +305,9 @@ EssenceJs.prototype.isRegistered = function isRegistered(key) {
 EssenceJs.prototype.register = function register(itemOrKey, item) {
     var self = this,
         key = itemOrKey,
-        resolvable;
+        resolvable,
+        namespaceKey,
+        namespace;
 
     if (arguments.length === 1) {
         // single argument specified, calculate key.
@@ -299,12 +321,16 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
         item = itemOrKey;
     }
 
-    resolvable = self.registrations.get(key);
+    namespaceKey = util.splitNamespaceKey(key);
+    namespace = namespaceKey.namespace;
+    key = namespaceKey.key;
+
+    resolvable = self.registrations.get(key, [namespace]);
 
     if (!item) {
         if (resolvable && resolvable.isPlaceholder) {
             // cancel any waitFors callbacks.
-            self.registrations.get(key).waitFors.forEach(function (waitFor) {
+            self.registrations.get(key, [namespace]).waitFors.forEach(function (waitFor) {
                 waitFor.callback(new CancelError());
             });
         }
@@ -315,14 +341,15 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
             resolvable : null;
 
         self.registrations.add(new Resolvable({
-            name: key,
+            namespace : namespace,
+            key: key,
             item: item
         }));
 
         if (placeholderResolvable) {
             // notify any waitFors in the placeholder registration
             placeholderResolvable.waitFors && placeholderResolvable.waitFors.forEach(function (waitFor) {
-                var resolvable = self.registrations.get(key);
+                var resolvable = self.registrations.get(key, [namespace]);
                 resolvable.get(null, waitFor.callback);
             });
 
@@ -345,11 +372,27 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
  */
 
 /**
+ * Config object passed for registering files from the file system.
+ * @typedef {Object} EssenceJs~registerByOptions
+ * @prop {string} namespace namespace to register with.
+ * @prop {string} cwd The current working directory in which to search. Defaults to process.cwd().
+ * @prop {string} root The place where patterns starting with / will be mounted onto.
+ *  Defaults to path.resolve(options.cwd, "/")
+ * @prop {boolean} nosort Don't sort the results.
+ * @prop {boolean} sync Perform a synchronous glob search.
+ * @prop {boolean} nobrace Do not expand {a,b} and {1..3} brace sets.
+ * @prop {boolean} noglobstar Do not match ** against multiple filenames. (Ie, treat it as a normal * instead.)
+ * @prop {boolean} noext Do not match +(a|b) "extglob" patterns.
+ * @prop {boolean} nodir Do not match directories, only files.
+ * @see https://github.com/isaacs/node-glob
+ */
+
+/**
  * Register all exported objects from files matching the specified pattern with this essence.js instance using the given strategy.
  * @param {string|string[]} pattern Pattern to search for
  * @param {?EssenceJs~strategyCallback} [strategy] Function that determines how the required file is registered with the essence js instance.
  * Default is to register exactly what was exported.
- * @param {?Object} [options] Options object for glob.
+ * @param {?EssenceJs~registerByOptions} [options] Options object.
  * @param {?EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
 EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, strategy, options, callback) {
@@ -357,7 +400,11 @@ EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, st
         cwd = (options && options.cwd) || process.cwd();
 
     strategy = strategy || function defaultStrategy(filePath) {
-        this.register(path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""), require(path.join(cwd, filePath)));
+        var namespaceKey =
+                (options && options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+
+        this.register(namespaceKey, require(path.join(cwd, filePath)));
     };
 
     glob(pattern, options, function (err, files) {
@@ -379,7 +426,7 @@ EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, st
  * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
  * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
-EssenceJs.prototype.registerPath = function registerByStrategy(pattern, options, callback) {
+EssenceJs.prototype.registerPath = function registerPath(pattern, options, callback) {
     if (arguments.length === 2 && typeof options === "function") {
         callback = options;
         options = null;
@@ -388,14 +435,18 @@ EssenceJs.prototype.registerPath = function registerByStrategy(pattern, options,
     var cwd = (options && options.cwd) || process.cwd();
 
     this.registerByStrategy(pattern, function exactStrategy(filePath) {
-        this.register(path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""), require(path.join(cwd, filePath)));
+        var namespaceKey =
+                (options && options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+
+        this.register(namespaceKey, require(path.join(cwd, filePath)));
     }, options, callback);
 };
 
 /**
  * Register all exported functions as singletons from files matching the specified pattern with this essence.js instance.
  * @param {string|string[]} pattern Pattern to search for
- * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
+ * @param {EssenceJs~registerByOptions|EssenceJs~registeredCallback} [options] Options object, or callback.
  * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
 EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, options, callback) {
@@ -407,8 +458,12 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
     var cwd = (options && options.cwd) || process.cwd();
 
     this.registerByStrategy(pattern, function singletonStrategy(filePath) {
+        var namespaceKey =
+                (options && options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+
         this.singleton(
-            path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
+            namespaceKey,
             require(path.join(cwd, filePath))
         );
     }, options, callback);
@@ -417,7 +472,7 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
 /**
  * Register all exported functions as factories from files matching the specified pattern with this essence.js instance.
  * @param {string|string[]} pattern Pattern to search for
- * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
+ * @param {EssenceJs~registerByOptions|EssenceJs~registeredCallback} [options] Options object, or callback.
  * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
 EssenceJs.prototype.registerFactories = function registerFactories(pattern, options, callback) {
@@ -429,8 +484,12 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
     var cwd = (options && options.cwd) || process.cwd();
 
     this.registerByStrategy(pattern, function factoryStrategy(filePath) {
+        var namespaceKey =
+                (options && options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+
         this.factory(
-            path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
+            namespaceKey,
             require(path.join(cwd, filePath))
         );
     }, options, callback);
@@ -445,6 +504,8 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
 /**
  * Resolve the array of string name arguments
  * @param {string[]} args Array of arguments to resolve.
+ * param {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
+ * falsey value means search in global and all namespaces to resolve the dependency.
  * @param {number} [timeout] Number of milliseconds to complete the resolving of all arguments before timing out.
  * @param {object} [overrides] Custom object to override registered dependencies.
  * @param {EssenceJs~resolveArgsCallback} callback Callback method once all arguments have been resolved, or a timeout has occurred.
@@ -452,7 +513,7 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
  * This parameter should only be used internally by EssenceJs.
  * Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
  */
-EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides, callback, resolveStack) {
+EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout, overrides, callback, resolveStack) {
     overrides = overrides || {};
     timeout = (typeof timeout !== "undefined") && timeout !== null ? timeout : this.config.timeout;
     resolveStack = resolveStack || [];
@@ -468,9 +529,17 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
             args.reduce(function (argStr, arg) {
                 if (argStr !== "") { argStr += ", "; }
 
-                var resolvable = self.registrations.get(arg);
+                var resolvable;
 
-                argStr += ((!resolvable || resolvable.isPlaceholder) ? "*" : "") + arg;
+                try {
+                    resolvable = self.registrations.get(arg, namespaces);
+                    // * - to indicate that this argument is still being resolved.
+                    argStr += ((!resolvable || resolvable.isPlaceholder) ? "*" : "") + arg;
+                } catch (x) {
+                    // ! - to indicate that this argument cannot be resolved because of a conflict e.g. Ambiguous
+                    // matches argument in the list of dependency registrations.
+                    argStr += "!" + arg;
+                };
 
                 return argStr;
             }, "") +
@@ -494,7 +563,8 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
     }, timeout);
 
     args.map(function (arg, i) {
-        var resolvable = self.registrations.get(arg);
+        var namespaceKey = util.splitNamespaceKey(arg),
+            resolvable = self.registrations.get(arg, namespaces);
 
         function notifyIfComplete() {
             // check if all items have been resolved, if so call the callback.
@@ -565,10 +635,11 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, timeout, overrides,
         if (!resolvable) {
             // no resolvable registration currently exists. create a temporary one for holding waitFors.
             self.registrations.add(new Resolvable({
-                name         : arg,
+                namespace   : namespaceKey.namespace,
+                key         : namespaceKey.key,
                 isPlaceholder: true
             }));
-            resolvable = self.registrations.get(arg);
+            resolvable = self.registrations.get(arg, [namespaceKey.namespace]);
         }
 
         if (resolvable.isPlaceholder) {
@@ -645,14 +716,15 @@ EssenceJs.prototype.singleton = function singleton(itemOrKey, item, overrides) {
 
     (function () {
         var error,
-            instance;
+            instance,
+            namespaceKey = util.splitNamespaceKey(key);
 
         // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
         // because object will be an instance of the class being registered.
-        key = util.isObjectConstructor(item) ? util.lowerCaseFirst(key) : key;
+        namespaceKey.key = util.isObjectConstructor(item) ? util.lowerCaseFirst(namespaceKey.key) : namespaceKey.key;
 
         // register a container against the key to resolve the single instance of the item.
-        self.register(key, function __essencejs_container(config, callback) {
+        self.register(namespaceKey.toString(), function __essencejs_container(config, callback) {
             if (error || instance) {
                 callback(error, instance);
             } else {

@@ -157,7 +157,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-11">line 11</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-12">line 12</a>
     </li></ul></dd>
     
 
@@ -208,6 +208,70 @@
 <dd>
     
     <div class="description">
+        Get the list of namespaces stored within the dictionary.
+    </div>
+    
+    
+    
+        <h5>Type:</h5>
+        <ul>
+            <li>
+                
+<span class="param-type">string[]</span>
+
+
+            </li>
+        </ul>
+    
+
+    
+<dl class="details">
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-32">line 32</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+    
+    
+</dd>
+
+        
+            
+<dt>
+    <h4 class="name" id="keys"><span class="type-signature">&lt;static, readonly> </span>keys<span class="type-signature"> :string[]</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
         Get the list of registration keys stored within the dictionary.
     </div>
     
@@ -247,7 +311,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-18">line 18</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-19">line 19</a>
     </li></ul></dd>
     
 
@@ -311,7 +375,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-16">line 16</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-17">line 17</a>
     </li></ul></dd>
     
 
@@ -426,7 +490,7 @@ will replace previous resolvable objects;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-37">line 37</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-59">line 59</a>
     </li></ul></dd>
     
 
@@ -495,7 +559,7 @@ will replace previous resolvable objects;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-72">line 72</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-128">line 128</a>
     </li></ul></dd>
     
 
@@ -523,7 +587,7 @@ will replace previous resolvable objects;
         
             
 <dt>
-    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(name)</span><span class="type-signature"> &rarr; {<a href="Resolvable.html">Resolvable</a>}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key, namespaces)</span><span class="type-signature"> &rarr; {<a href="Resolvable.html">Resolvable</a>}</span></h4>
     
     
 </dt>
@@ -553,6 +617,8 @@ will replace previous resolvable objects;
 		<th>Type</th>
 
 		
+		<th>Argument</th>
+		
 
 		
 
@@ -565,7 +631,7 @@ will replace previous resolvable objects;
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -578,10 +644,52 @@ will replace previous resolvable objects;
             </td>
 
             
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
 
             
 
             <td class="description last">of the resolvable stored in the dictionary.</td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>namespaces</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">?string[]</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+                    &lt;nullable><br>
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">Namespaces to match against. A null or empty array implies match against any
+namespace.</td>
         </tr>
 
 	
@@ -613,7 +721,7 @@ will replace previous resolvable objects;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-56">line 56</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-83">line 83</a>
     </li></ul></dd>
     
 
@@ -754,7 +862,7 @@ will replace previous resolvable objects;
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-64">line 64</a>
+        <a href="Registration.js.html">src/Registration.js</a>, <a href="Registration.js.html#sunlight-1-line-120">line 120</a>
     </li></ul></dd>
     
 
@@ -808,7 +916,7 @@ will replace previous resolvable objects;
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
-		on Sun Dec 28 2014 18:31:43 GMT+0000 (GMT) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		on Mon Dec 29 2014 00:19:29 GMT+0000 (GMT) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
 			</div>
