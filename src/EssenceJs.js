@@ -523,6 +523,15 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
 };
 
 /**
+ *
+ * @param {string} key Find the registration matching this key and dispose of it and remove from the container.
+ * @param {string|string[]} [namespaces] Optional namespace to search in.
+ */
+EssenceJs.prototype.remove = function remove(key, namespaces) {
+    this.registrations.remove(key, namespaces);
+};
+
+/**
  * @callback EssenceJs~resolveArgsCallback Callback function to execute containing any errors, and the resolve arguments array.
  * @param {object|string} error Object or string that contains the error that occurred.
  * @param {object[]} result The resolved arguments corresponding to the input args.

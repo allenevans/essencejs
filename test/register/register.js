@@ -68,5 +68,49 @@ module.exports = {
             test.equal(essencejs.isRegistered("TestClass", "Classes"), true, "Expected the `TestClass` key to return true");
             test.equal(essencejs.isRegistered("TestClass", "Stuff"), false, "Expected the `TestClass` key to return false");
             test.done();
+        },
+    "Remove an object registered against a given key":
+        function (test) {
+            test.expect(1);
+            essencejs.register("test", { });
+
+            essencejs.remove("test");
+
+            test.equal(essencejs.isRegistered("test"), false);
+
+            test.done();
+        },
+    "Remove an object registered against a given key in a given namespace":
+        function (test) {
+            test.expect(1);
+            essencejs.register("test", { }, { namespace : "objects" });
+
+            essencejs.remove("test", "objects");
+
+            test.equal(essencejs.isRegistered("test"), false);
+
+            test.done();
+        },
+    "Remove an object registered against a given key in a given namespace provided as an array":
+        function (test) {
+            test.expect(1);
+            essencejs.register("test", { }, { namespace : "objects" });
+
+            essencejs.remove("test", ["objects"]);
+
+            test.equal(essencejs.isRegistered("test"), false);
+
+            test.done();
+        },
+    "Should not Remove an object registered against a given key and namespace without specifying the namespace to remove from":
+        function (test) {
+            test.expect(1);
+            essencejs.register("test", { }, { namespace : "objects" });
+
+            essencejs.remove("test");
+
+            test.equal(essencejs.isRegistered("test"), true);
+
+            test.done();
         }
 };

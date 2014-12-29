@@ -118,9 +118,29 @@ Registration.prototype.get = function get(key, namespaces) {
  * Removes and disposes of the resolvable by name.
  * @param {string} name of the resolvable stored in the dictionary.
  */
-Registration.prototype.remove = function remove(name) {
-    this.dictionary[name] && this.dictionary[name].dispose && this.dictionary[name].dispose();
-    delete this.dictionary[name];
+Registration.prototype.remove = function remove(key, namespaces) {
+    namespaces = namespaces && (Array.isArray(namespaces) ? namespaces : [namespaces]) || [];
+
+    var self = this,
+        matches = namespaces.reduce(function (matched, namespace) {
+        var searchKey = namespace + "__" + key,
+            found = self.dictionary[searchKey];
+
+        if (found) {
+            matched.push(searchKey);
+        }
+        return matched;
+    }, []);
+
+    if (namespaces.length === 0) {
+        // remove global registration.
+        matches.push(key);
+    }
+
+    matches.forEach(function (key) {
+        self.dictionary[key] && self.dictionary[key].dispose && self.dictionary[key].dispose();
+        delete self.dictionary[key];
+    });
 };
 
 /**
