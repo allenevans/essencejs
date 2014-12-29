@@ -386,6 +386,13 @@ EssenceJs.prototype.register = function register(itemOrKey, item, config) {
 };
 
 /**
+ * Synonym for register method.
+ * @method EssenceJs#instance
+ * @see EssenceJs#register
+ */
+EssenceJs.prototype.instance = EssenceJs.prototype.register;
+
+/**
  * @callback EssenceJs~registeredCallback Callback function to execute containing any errors, and the file names matching
  * the given pattern.
  * @param {object|string} error Object or string that contains the error that occurred.
