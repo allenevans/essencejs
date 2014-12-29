@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="CancelError.spec.js"
+             errors="0"
+             failures="0"
+             tests="2">
+    
+      
+      <testcase name="CancelError should be exported">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to set message through CancelError constructor">
+        
+      </testcase>
+    
+  </testsuite>
+

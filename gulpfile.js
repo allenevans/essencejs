@@ -6,7 +6,9 @@ var gulp = require("gulp"),
     runSequence = require("run-sequence"),
     jsdoc = require("gulp-jsdoc"),
     bump = require("gulp-bump"),
-    remove = require("gulp-rimraf");
+    remove = require("gulp-rimraf"),
+    istanbul = require("gulp-istanbul"),
+    nodeunit = require("gulp-nodeunit");
 
 gulp.task("clean-docs", function () {
     return gulp.src(["./docs"], { read : false }).
@@ -72,8 +74,26 @@ gulp.task("docs", function (callback) {
     );
 });
 
+gulp.task("test", function (callback) {
+    gulp.src(["src/**/*.js"])
+        .pipe(istanbul()) // Covering files
+        .pipe(istanbul.hookRequire()) // Force `require` to return covered files
+        .on('finish', function () {
+            gulp.src(["test/**/*.spec.js"])
+                .pipe(nodeunit({
+                    reporter: "junit",
+                    reporterOptions: {
+                        output: "test"
+                    }
+                }))
+                .pipe(istanbul.writeReports())// Creating the reports after tests ran.
+                .on('end', callback);
+        });
+});
+
 gulp.task("default", function (callback) {
     runSequence(
+        "test",
         "patch-version-bump",
         "docs",
         callback

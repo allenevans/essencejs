@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="injecting.spec.js"
+             errors="0"
+             failures="0"
+             tests="9">
+    
+      
+      <testcase name="Should be able to inject registered object into function using namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should find object from global namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should throw error if trying to resolve dependency from global when ambiguities exist">
+        
+      </testcase>
+    
+      
+      <testcase name="Should find object using specified namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should not find object using different namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should resolve objects from one or more namespaces using global search">
+        
+      </testcase>
+    
+      
+      <testcase name="Should resolve objects from one or more namespaces using namespace search">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to inject registered singleton into function using namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to inject registered factory into function using namespace">
+        
+      </testcase>
+    
+  </testsuite>
+

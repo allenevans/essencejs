@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="Registration-get.spec.js"
+             errors="0"
+             failures="0"
+             tests="5">
+    
+      
+      <testcase name="Should be able to get a resolvable instance from the registration">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to get a resolvable instance from the registration with the given namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to get a resolvable instance from the registration with the given namespace pass as a string">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to get a resolvable instance from the registration using the global namespace">
+        
+      </testcase>
+    
+      
+      <testcase name="Should throw an error if an ambiguous get request is made">
+        
+      </testcase>
+    
+  </testsuite>
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="singleton.spec.js"
+             errors="0"
+             failures="0"
+             tests="6">
+    
+      
+      <testcase name="Register a singleton function">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve a singleton function twice">
+        
+      </testcase>
+    
+      
+      <testcase name="Register a singleton function with arguments that need to be resolved">
+        
+      </testcase>
+    
+      
+      <testcase name="Register a singleton class with no arguments that need to be resolved">
+        
+      </testcase>
+    
+      
+      <testcase name="Register a singleton class in a namespace with no arguments that need to be resolved">
+        
+      </testcase>
+    
+      
+      <testcase name="Register a triple nested singleton class instance">
+        
+      </testcase>
+    
+  </testsuite>
+

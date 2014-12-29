@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="timeoutDelay.spec.js"
+             errors="0"
+             failures="0"
+             tests="3">
+    
+      
+      <testcase name="Should timeout if items cannot be resolved within the given timeout">
+        
+      </testcase>
+    
+      
+      <testcase name="Should timeout if nested items cannot be resolved within the given timeout">
+        
+      </testcase>
+    
+      
+      <testcase name="Should not timeout if nested items can be resolved within the given timeout">
+        
+      </testcase>
+    
+  </testsuite>
+

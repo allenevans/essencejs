@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="resolveArgs.spec.js"
+             errors="0"
+             failures="0"
+             tests="10">
+    
+      
+      <testcase name="Resolve arguments for an object reference">
+        
+      </testcase>
+    
+      
+      <testcase name="Timeout resolving argument that does not exist">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve second argument out of two with delayed registration">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve second argument out of three with delayed registration">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve first argument out of three with delayed registration">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve using an override for an existing definition">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve arguments but cancel the resolution by registering undefined as the outstanding argument">
+        
+      </testcase>
+    
+      
+      <testcase name="Two outstanding deferred resolutions at the same time">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve arguments immediately providing undefined for unresolvable references">
+        
+      </testcase>
+    
+      
+      <testcase name="Resolve arguments immediately even if an argument if a nested argument cannot be resolved.">
+        
+      </testcase>
+    
+  </testsuite>
+

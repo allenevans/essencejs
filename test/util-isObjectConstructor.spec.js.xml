@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="util-isObjectConstructor.spec.js"
+             errors="0"
+             failures="0"
+             tests="3">
+    
+      
+      <testcase name="Should detect if function is a class constructor by naming convention">
+        
+      </testcase>
+    
+      
+      <testcase name="Should detect if function is a class constructor by prototype methods">
+        
+      </testcase>
+    
+      
+      <testcase name="Should detect if function is not class constructor">
+        
+      </testcase>
+    
+  </testsuite>
+

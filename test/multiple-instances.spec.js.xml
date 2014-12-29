@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="multiple-instances.spec.js"
+             errors="0"
+             failures="0"
+             tests="3">
+    
+      
+      <testcase name="Different instances of essencejs are not equal to each other">
+        
+      </testcase>
+    
+      
+      <testcase name="$essence is not equal to $essence in different instance">
+        
+      </testcase>
+    
+      
+      <testcase name="Should not be able to inject an item registered in once instance of essancejs using the other instance">
+        
+      </testcase>
+    
+  </testsuite>
+

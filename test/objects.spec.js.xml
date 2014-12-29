@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="objects.spec.js"
+             errors="0"
+             failures="0"
+             tests="2">
+    
+      
+      <testcase name="When object is registered as a factory then a cloned copy of the object should be returned when injected">
+        
+      </testcase>
+    
+      
+      <testcase name="Register class instance as a singleton">
+        
+      </testcase>
+    
+  </testsuite>
+

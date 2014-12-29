@@ -1,0 +1,2743 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/EssenceJs.js</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
+        body, html {
+            margin:0; padding: 0;
+        }
+        body {
+            font-family: Helvetica Neue, Helvetica,Arial;
+            font-size: 10pt;
+        }
+        div.header, div.footer {
+            background: #eee;
+            padding: 1em;
+        }
+        div.header {
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            border-bottom: 1px solid #666;
+            width: 100%;
+        }
+        div.footer {
+            border-top: 1px solid #666;
+        }
+        div.body {
+            margin-top: 10em;
+        }
+        div.meta {
+            font-size: 90%;
+            text-align: center;
+        }
+        h1, h2, h3 {
+            font-weight: normal;
+        }
+        h1 {
+            font-size: 12pt;
+        }
+        h2 {
+            font-size: 10pt;
+        }
+        pre {
+            font-family: Consolas, Menlo, Monaco, monospace;
+            margin: 0;
+            padding: 0;
+            line-height: 14px;
+            font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
+        }
+
+        div.path { font-size: 110%; }
+        div.path a:link, div.path a:visited { color: #000; }
+        table.coverage { border-collapse: collapse; margin:0; padding: 0 }
+
+        table.coverage td {
+            margin: 0;
+            padding: 0;
+            color: #111;
+            vertical-align: top;
+        }
+        table.coverage td.line-count {
+            width: 50px;
+            text-align: right;
+            padding-right: 5px;
+        }
+        table.coverage td.line-coverage {
+            color: #777 !important;
+            text-align: right;
+            border-left: 1px solid #666;
+            border-right: 1px solid #666;
+        }
+
+        table.coverage td.text {
+        }
+
+        table.coverage td span.cline-any {
+            display: inline-block;
+            padding: 0 5px;
+            width: 40px;
+        }
+        table.coverage td span.cline-neutral {
+            background: #eee;
+        }
+        table.coverage td span.cline-yes {
+            background: #b5d592;
+            color: #999;
+        }
+        table.coverage td span.cline-no {
+            background: #fc8c84;
+        }
+
+        .cstat-yes { color: #111; }
+        .cstat-no { background: #fc8c84; color: #111; }
+        .fstat-no { background: #ffc520; color: #111 !important; }
+        .cbranch-no { background:  yellow !important; color: #111; }
+
+        .cstat-skip { background: #ddd; color: #111; }
+        .fstat-skip { background: #ddd; color: #111 !important; }
+        .cbranch-skip { background: #ddd !important; color: #111; }
+
+        .missing-if-branch {
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: black;
+            color: yellow;
+        }
+
+        .skip-if-branch {
+            display: none;
+            margin-right: 10px;
+            position: relative;
+            padding: 0 4px;
+            background: #ccc;
+            color: white;
+        }
+
+        .missing-if-branch .typ, .skip-if-branch .typ {
+            color: inherit !important;
+        }
+
+        .entity, .metric { font-weight: bold; }
+        .metric { display: inline-block; border: 1px solid #333; padding: 0.3em; background: white; }
+        .metric small { font-size: 80%; font-weight: normal; color: #666; }
+
+        div.coverage-summary table { border-collapse: collapse; margin: 3em; font-size: 110%; }
+        div.coverage-summary td, div.coverage-summary table  th { margin: 0; padding: 0.25em 1em; border-top: 1px solid #666; border-bottom: 1px solid #666; }
+        div.coverage-summary th { text-align: left; border: 1px solid #666; background: #eee; font-weight: normal; }
+        div.coverage-summary th.file { border-right: none !important; }
+        div.coverage-summary th.pic { border-left: none !important; text-align: right; }
+        div.coverage-summary th.pct { border-right: none !important; }
+        div.coverage-summary th.abs { border-left: none !important; text-align: right; }
+        div.coverage-summary td.pct { text-align: right; border-left: 1px solid #666; }
+        div.coverage-summary td.abs { text-align: right; font-size: 90%; color: #444; border-right: 1px solid #666; }
+        div.coverage-summary td.file { text-align: right; border-left: 1px solid #666; white-space: nowrap;  }
+        div.coverage-summary td.pic { min-width: 120px !important;  }
+        div.coverage-summary a:link { text-decoration: none; color: #000; }
+        div.coverage-summary a:visited { text-decoration: none; color: #333; }
+        div.coverage-summary a:hover { text-decoration: underline; }
+        div.coverage-summary tfoot td { border-top: 1px solid #666; }
+
+        div.coverage-summary .yui3-datatable-sort-indicator, div.coverage-summary .dummy-sort-indicator {
+            height: 10px;
+            width: 7px;
+            display: inline-block;
+            margin-left: 0.5em;
+        }
+        div.coverage-summary .yui3-datatable-sort-indicator {
+            background: url("https://yui-s.yahooapis.com/3.6.0/build/datatable-sort/assets/skins/sam/sort-arrow-sprite.png") no-repeat scroll 0 0 transparent;
+        }
+        div.coverage-summary .yui3-datatable-sorted .yui3-datatable-sort-indicator {
+            background-position: 0 -20px;
+        }
+        div.coverage-summary .yui3-datatable-sorted-desc .yui3-datatable-sort-indicator {
+            background-position: 0 -10px;
+        }
+
+        .high { background: #b5d592 !important; }
+        .medium { background: #ffe87c !important; }
+        .low { background: #fc8c84 !important; }
+
+        span.cover-fill, span.cover-empty {
+            display:inline-block;
+            border:1px solid #444;
+            background: white;
+            height: 12px;
+        }
+        span.cover-fill {
+            background: #ccc;
+            border-right: 1px solid #444;
+        }
+        span.cover-empty {
+            background: white;
+            border-left: none;
+        }
+        span.cover-full {
+            border-right: none !important;
+        }
+        pre.prettyprint {
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .com { color: #999 !important; }
+        .ignore-none { color: #999; font-weight: normal; }
+
+    </style>
+</head>
+<body>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">src/EssenceJs.js</span></h1>
+    <h2>
+        
+        Statements: <span class="metric">95.31% <small>(244 / 256)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Branches: <span class="metric">90.61% <small>(193 / 213)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Functions: <span class="metric">97.92% <small>(47 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        
+        Lines: <span class="metric">95.28% <small>(242 / 254)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        
+        Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
+    </h2>
+    <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">src/</a> &#187; EssenceJs.js</div>
+</div>
+<div class="body">
+<pre><table class="coverage">
+<tr><td class="line-count">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334
+335
+336
+337
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+378
+379
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449
+450
+451
+452
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499
+500
+501
+502
+503
+504
+505
+506
+507
+508
+509
+510
+511
+512
+513
+514
+515
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535
+536
+537
+538
+539
+540
+541
+542
+543
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557
+558
+559
+560
+561
+562
+563
+564
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
+602
+603
+604
+605
+606
+607
+608
+609
+610
+611
+612
+613
+614
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
+658
+659
+660
+661
+662
+663
+664
+665
+666
+667
+668
+669
+670
+671
+672
+673
+674
+675
+676
+677
+678
+679
+680
+681
+682
+683
+684
+685
+686
+687
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
+736
+737
+738
+739
+740
+741
+742
+743
+744
+745
+746
+747
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">85</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">85</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">85</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">85</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">118</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">118</span>
+<span class="cline-any cline-yes">112</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">118</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">112</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">112</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-yes">1680</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1428</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">27</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">15</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">97</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">68</span>
+<span class="cline-any cline-yes">67</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">55</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">84</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">63</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">43</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">205</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">204</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">204</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">204</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">22</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132</span>
+<span class="cline-any cline-yes">132</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">131</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">132</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">95</span>
+<span class="cline-any cline-yes">132</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">117</span>
+<span class="cline-any cline-yes">190</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">37</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">80</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">80</span>
+<span class="cline-any cline-yes">80</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">131</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">124</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">113</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">113</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-yes">9</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">96</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">96</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">90</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">90</span>
+<span class="cline-any cline-yes">90</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-yes">31</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">25</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-yes">23</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span></td><td class="text"><pre class="prettyprint lang-js">/*
+ * File         :   EssenceJs.js
+ * Description  :   Main entry point for essencejs library.
+ * ------------------------------------------------------------------------------------------------ */
+var clone = require("clone"),
+    glob = require("glob").Glob,
+    parser = require("./parser"),
+    path = require("path"),
+    util = require("./util"),
+    CancelError = require("./CancelError"),
+    Config = require("./Config"),
+    Registration = require("./Registration"),
+    Resolvable = require("./Resolvable"),
+    ResolveError = require("./ResolveError"),
+    WaitFor = require("./WaitFor");
+&nbsp;
+/**
+ * EssenceJs class constructor.
+ * @constructor
+ */
+var EssenceJs = function EssenceJs() {
+    /**
+     * EssenceJs configuration.
+     * @type {Config}
+     */
+    this.config = new Config();
+&nbsp;
+    /**
+     * Dependency registration storage.
+     * @type {Registration}
+     */
+    this.registrations = new Registration();
+&nbsp;
+    /**
+     * Array of active timers.
+     * @type {Array}
+     * @private
+     */
+    this._timers = [];
+&nbsp;
+&nbsp;
+    // register this instance as $essence.
+    this.register("$essence", this);
+};
+&nbsp;
+/**
+ * clear a timer created by this.setTimeout method.
+ * @param {Object} timerRef reference to the created timer.
+ */
+EssenceJs.prototype.clearTimeout = function (timerRef) {
+    var self = this;
+&nbsp;
+    if (self._timers.indexOf(timerRef) &gt;= 0) {
+        self._timers.splice(self._timers.indexOf(timerRef), 1);
+    }
+    clearTimeout(timerRef);
+};
+&nbsp;
+/**
+ * Create a timeout with tracking.
+ * @param {function} func function to execute when timer interval has been reached.
+ * @param {Object} interval number of milliseconds to wait for.
+ */
+EssenceJs.prototype.setTimeout = function (func, interval) {
+    var self = this,
+        timerRef = setTimeout(function () {
+            self.clearTimeout(timerRef);
+            func();
+        }, interval);
+&nbsp;
+    self._timers.push(timerRef);
+&nbsp;
+    return timerRef;
+};
+&nbsp;
+/**
+ * Method for tidying up any references and disposing of essencejs.
+ */
+EssenceJs.prototype.dispose = function dispose() {
+    var self = this,
+        method,
+        timers = self._timers;
+&nbsp;
+    if (self._timers &amp;&amp; self._timers.length) {
+        timers.forEach(function (timer) {
+            self.clearTimeout(timer);
+        });
+    }
+&nbsp;
+    self.registrations &amp;&amp; self.registrations.dispose();
+    delete self.registrations;
+&nbsp;
+    for (method in self) {
+        if (!self.hasOwnProperty(method) &amp;&amp;
+            typeof self[method] === "function" &amp;&amp;
+            ["clearTimeout"].indexOf(method) &lt; 0
+        ) {
+            self[method] = function () {
+                throw "Instance disposed.";
+            }
+        }
+    }
+&nbsp;
+    self.isDisposed = function () { return true; };
+};
+&nbsp;
+/**
+ * Config object passed when registering a factory.
+ * @typedef {object} EssenceJs~factoryOptions
+ * @prop {string} [namespace] Namespace the factory will be registered in. Set this as an alternative to
+ *  specifying the namespace in the key.
+ *  @prop {object} [overrides] Custom object to override registered dependencies.
+ */
+&nbsp;
+/**
+ * Register a factory that will invoke, clone or construct new instances of the function / object as required.
+ * @param {object|string|function} itemOrKey Factory to register, or key - requires 2 parameters. If single parameter then the key
+ *    will be determined from the object e.g. constructor.name.
+ * @param {object|factory} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {EssenceJs~factoryOptions} config Configuration options for factory registration.
+ */
+EssenceJs.prototype.factory = function factory(itemOrKey, item, config) {
+    var self = this,
+        key = itemOrKey,
+        instance;
+&nbsp;
+    config = config || {};
+&nbsp;
+    if (arguments.length === 1) {
+        // single argument specified, calculate key.
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof itemOrKey === "function") {
+            key = itemOrKey.name;
+        } else {
+<span class="cstat-no" title="statement not covered" >            throw "No key specified for object type " + typeof itemOrKey +</span>
+            ". Unable to determine a suitable key."
+        }
+&nbsp;
+        item = itemOrKey;
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) {
+<span class="cstat-no" title="statement not covered" >            throw "Cannot create a factory instance for an undefined item.";</span>
+        }
+    }
+&nbsp;
+    (function () {
+        var error,
+            namespaceKey = util.splitNamespaceKey(key),
+            overrides = config.overrides;
+&nbsp;
+        namespaceKey.namespace = config.namespace || namespaceKey.namespace;
+&nbsp;
+        // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
+        // because object will be an instance of the class being registered.
+        namespaceKey.key = util.isObjectConstructor(item) ? util.lowerCaseFirst(namespaceKey.key) : namespaceKey.key;
+&nbsp;
+        // register a container against the key to resolve the single instance of the item.
+        self.register(namespaceKey.toString(), function __essencejs_container(config, callback) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (error) {
+<span class="cstat-no" title="statement not covered" >                callback(error);</span>
+            } else {
+                // if item is an object and not a function, then create a cloned instance of this object.
+                if (typeof item === "object") {
+                    callback(null, clone(item));
+                } else {
+                    if (overrides) {
+                        config = config || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+                        config.overrides = overrides;
+                    }
+&nbsp;
+                    // inject into the function.
+                    self.inject(item, config, function (err, value) {
+                        error = err;
+                        callback(error, value);
+                    });
+                }
+            }
+        });
+    }());
+};
+&nbsp;
+/**
+ * Get the list of registration key names.
+ * @param {string} [namespace] Filter the keys registered to the given namespace only.
+ * @returns {string[]}
+ */
+EssenceJs.prototype.getKeys = function getKeys(namespace) {
+    var keys = (this.registrations &amp;&amp; this.registrations.keys) || <span class="branch-2 cbranch-no" title="branch not covered" >[];</span>
+&nbsp;
+    if (namespace) {
+        return keys.reduce(function (filtered, key) {
+            var namespaceKey = util.splitNamespaceKey(key);
+&nbsp;
+            if (namespaceKey.namespace === namespace) {
+                filtered.push(namespaceKey.key);
+            }
+&nbsp;
+            return filtered;
+        }, []);
+    }
+&nbsp;
+    return keys;
+};
+&nbsp;
+/**
+ * Config object passed when injecting into a function.
+ * @typedef {object} EssenceJs~injectConfig
+ * @prop {?object} [overrides] Custom object to override registered dependencies.
+ * @prop {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
+ * falsey value means search in global and all namespaces to resolve the dependency.
+ */
+&nbsp;
+/**
+ * @callback EssenceJs~injectCallback function to execute containing any errors, and the result.
+ * @param {object|string} error Object or string that contains the error that occurred.
+ * @param {object} result The result of the injected function.
+ */
+&nbsp;
+/**
+ * Take a given function and as soon as all its parameters can be resolved, execute that function.
+ * @param {(function|Array)} func function to be called, or constructor to be instantiated once all functional
+ *        parameters can be resolved.
+ * @param {?EssenceJs~injectConfig|function} [config] configuration object to override default behaviours, or callback if function.
+ * @param {EssenceJs~injectCallback} [callback] function to call when inject method completes or timeouts.
+ */
+EssenceJs.prototype.inject = function inject(func, config, callback) {
+    var self = this,
+        args = parser.getArgs(func),
+        context = func,
+        timeout = this.config.timeout,
+        namespaces,
+        overrides;
+&nbsp;
+    if (arguments.length === 2 &amp;&amp; typeof config === "function") {
+        // config is the callback function. remap.
+        callback = config;
+        config = null;
+    }
+&nbsp;
+    timeout = config &amp;&amp; typeof config.timeout !== "undefined" ? config.timeout : timeout;
+    context = config &amp;&amp; config.context ? <span class="branch-0 cbranch-no" title="branch not covered" >config.context </span>: context;
+    overrides = (config &amp;&amp; config.overrides) || null;
+    namespaces = (config &amp;&amp; config.namespaces) || null;
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (Array.isArray(func)) {
+        // the function is an array where the last argument of the array is the function to inject into.
+<span class="cstat-no" title="statement not covered" >        func = func[func.length - 1];</span>
+    }
+&nbsp;
+    if (args.length === 0) {
+        // function does not have any arguments that need resolving. Execute immediately.
+        self.invoke(func, args, context, callback);
+&nbsp;
+        return;
+    }
+&nbsp;
+    // resolve the arguments and wait for the callback.
+    self.resolveArgs(args, namespaces, timeout, overrides, function (err, resolvedArgs) {
+        if (err) {
+            callback &amp;&amp; callback(err);
+            return;
+        }
+&nbsp;
+        self.invoke(func, resolvedArgs, context, callback);
+    }, config &amp;&amp; config.resolveStack);
+};
+&nbsp;
+/**
+ * @callback EssenceJs~invokeCallback Callback function to execute containing any errors, and the result.
+ * @param {object|string} error Object or string that contains the error that occurred.
+ * @param {object} result The result of the invoked function.
+ */
+&nbsp;
+/**
+ * Invoke the function with the given arguments against the context provided. The result of executing the
+ *  function is passed back as the second parameter in the callback method.
+ * @param {function} func Function to execute.
+ * @param {string[]} resolvedArgs Array of arguments that have been resolved for the function.
+ * @param {?object} [context] Context to apply to the execution of the function. Default null.
+ * @param {EssenceJs~invokeCallback} callback Callback function to return the result of invoking the function.
+ */
+EssenceJs.prototype.invoke = function invoke(func, resolvedArgs, context, callback) {
+    if (util.isObjectConstructor(func)) {
+        try {
+            // success callback passing the instantiated object as the result.
+            callback.call(null, null, util.instantiateObject(func, resolvedArgs));
+        } catch (x) {
+            // callback with error.
+<span class="cstat-no" title="statement not covered" >            callback.call(null, x);</span>
+        }
+    } else {
+        var result = func.apply(context, resolvedArgs);
+&nbsp;
+        if (callback) {
+            // success callback passing the result of applying the function.
+            callback.call(null, null, result);
+        }
+    }
+};
+&nbsp;
+/**
+ * Check if this essence js instance have been disposed of.
+ * @returns {boolean} True if this essence js container is in the disposed state and no longer usable.
+ */
+EssenceJs.prototype.isDisposed = function isDisposed() {
+    return false;
+};
+&nbsp;
+/**
+ * Check if an item is registered.
+ * @param {string} key Key to lookup the item by.
+ * @param {?string[]} [namespaces] Namespaces to match against. A null or empty array implies match against any namespace.
+ * @returns {boolean} True if there is a item registered.
+ */
+EssenceJs.prototype.isRegistered = function isRegistered(key, namespaces) {
+    return !!this.registrations.get(key, namespaces);
+};
+&nbsp;
+/**
+ * Config object passed when registering an object.
+ * @typedef {object} EssenceJs~registerOptions
+ * @prop {string} [namespace] Namespace the object will be registered in. Set this as an alternative to
+ *  specifying the namespace in the key.
+ */
+&nbsp;
+/**
+ * Register an object by a given injectable name.
+ * @param {object|string} itemOrKey Item to register, or key - requires 2 parameters. If single parameter then the key
+ *    will be determined from the object e.g. constructor.name.
+ * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {EssenceJs~registerOptions} [config] registration configuration options.
+ */
+EssenceJs.prototype.register = function register(itemOrKey, item, config) {
+    var self = this,
+        key = itemOrKey,
+        resolvable,
+        namespaceKey,
+        namespace;
+&nbsp;
+    if (arguments.length === 1) {
+        // single argument specified, calculate key.
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof itemOrKey === "function") {
+            key = itemOrKey.name;
+        } else {
+<span class="cstat-no" title="statement not covered" >            throw "No key specified for object type " + typeof itemOrKey +</span>
+            ". Unable to determine a suitable key."
+        }
+&nbsp;
+        item = itemOrKey;
+    }
+&nbsp;
+    namespaceKey = util.splitNamespaceKey(key);
+    namespace = (config &amp;&amp; config.namespace) || namespaceKey.namespace;
+    key = namespaceKey.key;
+&nbsp;
+    resolvable = self.registrations.get(key, [namespace]);
+&nbsp;
+    if (!item) {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (resolvable &amp;&amp; resolvable.isPlaceholder) {
+            // cancel any waitFors callbacks.
+            self.registrations.get(key, [namespace]).waitFors.forEach(function (waitFor) {
+                waitFor.callback(new CancelError());
+            });
+        }
+&nbsp;
+        self.registrations &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >self.registrations.remove(key);</span>
+    } else {
+        var placeholderResolvable = resolvable &amp;&amp; resolvable.isPlaceholder ?
+            resolvable : null;
+&nbsp;
+        self.registrations.add(new Resolvable({
+            namespace : namespace,
+            key: key,
+            item: item
+        }));
+&nbsp;
+        if (placeholderResolvable) {
+            // notify any waitFors in the placeholder registration
+            placeholderResolvable.waitFors &amp;&amp; placeholderResolvable.waitFors.forEach(function (waitFor) {
+                var resolvable = self.registrations.get(key, [namespace]);
+                resolvable.get(null, waitFor.callback);
+            });
+&nbsp;
+            placeholderResolvable = null;
+        }
+    }
+};
+&nbsp;
+/**
+ * Synonym for register method.
+ * @method EssenceJs#instance
+ * @see EssenceJs#register
+ */
+EssenceJs.prototype.instance = EssenceJs.prototype.register;
+&nbsp;
+/**
+ * @callback EssenceJs~registeredCallback Callback function to execute containing any errors, and the file names matching
+ * the given pattern.
+ * @param {object|string} error Object or string that contains the error that occurred.
+ * @param {string[]} matches Files matching the pattern.
+ */
+&nbsp;
+/**
+ * @callback EssenceJs~strategyCallback Callback function executing within the context of this essence js instance.
+ * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, .siory, singleton.
+ * @param {string} path File path to module to be required and registered with the essence.js instance.
+ */
+&nbsp;
+/**
+ * Config object passed for registering files from the file system.
+ * @typedef {Object} EssenceJs~registerByOptions
+ * @prop {string} namespace namespace to register with.
+ * @prop {string} cwd The current working directory in which to search. Defaults to process.cwd().
+ * @prop {string} root The place where patterns starting with / will be mounted onto.
+ *  Defaults to path.resolve(options.cwd, "/")
+ * @prop {boolean} nosort Don't sort the results.
+ * @prop {boolean} sync Perform a synchronous glob search.
+ * @prop {boolean} nobrace Do not expand {a,b} and {1..3} brace sets.
+ * @prop {boolean} noglobstar Do not match ** against multiple filenames. (Ie, treat it as a normal * instead.)
+ * @prop {boolean} noext Do not match +(a|b) "extglob" patterns.
+ * @prop {boolean} nodir Do not match directories, only files.
+ * @see https://github.com/isaacs/node-glob
+ */
+&nbsp;
+/**
+ * Register all exported objects from files matching the specified pattern with this essence.js instance using the given strategy.
+ * @param {string|string[]} pattern Pattern to search for
+ * @param {?EssenceJs~strategyCallback} [strategy] Function that determines how the required file is registered with the essence js instance.
+ * Default is to register exactly what was exported.
+ * @param {?EssenceJs~registerByOptions} [options] Options object.
+ * @param {?EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, strategy, options, callback) {
+    var self = this,
+        cwd = (options &amp;&amp; options.cwd) || process.cwd();
+&nbsp;
+    strategy = strategy || function defaultStrategy(filePath) {
+        var namespaceKey =
+                (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+&nbsp;
+        this.register(namespaceKey, require(path.join(cwd, filePath)));
+    };
+&nbsp;
+    glob(pattern, options, function (err, files) {
+        files = files || <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
+&nbsp;
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!err) {
+            files.forEach(function (filePath) {
+                strategy.call(self, filePath);
+            });
+        }
+&nbsp;
+        callback &amp;&amp; callback(err, files);
+    });
+};
+&nbsp;
+/**
+ * Register all exported objects from files matching the specified pattern with this essence.js instance using the register exact strategy.
+ * @param {string|string[]} pattern Pattern to search for.
+ * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
+ * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerPath = function registerPath(pattern, options, callback) {
+    if (arguments.length === 2 &amp;&amp; typeof options === "function") {
+        callback = options;
+        options = null;
+    }
+&nbsp;
+    var cwd = (options &amp;&amp; options.cwd) || process.cwd();
+&nbsp;
+    this.registerByStrategy(pattern, function exactStrategy(filePath) {
+        var namespaceKey =
+                (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+&nbsp;
+        this.register(namespaceKey, require(path.join(cwd, filePath)));
+    }, options, callback);
+};
+&nbsp;
+/**
+ * Register all exported functions as singletons from files matching the specified pattern with this essence.js instance.
+ * @param {string|string[]} pattern Pattern to search for
+ * @param {EssenceJs~registerByOptions|EssenceJs~registeredCallback} [options] Options object, or callback.
+ * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, options, callback) {
+    if (arguments.length === 2 &amp;&amp; typeof options === "function") {
+        callback = options;
+        options = null;
+    }
+&nbsp;
+    var cwd = (options &amp;&amp; options.cwd) || process.cwd();
+&nbsp;
+    this.registerByStrategy(pattern, function singletonStrategy(filePath) {
+        var namespaceKey =
+                (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+&nbsp;
+        this.singleton(
+            namespaceKey,
+            require(path.join(cwd, filePath))
+        );
+    }, options, callback);
+};
+&nbsp;
+/**
+ * Register all exported functions as factories from files matching the specified pattern with this essence.js instance.
+ * @param {string|string[]} pattern Pattern to search for
+ * @param {EssenceJs~registerByOptions|EssenceJs~registeredCallback} [options] Options object, or callback.
+ * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
+ */
+EssenceJs.prototype.registerFactories = function registerFactories(pattern, options, callback) {
+    if (arguments.length === 2 &amp;&amp; typeof options === "function") {
+        callback = options;
+        options = null;
+    }
+&nbsp;
+    var cwd = (options &amp;&amp; options.cwd) || process.cwd();
+&nbsp;
+    this.registerByStrategy(pattern, function factoryStrategy(filePath) {
+        var namespaceKey =
+                (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+&nbsp;
+        this.factory(
+            namespaceKey,
+            require(path.join(cwd, filePath))
+        );
+    }, options, callback);
+};
+&nbsp;
+/**
+ *
+ * @param {string} key Find the registration matching this key and dispose of it and remove from the container.
+ * @param {string|string[]} [namespaces] Optional namespace to search in.
+ */
+EssenceJs.prototype.remove = function remove(key, namespaces) {
+    this.registrations.remove(key, namespaces);
+};
+&nbsp;
+/**
+ * @callback EssenceJs~resolveArgsCallback Callback function to execute containing any errors, and the resolve arguments array.
+ * @param {object|string} error Object or string that contains the error that occurred.
+ * @param {object[]} result The resolved arguments corresponding to the input args.
+ */
+&nbsp;
+/**
+ * Resolve the array of string name arguments
+ * @param {string[]} args Array of arguments to resolve.
+ * param {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
+ * falsey value means search in global and all namespaces to resolve the dependency.
+ * @param {number} [timeout] Number of milliseconds to complete the resolving of all arguments before timing out.
+ * @param {object} [overrides] Custom object to override registered dependencies.
+ * @param {EssenceJs~resolveArgsCallback} callback Callback method once all arguments have been resolved, or a timeout has occurred.
+ * @param {string[]} [resolveStack] Recursive resolve stack array holding the initiator of the resolveArgs request.
+ * This parameter should only be used internally by EssenceJs.
+ * Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
+ */
+EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout, overrides, callback, resolveStack) {
+    overrides = overrides || {};
+    timeout = (typeof timeout !== "undefined") &amp;&amp; timeout !== null ? timeout : this.config.timeout;
+    resolveStack = resolveStack || [];
+&nbsp;
+    var self = this,
+        watch,
+        notifiedError = false,
+        mapped = [];
+&nbsp;
+    // get the 4th line from the stack trace because this should contain the initiator of the resolveArgs function.
+    resolveStack.push(
+        "[" +
+            args.reduce(function (argStr, arg) {
+                if (argStr !== "") { argStr += ", "; }
+&nbsp;
+                var resolvable;
+&nbsp;
+                try {
+                    resolvable = self.registrations.get(arg, namespaces);
+                    // * - to indicate that this argument is still being resolved.
+                    argStr += ((!resolvable || resolvable.isPlaceholder) ? "*" : "") + arg;
+                } catch (x) {
+                    // ! - to indicate that this argument cannot be resolved because of a conflict e.g. Ambiguous
+                    // matches argument in the list of dependency registrations.
+                    argStr += "!" + arg;
+                };
+&nbsp;
+                return argStr;
+            }, "") +
+        "]\n" +
+        new Error().stack.toString().split(/\n/)[3].trim());
+&nbsp;
+    watch = self.setTimeout(function () {
+        var error = new ResolveError({
+            resolveStack : resolveStack
+        });
+&nbsp;
+        args.forEach(function (arg, i) {
+            if (!mapped[i]) {
+                // argument failed to resolve.
+                error.unresolved.push(arg);
+            }
+        });
+&nbsp;
+        callback &amp;&amp; callback(error);
+        callback = null;
+    }, timeout);
+&nbsp;
+    args.map(function (arg, i) {
+        var namespaceKey = util.splitNamespaceKey(arg),
+            resolvable = self.registrations.get(arg, namespaces);
+&nbsp;
+        function notifyIfComplete() {
+            // check if all items have been resolved, if so call the callback.
+            // go through all elements in the mapped array and check for any undefined entries.
+            // if undefined entries exist, then the keys are still waiting to be resolved.
+            for (var i = 0; i &lt; args.length; i += 1) {
+                if (mapped[i] === undefined) {
+                    // not complete. do not notify.
+                    return;
+                }
+            }
+&nbsp;
+            // successfully retrieved ALL items to be resolved. Execute the callback.
+            self.clearTimeout(watch);
+&nbsp;
+            callback &amp;&amp; callback(null, mapped);
+            callback = null;
+        }
+&nbsp;
+        function notifyIfError(err) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (notifiedError) {
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+&nbsp;
+            notifiedError = true;
+&nbsp;
+            // has errored. clear timeout.
+            self.clearTimeout(watch);
+&nbsp;
+            // report error back.
+            callback &amp;&amp; callback(err, mapped);
+            callback = null;
+        }
+&nbsp;
+        if (typeof overrides[arg] !== "undefined") {
+            // an override has been defined for this registration.
+            // use override.
+            mapped[i] = overrides[arg];
+            notifyIfComplete();
+&nbsp;
+            return;
+        }
+&nbsp;
+        if (timeout === -1) {
+            // -1 timeout indicates that items should be resolved immediately, or be set to undefined if they
+            // cannot be resolved.
+&nbsp;
+            if (resolvable) {
+                resolvable.get({ timeout : timeout }, function (err, value) {
+                    // ignore errors. value should be set to null if err.
+                    <span class="missing-if-branch" title="if path not taken" >I</span>if (err) {
+<span class="cstat-no" title="statement not covered" >                        err = null;</span>
+<span class="cstat-no" title="statement not covered" >                        value = null;</span>
+                    }
+&nbsp;
+                    mapped[i] = value;
+                    notifyIfComplete();
+                });
+            } else {
+                mapped[i] = null;
+                notifyIfComplete();
+            }
+&nbsp;
+            return;
+        }
+&nbsp;
+        // get a resolvable, or create one if one does not currently exist.
+        if (!resolvable) {
+            // no resolvable registration currently exists. create a temporary one for holding waitFors.
+            self.registrations.add(new Resolvable({
+                namespace   : namespaceKey.namespace,
+                key         : namespaceKey.key,
+                isPlaceholder: true
+            }));
+            resolvable = self.registrations.get(arg, [namespaceKey.namespace]);
+        }
+&nbsp;
+        if (resolvable.isPlaceholder) {
+            // a placeholder registration exists for this key. add to waitFors queue.
+            var waitForTimeout,
+                waitFor = new WaitFor({
+                    resolveStack : resolveStack,
+                    callback : function deferredResolveCallback(err, value) {
+                        self.clearTimeout(waitForTimeout);
+&nbsp;
+                        if (err) {
+                            // error resolving this argument.
+                            notifyIfError(err);
+                        } else {
+                            mapped[i] = value;
+                            notifyIfComplete();
+                        }
+                    }});
+&nbsp;
+            waitForTimeout = self.setTimeout(<span class="fstat-no" title="function not covered" >function () {</span>
+<span class="cstat-no" title="statement not covered" >                resolvable.waitFors &amp;&amp;</span>
+                    resolvable.waitFors.splice(resolvable.waitFors.indexOf(waitFor), 1);
+            }, timeout);
+&nbsp;
+            resolvable.waitFors.push(waitFor);
+        } else {
+            // some kind of registration already exists for this.
+            resolvable.get({
+                timeout : timeout,
+                resolveStack : resolveStack
+            }, function (err, value) {
+                if (err) {
+                    notifyIfError(err);
+                    return;
+                }
+&nbsp;
+                <span class="missing-if-branch" title="else path not taken" >E</span>if (value !== undefined &amp;&amp; !resolvable.isPlaceholder) {
+                    // successfully retrieved the item from the registrations.
+                    mapped[i] = value;
+                    notifyIfComplete();
+                }
+            });
+        }
+    });
+};
+&nbsp;
+/**
+ * Config object passed when registering a singleton.
+ * @typedef {object} EssenceJs~singletonOptions
+ * @prop {string} [namespace] Namespace the singleton will be registered in. Set this as an alternative to
+ *  specifying the namespace in the key.
+ *  @prop {object} [overrides] Custom object to override registered dependencies.
+ */
+&nbsp;
+/**
+ * Register a single instance (singleton) of a function that can be instantiated or an object that will be cloned.
+ * @param {object|string|function} itemOrKey Singleton to register, or key - requires 2 parameters. If single parameter then the key
+ *    will be determined from the object e.g. constructor.name.
+ * @param {object|function} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {EssenceJs~singletonOptions} config Configuration options for singleton registration.
+ */
+EssenceJs.prototype.singleton = function singleton(itemOrKey, item, config) {
+    var self = this,
+        key = itemOrKey,
+        instance;
+&nbsp;
+    config = config || {};
+&nbsp;
+    if (arguments.length === 1) {
+        // single argument specified, calculate key.
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (typeof itemOrKey === "function") {
+            key = itemOrKey.name;
+        } else {
+<span class="cstat-no" title="statement not covered" >            throw "No key specified for object type " + typeof itemOrKey +</span>
+            ". Unable to determine a suitable key."
+        }
+&nbsp;
+        item = itemOrKey;
+&nbsp;
+        <span class="missing-if-branch" title="if path not taken" >I</span>if (item === undefined) {
+<span class="cstat-no" title="statement not covered" >            throw "Cannot create a singleton instance for an undefined item.";</span>
+        }
+    }
+&nbsp;
+    (function () {
+        var error,
+            instance,
+            namespaceKey = util.splitNamespaceKey(key),
+            overrides = config.overrides;
+&nbsp;
+        namespaceKey.namespace = config.namespace || namespaceKey.namespace;
+&nbsp;
+        // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
+        // because object will be an instance of the class being registered.
+        namespaceKey.key = util.isObjectConstructor(item) ? util.lowerCaseFirst(namespaceKey.key) : namespaceKey.key;
+&nbsp;
+        // register a container against the key to resolve the single instance of the item.
+        self.register(namespaceKey.toString(), function __essencejs_container(config, callback) {
+            if (error || instance) {
+                callback(error, instance);
+            } else {
+                // if item is an object and not a function, then create a cloned instance of this object.
+                if (typeof item === "object") {
+                    instance = clone(item);
+                    callback(null, instance);
+                } else {
+                    if (overrides) {
+                        config = config || <span class="branch-1 cbranch-no" title="branch not covered" >{};</span>
+                        config.overrides = overrides;
+                    }
+&nbsp;
+                    self.inject(item, config, function (err, value) {
+                        error = err;
+                        instance = value;
+                        callback(error, instance);
+                    });
+                }
+            }
+        });
+    }());
+};
+&nbsp;
+module.exports = EssenceJs;</pre></td></tr>
+</table></pre>
+
+</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 29 2014 10:00:38 GMT+0000 (GMT)</div>
+</div>
+
+<script src="../prettify.js"></script>
+
+<script src="https://yui-s.yahooapis.com/3.6.0/build/yui/yui-min.js"></script>
+<script>
+
+    YUI().use('datatable', function (Y) {
+
+        var formatters = {
+          pct: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              try {
+                  return o.value.toFixed(2) + '%';
+              } catch (ex) { return o.value + '%'; }
+          },
+          html: function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.record.get(o.column.key + '_html');
+          }
+        },
+          defaultFormatter = function (o) {
+              o.className += o.record.get('classes')[o.column.key];
+              return o.value;
+          };
+
+        function getColumns(theadNode) {
+            var colNodes = theadNode.all('tr th'),
+                cols = [],
+                col;
+            colNodes.each(function (colNode) {
+                col = {
+                    key: colNode.getAttribute('data-col'),
+                    label: colNode.get('innerHTML') || ' ',
+                    sortable: !colNode.getAttribute('data-nosort'),
+                    className: colNode.getAttribute('class'),
+                    type: colNode.getAttribute('data-type'),
+                    allowHTML: colNode.getAttribute('data-html') === 'true' || colNode.getAttribute('data-fmt') === 'html'
+                };
+                col.formatter = formatters[colNode.getAttribute('data-fmt')] || defaultFormatter;
+                cols.push(col);
+            });
+            return cols;
+        }
+
+        function getRowData(trNode, cols) {
+            var tdNodes = trNode.all('td'),
+                    i,
+                    row = { classes: {} },
+                    node,
+                    name;
+            for (i = 0; i < cols.length; i += 1) {
+                name = cols[i].key;
+                node = tdNodes.item(i);
+                row[name] = node.getAttribute('data-value') || node.get('innerHTML');
+                row[name + '_html'] = node.get('innerHTML');
+                row.classes[name] = node.getAttribute('class');
+                //Y.log('Name: ' + name + '; Value: ' + row[name]);
+                if (cols[i].type === 'number') { row[name] = row[name] * 1; }
+            }
+            //Y.log(row);
+            return row;
+        }
+
+        function getData(tbodyNode, cols) {
+            var data = [];
+            tbodyNode.all('tr').each(function (trNode) {
+                data.push(getRowData(trNode, cols));
+            });
+            return data;
+        }
+
+        function replaceTable(node) {
+            if (!node) { return; }
+            var cols = getColumns(node.one('thead')),
+                data = getData(node.one('tbody'), cols),
+                table,
+                parent = node.get('parentNode');
+
+            table = new Y.DataTable({
+                columns: cols,
+                data: data,
+                sortBy: 'file'
+            });
+            parent.set('innerHTML', '');
+            table.render(parent);
+        }
+
+        Y.on('domready', function () {
+            replaceTable(Y.one('div.coverage-summary table'));
+            if (typeof prettyPrint === 'function') {
+                prettyPrint();
+            }
+        });
+    });
+</script>
+</body>
+</html>

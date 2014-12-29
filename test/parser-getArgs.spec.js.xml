@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="parser-getArgs.spec.js"
+             errors="0"
+             failures="0"
+             tests="11">
+    
+      
+      <testcase name="Parse function with no arguments">
+        
+      </testcase>
+    
+      
+      <testcase name="Parse function with one arguments">
+        
+      </testcase>
+    
+      
+      <testcase name="Parse function with two arguments">
+        
+      </testcase>
+    
+      
+      <testcase name="Arguments passed as an array">
+        
+      </testcase>
+    
+      
+      <testcase name="Last argument of an array must be a function">
+        
+      </testcase>
+    
+      
+      <testcase name="Too many arguments passed as an array into function">
+        
+      </testcase>
+    
+      
+      <testcase name="Too few arguments passed as an array into function">
+        
+      </testcase>
+    
+      
+      <testcase name="Array with only a function declaration">
+        
+      </testcase>
+    
+      
+      <testcase name="Parse function with three arguments and comments in between function parameters">
+        
+      </testcase>
+    
+      
+      <testcase name="Parse function with three arguments and comments in between function parameters spread over multiple lines">
+        
+      </testcase>
+    
+      
+      <testcase name="Parse function with three arguments and comments in between function parameters with single line comments">
+        
+      </testcase>
+    
+  </testsuite>
+
