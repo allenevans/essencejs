@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">src/util.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">92.86% <small>(26 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">93.55% <small>(29 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">92.59% <small>(25 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(8 / 8)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">92.59% <small>(25 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">93.33% <small>(28 / 30)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -313,10 +313,26 @@
 95
 96
 97
-98</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -350,11 +366,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">139</span>
+<span class="cline-any cline-yes">145</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">135</span>
+<span class="cline-any cline-yes">141</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
@@ -380,21 +396,23 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">574</span>
-<span class="cline-any cline-yes">574</span>
+<span class="cline-any cline-yes">638</span>
+<span class="cline-any cline-yes">638</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">574</span>
-<span class="cline-any cline-yes">574</span>
+<span class="cline-any cline-yes">638</span>
+<span class="cline-any cline-yes">638</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">574</span>
+<span class="cline-any cline-yes">638</span>
 <span class="cline-any cline-yes">55</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">574</span>
+<span class="cline-any cline-yes">638</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">574</span>
+<span class="cline-any cline-yes">638</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -405,6 +423,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">12</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -414,6 +442,8 @@
  * File         :   util.js
  * Description  :   Utility methods.
  * ------------------------------------------------------------------------------------------------ */
+&nbsp;
+var path = require("path");
 &nbsp;
 /**
  * Create an instance of the object using the given arguments.
@@ -437,7 +467,7 @@ function instantiateObject(constructor, args) {
         F.prototype = constructor.prototype;
         return new F();
     }
-};
+}
 &nbsp;
 /**
  * @function isObjectConstructor.
@@ -455,7 +485,7 @@ function isObjectConstructor(obj) {
     }
 &nbsp;
     return false;
-};
+}
 &nbsp;
 /**
  * Convert the first character of a string into its lowercase representation.
@@ -477,7 +507,7 @@ function lowerCaseFirst(str) {
  */
 function splitNamespaceKey(str) {
     // get the namespace (if there is one) and remove from the key value.
-    var namespace = str.split(/\_\_/);
+    var namespace = str.split(/__/);
     var key = (namespace[0] &amp;&amp; namespace.slice(1).join("__")) || str;
 &nbsp;
     function NamespaceKey (params) {
@@ -498,6 +528,17 @@ function splitNamespaceKey(str) {
 }
 &nbsp;
 /**
+ * Get filename variable name from the given file path. The value returned should be suitable for use
+ * as a JavaScript variable name
+ * @param {string} filePath File path url
+ * @returns {string}
+ */
+function variableNameFromFilePath(filePath) {
+    return path.basename(filePath, path.extname(filePath)).
+        replace(/[^0-9a-zA-Z_$]/g, ""); // this is a very crude variable name filtering regular expression.
+}
+&nbsp;
+/**
  * Utilities namespace
  * @namespace util
  */
@@ -505,14 +546,15 @@ module.exports = {
     instantiateObject : instantiateObject,
     isObjectConstructor : isObjectConstructor,
     lowerCaseFirst : lowerCaseFirst,
-    splitNamespaceKey : splitNamespaceKey
+    splitNamespaceKey : splitNamespaceKey,
+    variableNameFromFilePath : variableNameFromFilePath
 };
 &nbsp;</pre></td></tr>
 </table></pre>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 29 2014 13:33:29 GMT+0000 (GMT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 29 2014 17:15:07 GMT+0000 (GMT)</div>
 </div>
 
 <script src="../prettify.js"></script>

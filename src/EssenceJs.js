@@ -203,6 +203,47 @@ EssenceJs.prototype.getKeys = function getKeys(namespace) {
 };
 
 /**
+ * Config object passed for importing files from the file system.
+ * @typedef {object} EssenceJs~importsOptions
+ * @prop {string} [namespace] namespace to register with.
+ */
+
+/**
+ * Imports into the container the result from injecting into module exports.
+ * @param {string} pattern Pattern to search for.
+ * @param {EssenceJs~importsOptions} config Configuration options for importing module export outputs.
+ * @param {function} callback
+ */
+EssenceJs.prototype.imports = function imports(pattern, config, callback) {
+    config = config || {};
+
+    var self = this,
+        namespacePrefix = config.namespace ? config.namespace + "__" : "";
+
+    function importsStrategy(filePath, callback) {
+        var namespaceKey = namespacePrefix + util.variableNameFromFilePath(filePath);
+        var required = require(filePath);
+
+        if (typeof required === "function") {
+            // required is a function. inject into this function and register the result against the key.
+            self.inject(required, function (err, result) {
+                if (!err) {
+                    self.register(namespaceKey, result);
+                }
+
+                callback(err, result);
+            });
+        } else {
+            // required is not a function, therefore register this object against the key.
+            self.register(namespaceKey, required);
+            callback(null, required);
+        }
+    }
+
+    self.registerByStrategy(pattern, importsStrategy, {}, callback);
+};
+
+/**
  * Config object passed when injecting into a function.
  * @typedef {object} EssenceJs~injectConfig
  * @prop {?object} [overrides] Custom object to override registered dependencies.
@@ -425,7 +466,7 @@ EssenceJs.prototype.instance = EssenceJs.prototype.register;
 
 /**
  * Register all exported objects from files matching the specified pattern with this essence.js instance using the given strategy.
- * @param {string|string[]} pattern Pattern to search for
+ * @param {string|string[]} pattern Pattern to search for.
  * @param {?EssenceJs~strategyCallback} [strategy] Function that determines how the required file is registered with the essence js instance.
  * Default is to register exactly what was exported.
  * @param {?EssenceJs~registerByOptions} [options] Options object.
@@ -561,7 +602,7 @@ EssenceJs.prototype.remove = function remove(key, namespaces) {
 /**
  * Resolve the array of string name arguments
  * @param {string[]} args Array of arguments to resolve.
- * param {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
+ * @param {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
  * falsey value means search in global and all namespaces to resolve the dependency.
  * @param {number} [timeout] Number of milliseconds to complete the resolving of all arguments before timing out.
  * @param {object} [overrides] Custom object to override registered dependencies.
@@ -596,7 +637,7 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout
                     // ! - to indicate that this argument cannot be resolved because of a conflict e.g. Ambiguous
                     // matches argument in the list of dependency registrations.
                     argStr += "!" + arg;
-                };
+                }
 
                 return argStr;
             }, "") +

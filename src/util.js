@@ -3,6 +3,8 @@
  * Description  :   Utility methods.
  * ------------------------------------------------------------------------------------------------ */
 
+var path = require("path");
+
 /**
  * Create an instance of the object using the given arguments.
  * @param constructor
@@ -25,7 +27,7 @@ function instantiateObject(constructor, args) {
         F.prototype = constructor.prototype;
         return new F();
     }
-};
+}
 
 /**
  * @function isObjectConstructor.
@@ -43,7 +45,7 @@ function isObjectConstructor(obj) {
     }
 
     return false;
-};
+}
 
 /**
  * Convert the first character of a string into its lowercase representation.
@@ -65,7 +67,7 @@ function lowerCaseFirst(str) {
  */
 function splitNamespaceKey(str) {
     // get the namespace (if there is one) and remove from the key value.
-    var namespace = str.split(/\_\_/);
+    var namespace = str.split(/__/);
     var key = (namespace[0] && namespace.slice(1).join("__")) || str;
 
     function NamespaceKey (params) {
@@ -86,6 +88,17 @@ function splitNamespaceKey(str) {
 }
 
 /**
+ * Get filename variable name from the given file path. The value returned should be suitable for use
+ * as a JavaScript variable name
+ * @param {string} filePath File path url
+ * @returns {string}
+ */
+function variableNameFromFilePath(filePath) {
+    return path.basename(filePath, path.extname(filePath)).
+        replace(/[^0-9a-zA-Z_$]/g, ""); // this is a very crude variable name filtering regular expression.
+}
+
+/**
  * Utilities namespace
  * @namespace util
  */
@@ -93,5 +106,6 @@ module.exports = {
     instantiateObject : instantiateObject,
     isObjectConstructor : isObjectConstructor,
     lowerCaseFirst : lowerCaseFirst,
-    splitNamespaceKey : splitNamespaceKey
+    splitNamespaceKey : splitNamespaceKey,
+    variableNameFromFilePath : variableNameFromFilePath
 };
