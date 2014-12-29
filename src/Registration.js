@@ -45,7 +45,7 @@ var Registration = function Registration() {
                     namespaces.push(namespaceKey.namespace);
                 }
 
-                return namespaces
+                return namespaces;
             }, [])
         }
     });
@@ -76,13 +76,14 @@ Registration.prototype.add = function add(resolvable) {
 /**
  * Get the resolvable by name.
  * @param {string} key of the resolvable stored in the dictionary.
- * @param {?string[]} namespaces Namespaces to match against. A null or empty array implies match against any
- * namespace.
+ * @param {?string[]|string} namespaces Namespaces to match against.
+ *  A null or empty array implies match against any namespace.
  * @returns {Resolvable} resolvable
  */
 Registration.prototype.get = function get(key, namespaces) {
     var self = this;
-    namespaces = namespaces || [];
+
+    namespaces = namespaces && (Array.isArray(namespaces) ? namespaces : [namespaces]) || [];
 
     if (namespaces.length === 0 && self.dictionary[key] === undefined) {
         // no namespaces defined. use all available namespaces.

@@ -24,7 +24,11 @@ module.exports = {
                 return TheDateObject.now();
             };
 
-            essencejs.singleton("now", now, { TheDateObject : Date });
+            essencejs.singleton("now", now, {
+                overrides : {
+                    TheDateObject : Date
+                }
+            });
 
             essencejs.inject(function (now) {
                 test.equal(!!now, true);
@@ -44,7 +48,11 @@ module.exports = {
                 return this.name;
             };
 
-            essencejs.singleton("MyModel", MyModel, { params : null });
+            essencejs.singleton("MyModel", MyModel, {
+                overrides: {
+                    params: null
+                }
+            });
 
             essencejs.inject(function (myModel) {
                 test.equal(myModel instanceof MyModel, true);
@@ -64,7 +72,13 @@ module.exports = {
                 return this.name;
             };
 
-            essencejs.singleton("MyModel", MyModel, { params : { name : "bob" } });
+            essencejs.singleton("MyModel", MyModel, {
+                overrides : {
+                    params : {
+                        name : "bob"
+                    }
+                }
+            });
 
             essencejs.inject(function (myModel) {
                 test.equal(myModel instanceof MyModel, true);

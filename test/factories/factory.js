@@ -97,6 +97,23 @@ module.exports = {
                 test.done();
             });
         },
+    "Register a factory class in a namespace with no arguments that need to be resolved":
+        function (test) {
+            function MyFactory () { }
+            test.expect(5);
+
+            essencejs.factory("MyFactory", MyFactory, { namespace : "factories" });
+
+            test.equal(essencejs.isRegistered("MyFactory", "factories"), false);
+            test.equal(essencejs.isRegistered("myFactory", "factories"), true);
+
+            essencejs.resolveArgs(["myFactory"], null, null, null, function (err, resolved) {
+                test.equal(!!err, false);
+                test.equal(resolved.length, 1, "Expected resolved to contain instanceof MyFactory");
+                test.equal(resolved[0] instanceof MyFactory, true, "Expected first item in resolved to be an instanceof MyFactory");
+                test.done();
+            });
+        },
     "Register a factory class with arguments that need to be resolved":
         function (test) {
             var nowTestValue,

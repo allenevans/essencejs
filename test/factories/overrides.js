@@ -24,7 +24,11 @@ module.exports = {
                 return TheDateObject.now();
             };
 
-            essencejs.factory("now", now, { TheDateObject : Date });
+            essencejs.factory("now", now, {
+                overrides : {
+                    TheDateObject : Date
+                }
+            });
 
             essencejs.inject(function (now) {
                 test.equal(!!now, true);
@@ -44,7 +48,11 @@ module.exports = {
                 return this.name;
             };
 
-            essencejs.factory("MyModel", MyModel, { params : null });
+            essencejs.factory("MyModel", MyModel, {
+                overrides: {
+                    params: null
+                }
+            });
 
             essencejs.inject(function (myModel) {
                 test.equal(myModel instanceof MyModel, true);
@@ -64,11 +72,15 @@ module.exports = {
                 return this.name;
             };
 
-            essencejs.factory("MyModel", MyModel, { params : { name : "bob" } });
+            essencejs.factory("MyModel", MyModel, {
+                overrides: {
+                    params: { name: "bob" }
+                }
+            });
 
             essencejs.inject(function (myModel) {
                 test.equal(myModel instanceof MyModel, true);
-                test.equal(myModel.name, "bob" );
+                test.equal(myModel.getName(), "bob" );
                 test.done();
             });
         }

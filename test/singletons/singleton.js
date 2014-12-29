@@ -97,6 +97,23 @@ module.exports = {
                 test.done();
             });
         },
+    "Register a singleton class in a namespace with no arguments that need to be resolved":
+        function (test) {
+            function MySingleton () { }
+            test.expect(5);
+
+            essencejs.singleton("MySingleton", MySingleton, { namespace : "singletons" });
+
+            test.equal(essencejs.isRegistered("MySingleton", "singletons"), false);
+            test.equal(essencejs.isRegistered("mySingleton", "singletons"), true);
+
+            essencejs.resolveArgs(["mySingleton"], null, null, null, function (err, resolved) {
+                test.equal(!!err, false);
+                test.equal(resolved.length, 1, "Expected resolved to contain instanceof MySingleton");
+                test.equal(resolved[0] instanceof MySingleton, true, "Expected first item in resolved to be an instanceof MySingleton");
+                test.done();
+            });
+        },
     "Register a triple nested singleton class instance":
         function (test) {
             var incrementCount = 0;

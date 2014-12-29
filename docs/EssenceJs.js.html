@@ -210,16 +210,26 @@ EssenceJs.prototype.dispose = function dispose() {
 };
 
 /**
+ * Config object passed when registering a factory.
+ * @typedef {object} EssenceJs~factoryOptions
+ * @prop {string} [namespace] Namespace the factory will be registered in. Set this as an alternative to
+ *  specifying the namespace in the key.
+ *  @prop {object} [overrides] Custom object to override registered dependencies.
+ */
+
+/**
  * Register a factory that will invoke, clone or construct new instances of the function / object as required.
  * @param {object|string|function} itemOrKey Factory to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
  * @param {object|factory} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
- * @param {object} [overrides] Custom object to override registered dependencies.
+ * @param {EssenceJs~factoryOptions} config Configuration options for factory registration.
  */
-EssenceJs.prototype.factory = function factory(itemOrKey, item, overrides) {
+EssenceJs.prototype.factory = function factory(itemOrKey, item, config) {
     var self = this,
         key = itemOrKey,
         instance;
+
+    config = config || {};
 
     if (arguments.length === 1) {
         // single argument specified, calculate key.
@@ -233,13 +243,16 @@ EssenceJs.prototype.factory = function factory(itemOrKey, item, overrides) {
         item = itemOrKey;
 
         if (item === undefined) {
-            throw "Cannot create a singleton instance for an undefined item.";
+            throw "Cannot create a factory instance for an undefined item.";
         }
     }
 
     (function () {
         var error,
-            namespaceKey = util.splitNamespaceKey(key);
+            namespaceKey = util.splitNamespaceKey(key),
+            overrides = config.overrides;
+
+        namespaceKey.namespace = config.namespace || namespaceKey.namespace;
 
         // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
         // because object will be an instance of the class being registered.
@@ -294,19 +307,24 @@ EssenceJs.prototype.getKeys = function getKeys(namespace) {
 };
 
 /**
+ * Config object passed when injecting into a function.
+ * @typedef {object} EssenceJs~injectConfig
+ * @prop {?object} [overrides] Custom object to override registered dependencies.
+ * @prop {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
+ * falsey value means search in global and all namespaces to resolve the dependency.
+ */
+
+/**
  * @callback EssenceJs~injectCallback function to execute containing any errors, and the result.
  * @param {object|string} error Object or string that contains the error that occurred.
  * @param {object} result The result of the injected function.
- * @param {?object} [overrides] Custom object to override registered dependencies.
- * @param {?string[]} [namespaces] String list of namespaces to search in to resolve dependencies. An empty array or
- * falsey value means search in global and all namespaces to resolve the dependency.
  */
 
 /**
  * Take a given function and as soon as all its parameters can be resolved, execute that function.
  * @param {(function|Array)} func function to be called, or constructor to be instantiated once all functional
  *        parameters can be resolved.
- * @param {?Object|function} [config] configuration object to override default behaviours, or callback if function.
+ * @param {?EssenceJs~injectConfig|function} [config] configuration object to override default behaviours, or callback if function.
  * @param {EssenceJs~injectCallback} [callback] function to call when inject method completes or timeouts.
  */
 EssenceJs.prototype.inject = function inject(func, config, callback) {
@@ -395,19 +413,28 @@ EssenceJs.prototype.isDisposed = function isDisposed() {
 /**
  * Check if an item is registered.
  * @param {string} key Key to lookup the item by.
+ * @param {?string[]} [namespaces] Namespaces to match against. A null or empty array implies match against any namespace.
  * @returns {boolean} True if there is a item registered.
  */
-EssenceJs.prototype.isRegistered = function isRegistered(key) {
-    return !!this.registrations.get(key);
+EssenceJs.prototype.isRegistered = function isRegistered(key, namespaces) {
+    return !!this.registrations.get(key, namespaces);
 };
+
+/**
+ * Config object passed when registering an object.
+ * @typedef {object} EssenceJs~registerOptions
+ * @prop {string} [namespace] Namespace the object will be registered in. Set this as an alternative to
+ *  specifying the namespace in the key.
+ */
 
 /**
  * Register an object by a given injectable name.
  * @param {object|string} itemOrKey Item to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
  * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
+ * @param {EssenceJs~registerOptions} [config] registration configuration options.
  */
-EssenceJs.prototype.register = function register(itemOrKey, item) {
+EssenceJs.prototype.register = function register(itemOrKey, item, config) {
     var self = this,
         key = itemOrKey,
         resolvable,
@@ -427,7 +454,7 @@ EssenceJs.prototype.register = function register(itemOrKey, item) {
     }
 
     namespaceKey = util.splitNamespaceKey(key);
-    namespace = namespaceKey.namespace;
+    namespace = (config &amp;&amp; config.namespace) || namespaceKey.namespace;
     key = namespaceKey.key;
 
     resolvable = self.registrations.get(key, [namespace]);
@@ -792,16 +819,26 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout
 };
 
 /**
+ * Config object passed when registering a singleton.
+ * @typedef {object} EssenceJs~singletonOptions
+ * @prop {string} [namespace] Namespace the singleton will be registered in. Set this as an alternative to
+ *  specifying the namespace in the key.
+ *  @prop {object} [overrides] Custom object to override registered dependencies.
+ */
+
+/**
  * Register a single instance (singleton) of a function that can be instantiated or an object that will be cloned.
  * @param {object|string|function} itemOrKey Singleton to register, or key - requires 2 parameters. If single parameter then the key
  *    will be determined from the object e.g. constructor.name.
  * @param {object|function} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
- * @param {object} [overrides] Custom object to override registered dependencies.
+ * @param {EssenceJs~singletonOptions} config Configuration options for singleton registration.
  */
-EssenceJs.prototype.singleton = function singleton(itemOrKey, item, overrides) {
+EssenceJs.prototype.singleton = function singleton(itemOrKey, item, config) {
     var self = this,
         key = itemOrKey,
         instance;
+
+    config = config || {};
 
     if (arguments.length === 1) {
         // single argument specified, calculate key.
@@ -822,7 +859,10 @@ EssenceJs.prototype.singleton = function singleton(itemOrKey, item, overrides) {
     (function () {
         var error,
             instance,
-            namespaceKey = util.splitNamespaceKey(key);
+            namespaceKey = util.splitNamespaceKey(key),
+            overrides = config.overrides;
+
+        namespaceKey.namespace = config.namespace || namespaceKey.namespace;
 
         // if object being registered is a class then convert the key into the lowerCaseFirst naming convention
         // because object will be an instance of the class being registered.
@@ -878,7 +918,7 @@ module.exports = EssenceJs;</pre>
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.0-alpha5</a>
-		on Mon Dec 29 2014 00:19:29 GMT+0000 (GMT) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		on Mon Dec 29 2014 08:25:35 GMT+0000 (GMT) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
 			</div>
