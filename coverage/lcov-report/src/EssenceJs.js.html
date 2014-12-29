@@ -199,16 +199,16 @@
     <h1>Code coverage report for <span class="entity">src/EssenceJs.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">95.31% <small>(244 / 256)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">95.4% <small>(249 / 261)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Branches: <span class="metric">90.61% <small>(193 / 213)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">97.92% <small>(47 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">98% <small>(49 / 50)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">95.28% <small>(242 / 254)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">95.37% <small>(247 / 259)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         Ignored: <span class="metric"><span class="ignore-none">none</span></span> &nbsp;&nbsp;&nbsp;&nbsp;
     </h2>
@@ -1023,11 +1023,26 @@
 805
 806
 807
-808</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822</td><td class="line-coverage"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1454,6 +1469,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1465,12 +1481,16 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22</span>
 <span class="cline-any cline-yes">22</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1485,6 +1505,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-yes">2</span>
@@ -1500,6 +1522,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1526,6 +1550,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1551,6 +1577,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1834,7 +1862,8 @@
  * File         :   EssenceJs.js
  * Description  :   Main entry point for essencejs library.
  * ------------------------------------------------------------------------------------------------ */
-var clone = require("clone"),
+var async = require("async"),
+    clone = require("clone"),
     glob = require("glob").Glob,
     parser = require("./parser"),
     path = require("path"),
@@ -2233,8 +2262,9 @@ EssenceJs.prototype.instance = EssenceJs.prototype.register;
 &nbsp;
 /**
  * @callback EssenceJs~strategyCallback Callback function executing within the context of this essence js instance.
- * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, .siory, singleton.
+ * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, .factory, singleton.
  * @param {string} path File path to module to be required and registered with the essence.js instance.
+ * @param {function} callback Callback once the strategy has completed function (err, result) { ... }.
  */
 &nbsp;
 /**
@@ -2265,24 +2295,30 @@ EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, st
     var self = this,
         cwd = (options &amp;&amp; options.cwd) || process.cwd();
 &nbsp;
-    strategy = strategy || function defaultStrategy(filePath) {
+    strategy = strategy || function defaultStrategy(filePath, callback) {
         var namespaceKey =
                 (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
 &nbsp;
         this.register(namespaceKey, require(path.join(cwd, filePath)));
+&nbsp;
+        callback(null, filePath);
     };
 &nbsp;
     glob(pattern, options, function (err, files) {
         files = files || <span class="branch-1 cbranch-no" title="branch not covered" >[];</span>
 &nbsp;
         <span class="missing-if-branch" title="else path not taken" >E</span>if (!err) {
-            files.forEach(function (filePath) {
-                strategy.call(self, filePath);
+            async.series(
+                files.map(function (filePath) {
+                    return function (callback) {
+                        strategy.call(self, filePath, callback);
+                    }
+                })
+            , function done(err, files) {
+                callback &amp;&amp; callback(err, files);
             });
         }
-&nbsp;
-        callback &amp;&amp; callback(err, files);
     });
 };
 &nbsp;
@@ -2300,12 +2336,14 @@ EssenceJs.prototype.registerPath = function registerPath(pattern, options, callb
 &nbsp;
     var cwd = (options &amp;&amp; options.cwd) || process.cwd();
 &nbsp;
-    this.registerByStrategy(pattern, function exactStrategy(filePath) {
+    this.registerByStrategy(pattern, function exactStrategy(filePath, callback) {
         var namespaceKey =
                 (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
 &nbsp;
         this.register(namespaceKey, require(path.join(cwd, filePath)));
+&nbsp;
+        callback(null, filePath);
     }, options, callback);
 };
 &nbsp;
@@ -2323,7 +2361,7 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
 &nbsp;
     var cwd = (options &amp;&amp; options.cwd) || process.cwd();
 &nbsp;
-    this.registerByStrategy(pattern, function singletonStrategy(filePath) {
+    this.registerByStrategy(pattern, function singletonStrategy(filePath, callback) {
         var namespaceKey =
                 (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
@@ -2332,6 +2370,8 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
             namespaceKey,
             require(path.join(cwd, filePath))
         );
+&nbsp;
+        callback(null, filePath);
     }, options, callback);
 };
 &nbsp;
@@ -2349,7 +2389,7 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
 &nbsp;
     var cwd = (options &amp;&amp; options.cwd) || process.cwd();
 &nbsp;
-    this.registerByStrategy(pattern, function factoryStrategy(filePath) {
+    this.registerByStrategy(pattern, function factoryStrategy(filePath, callback) {
         var namespaceKey =
                 (options &amp;&amp; options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
@@ -2358,6 +2398,8 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
             namespaceKey,
             require(path.join(cwd, filePath))
         );
+&nbsp;
+        callback(null, filePath);
     }, options, callback);
 };
 &nbsp;
@@ -2642,7 +2684,7 @@ module.exports = EssenceJs;</pre></td></tr>
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 29 2014 10:00:38 GMT+0000 (GMT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Mon Dec 29 2014 13:23:54 GMT+0000 (GMT)</div>
 </div>
 
 <script src="../prettify.js"></script>

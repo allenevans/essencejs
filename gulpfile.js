@@ -10,6 +10,11 @@ var gulp = require("gulp"),
     istanbul = require("gulp-istanbul"),
     nodeunit = require("gulp-nodeunit");
 
+gulp.task("clean-coverage", function () {
+    return gulp.src(["./coverage"], { read : false }).
+        pipe(remove({force : true}));
+});
+
 gulp.task("clean-docs", function () {
     return gulp.src(["./docs"], { read : false }).
         pipe(remove({force : true}));
@@ -74,7 +79,7 @@ gulp.task("docs", function (callback) {
     );
 });
 
-gulp.task("test", function (callback) {
+gulp.task("coverage", function (callback) {
     gulp.src(["src/**/*.js"])
         .pipe(istanbul()) // Covering files
         .pipe(istanbul.hookRequire()) // Force `require` to return covered files
@@ -89,6 +94,14 @@ gulp.task("test", function (callback) {
                 .pipe(istanbul.writeReports())// Creating the reports after tests ran.
                 .on('end', callback);
         });
+});
+
+gulp.task("test", function (callback) {
+    runSequence(
+        "clean-coverage",
+        "coverage",
+        callback
+    );
 });
 
 gulp.task("default", function (callback) {

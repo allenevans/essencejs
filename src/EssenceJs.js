@@ -2,7 +2,8 @@
  * File         :   EssenceJs.js
  * Description  :   Main entry point for essencejs library.
  * ------------------------------------------------------------------------------------------------ */
-var clone = require("clone"),
+var async = require("async"),
+    clone = require("clone"),
     glob = require("glob").Glob,
     parser = require("./parser"),
     path = require("path"),
@@ -401,8 +402,9 @@ EssenceJs.prototype.instance = EssenceJs.prototype.register;
 
 /**
  * @callback EssenceJs~strategyCallback Callback function executing within the context of this essence js instance.
- * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, .siory, singleton.
+ * Its purpose is to allow tailoring of the path file registrations within essence js e.g. register, .factory, singleton.
  * @param {string} path File path to module to be required and registered with the essence.js instance.
+ * @param {function} callback Callback once the strategy has completed function (err, result) { ... }.
  */
 
 /**
@@ -433,24 +435,30 @@ EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, st
     var self = this,
         cwd = (options && options.cwd) || process.cwd();
 
-    strategy = strategy || function defaultStrategy(filePath) {
+    strategy = strategy || function defaultStrategy(filePath, callback) {
         var namespaceKey =
                 (options && options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
 
         this.register(namespaceKey, require(path.join(cwd, filePath)));
+
+        callback(null, filePath);
     };
 
     glob(pattern, options, function (err, files) {
         files = files || [];
 
         if (!err) {
-            files.forEach(function (filePath) {
-                strategy.call(self, filePath);
+            async.series(
+                files.map(function (filePath) {
+                    return function (callback) {
+                        strategy.call(self, filePath, callback);
+                    }
+                })
+            , function done(err, files) {
+                callback && callback(err, files);
             });
         }
-
-        callback && callback(err, files);
     });
 };
 
@@ -468,12 +476,14 @@ EssenceJs.prototype.registerPath = function registerPath(pattern, options, callb
 
     var cwd = (options && options.cwd) || process.cwd();
 
-    this.registerByStrategy(pattern, function exactStrategy(filePath) {
+    this.registerByStrategy(pattern, function exactStrategy(filePath, callback) {
         var namespaceKey =
                 (options && options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
 
         this.register(namespaceKey, require(path.join(cwd, filePath)));
+
+        callback(null, filePath);
     }, options, callback);
 };
 
@@ -491,7 +501,7 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
 
     var cwd = (options && options.cwd) || process.cwd();
 
-    this.registerByStrategy(pattern, function singletonStrategy(filePath) {
+    this.registerByStrategy(pattern, function singletonStrategy(filePath, callback) {
         var namespaceKey =
                 (options && options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
@@ -500,6 +510,8 @@ EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, op
             namespaceKey,
             require(path.join(cwd, filePath))
         );
+
+        callback(null, filePath);
     }, options, callback);
 };
 
@@ -517,7 +529,7 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
 
     var cwd = (options && options.cwd) || process.cwd();
 
-    this.registerByStrategy(pattern, function factoryStrategy(filePath) {
+    this.registerByStrategy(pattern, function factoryStrategy(filePath, callback) {
         var namespaceKey =
                 (options && options.namespace ? options.namespace + "__" : "") +
                 path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
@@ -526,6 +538,8 @@ EssenceJs.prototype.registerFactories = function registerFactories(pattern, opti
             namespaceKey,
             require(path.join(cwd, filePath))
         );
+
+        callback(null, filePath);
     }, options, callback);
 };
 
