@@ -30,53 +30,37 @@ essencejs.singleton('router', function () {
     return express.Router();
 });
 
-var modelStrategy = function modelStrategy(filePath) {
-    var namespaceKey = "models__" + path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
-    essencejs.inject(require(path.join(__dirname, filePath)), function (err, Model) {
-        if (err) {
-            throw err.message;
-        }
+essencejs.imports(path.join(__dirname, "controllers/**/*Controller.js"), { namespace : "controllers" }, function (err, controllers) {
+    if (err) {
+        throw err;
+    }
 
-        essencejs.register(namespaceKey, Model);
-    });
-};
-
-var controllerStrategy = function controllerStrategy(filePath) {
-    var namespaceKey = "controllers__" + path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
-    essencejs.inject(require(path.join(__dirname, filePath)), function (err, Controller) {
-        if (err) {
-            throw err.message;
-        }
-
-        essencejs.register(namespaceKey, Controller);
-        // instantiate the controller.
+    // initialise controllers
+    controllers.forEach(function (Controller) {
         new Controller();
     });
-};
 
-essencejs.registerByStrategy("controllers/**/*.js", controllerStrategy, { namespace : "controllers" }, function (err) {
-    if (err) {
-        throw err.message;
-    }
     essencejs.register("controllersRegistered", true, { namespace : "bootstrap" });
 });
 
-essencejs.registerByStrategy("models/**/*.js", modelStrategy, { namespace : "models" }, function (err) {
+essencejs.imports(path.join(__dirname, "models/**/*.js"), { namespace : "models" }, function (err) {
     if (err) {
-        throw err.message;
+        throw err;
     }
+    essencejs.register("modelsRegistered", true, { namespace : "bootstrap" });
 });
+
+
 /*
-essencejs.inject(function (controllersRegistered) {
-    if (controllersRegistered) {
-        // catch 404 and forward to error handler
-        app.use(function(req, res, next) {
-            var err = new Error('Not Found');
-            err.status = 404;
-            next(err);
-        });
+essencejs.resolveArgs(essencejs.getKeys("controllers"), null, null, null, function (err, controllers) {
+    if (err) {
+        throw err;
     }
-}, { namespaces : ["bootstrap"] });
+
+    controllers.forEach(function (Controrller) {
+        new Controller();
+    });
+});
 */
 
 /*
@@ -86,7 +70,15 @@ app.use('/users', users);
 */
 
 // error handlers
-
+/*
+app.use(function(req, res, next) {
+    res.status(err.status || 404);
+    res.render('error', {
+        message: err.message,
+        error: err
+    });
+});
+*/
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {

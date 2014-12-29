@@ -34,5 +34,21 @@ module.exports = {
             test.notEqual(resolveError.message, defaultResolveError.message);
 
             test.done();
+        },
+    "Should return friendly printable version of the error when calling toString":
+        function (test) {
+            var ResolveError = require(path.join(process.cwd(), "src/ResolveError.js"));
+
+            var error = new ResolveError({
+                message : "test",
+                unresolved : ["a"],
+                resolveStack : ["line1", "line2"]
+            });
+
+            test.expect(1);
+
+            test.equal(error.toString(), "test\n\nUnresolved:\na\nResolve Stack :\nline1\nline2");
+
+            test.done();
         }
 };

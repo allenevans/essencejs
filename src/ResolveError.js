@@ -42,4 +42,15 @@ var ResolveError = function ResolveError(params) {
 ResolveError.prototype = new BaseError();
 ResolveError.prototype.constructor = ResolveError;
 
+/**
+ * Return a string printable version of this error.
+ */
+ResolveError.prototype.toString = function toString() {
+    return this.message + "\n\n" +
+        "Unresolved:\n" +
+        this.unresolved.join("\n") + "\n" +
+        "Resolve Stack :\n" +
+        this.resolveStack.join("\n");
+};
+
 module.exports = ResolveError;
