@@ -67,5 +67,43 @@ module.exports = {
                     test.done();
                 });
             });
+        },
+    "Should import class with dependencies using a directory path relative to the current working directory":
+        function (test) {
+            test.expect(5);
+
+            essencejs.imports("./sample/**/*.js", {
+                namespace : "functions",
+                cwd : __dirname
+            }, function (err, result) {
+                test.equal(!!err, false);
+                test.equal(Array.isArray(result), true);
+                test.equal(result.length, 5);
+                test.equal(essencejs.isRegistered("MyClass"), true);
+
+                essencejs.inject(function (MyClass) {
+                    test.equal((new MyClass).getValue(), 123 + 456);
+                    test.done();
+                });
+            });
+        },
+    "Should import class with dependencies using a directory path relative to the parent working directory":
+        function (test) {
+            test.expect(5);
+
+            essencejs.imports("../imports/sample/**/*.js", {
+                namespace : "functions",
+                cwd : __dirname
+            }, function (err, result) {
+                test.equal(!!err, false);
+                test.equal(Array.isArray(result), true);
+                test.equal(result.length, 5);
+                test.equal(essencejs.isRegistered("MyClass"), true);
+
+                essencejs.inject(function (MyClass) {
+                    test.equal((new MyClass).getValue(), 123 + 456);
+                    test.done();
+                });
+            });
         }
 };

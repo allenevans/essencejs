@@ -4,7 +4,7 @@
   <testsuite name="importFromFileSystem.spec.js"
              errors="0"
              failures="0"
-             tests="3">
+             tests="5">
     
       
       <testcase name="Should import objects exported modules from the filesystem">
@@ -18,6 +18,16 @@
     
       
       <testcase name="Should import class with dependencies">
+        
+      </testcase>
+    
+      
+      <testcase name="Should import class with dependencies using a directory path relative to the current working directory">
+        
+      </testcase>
+    
+      
+      <testcase name="Should import class with dependencies using a directory path relative to the parent working directory">
         
       </testcase>
     
