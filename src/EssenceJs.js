@@ -39,7 +39,6 @@ var EssenceJs = function EssenceJs() {
      */
     this._timers = [];
 
-
     // register this instance as $essencejs.
     this.register("$essencejs", this);
 };
@@ -488,7 +487,7 @@ EssenceJs.prototype.instance = EssenceJs.prototype.register;
 EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, strategy, options, callback) {
     var self = this;
 
-    options = options || {}
+    options = options || {};
 
     strategy = strategy || function defaultStrategy(filePath, callback) {
         var namespaceKey =
@@ -508,7 +507,7 @@ EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, st
         files = files || [];
 
         if (!err) {
-            async.series(
+            async.parallel(
                 files.map(function (filePath) {
                     return function (callback) {
                         strategy.call(self, filePath, callback);
