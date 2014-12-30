@@ -5,18 +5,7 @@
 module.exports = function () {
     "use strict";
 
-    function BaseController() {
-        this.path = this.path || null;
-
-        if (this.path) {
-            this.path = Array.isArray(this.path) ? this.path : [this.path];
-        }
-    }
-
-    // Run for all http verbs
-    BaseController.prototype.all = function all(req, res, next) {
-        next();
-    };
+    function BaseController() { }
 
     BaseController.prototype.delete = function delete_(req, res) {
         res.status(400);
@@ -42,6 +31,8 @@ module.exports = function () {
         res.status(400);
         res.send('Not implemented');
     };
+
+    BaseController.prototype.dispose = function dispose() { };
 
     return BaseController;
 };

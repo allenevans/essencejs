@@ -20,5 +20,7 @@ module.exports = function ($essencejs, config, path) {
         return express.Router();
     });
 
-    app.listen(config.port);
+    var server = app.listen(config.port, function() {
+        console.log('Express server listening on port ' + server.address().port);
+    });
 };

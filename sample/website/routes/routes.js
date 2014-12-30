@@ -1,6 +1,9 @@
 /*
  * File         :   routes.js
- * Description  :   Routing configuration.
+ * Description  :   Routing configuration. File for defining which controller will be bound to which route.
+ *                  The way a controller is bound can be customised. Below three handlers have been defined
+ *                  which change the way the controller handles the route i.e. controller instance for the lifespan
+ *                  of the application, or controller instance per request.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
     IndexController,
@@ -8,7 +11,8 @@ module.exports = function (
     router,
     express,
     path,
-    app
+    app,
+    $essencejs
 ) {
     "use strict";
 
@@ -22,15 +26,60 @@ module.exports = function (
     // Loop through object paths and bind the corresponding controller to the app path.
     Object.keys(routes).forEach(function (path) {
         var Controller = routes[path],
-            controller = new Controller();
+            handler;
 
-        router.
-            route(path).
-            all(controller.all).
-            delete(controller.delete).
-            get(controller.get).
-            post(controller.post).
-            put(controller.put);
+        // Bind a singleton instance of the controller to the route.
+        // The controller will only ever be instantiated once and last for the lifespan of the application.
+        // ================================================================================================
+        // var controller = new Controller(),
+        // function singletonControllerHandler(method) {
+        //     return function () { method.apply(controller, arguments); }
+        // }
+        // handler = singletonControllerHandler;
+        //
+        // Bind a new controller instance with a parameter-less constructor to every single request.
+        // The controller lasts only for the lifespan of the request.
+        // ================================================================================================
+        // function parameterLessConstructorControllerHandler(method) {
+        //     return function () {
+        //         method.apply(new Controller(), arguments);
+        //         controller.dispose();
+        //         controller = null;
+        //     }
+        // }
+        // handler = parameterLessConstructorControllerHandler;
+
+        // Use dependency injection to instantiate the controller will any necessary dependencies.
+        // The controller lasts only for the lifespan of the request.
+        // ================================================================================================
+        function dependencyInjectedConstructorControllerHandler(method) {
+            return function () {
+                var middlewareArgs = Array.prototype.slice.apply(arguments, [0]);
+                $essencejs.inject(Controller, function (err, controller) {
+                    if (err) { throw err; }
+
+                    method.apply(controller, middlewareArgs);
+
+                    controller.dispose();
+                    controller = null;
+                });
+            }
+        }
+
+        handler = dependencyInjectedConstructorControllerHandler;
+
+        var route = router.route(path);
+
+        // only configure the all route if all method has been defined on the controller.
+        // defining an all method will cause the controller code to be executed more than once.
+        // e.g. GET /users => all(new Controller()) => get(new Controller())
+        if (Controller.prototype.all) { route.all(handler(Controller.prototype.all)); }
+
+        route.
+            delete(handler(Controller.prototype.delete)).
+            get(handler(Controller.prototype.get)).
+            post(handler(Controller.prototype.post)).
+            put(handler(Controller.prototype.put));
 
         app.use(path, router);
     });

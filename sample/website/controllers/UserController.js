@@ -8,8 +8,6 @@ module.exports = function (
     "use strict";
 
     function UserController() {
-        this.path = ['/users/:id?', '/user-accounts/:id?'];
-
         BaseController.call(this);
     }
 

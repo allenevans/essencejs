@@ -8,7 +8,7 @@ module.exports = function (
     "use strict";
 
     function IndexController() {
-        this.path = '/';
+        this.instantiatedAt = new Date();
 
         BaseController.call(this);
     }
@@ -18,7 +18,7 @@ module.exports = function (
 
     IndexController.prototype.get = function (req, res) {
         /* GET home page. */
-        res.render('index', new IndexModel({ title: 'Express with essence.js' }));
+        res.render('index', new IndexModel({ title: 'Express with essence.js ' + this.instantiatedAt.toString() }));
     };
 
     return IndexController;
