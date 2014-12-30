@@ -40,8 +40,8 @@ var EssenceJs = function EssenceJs() {
     this._timers = [];
 
 
-    // register this instance as $essence.
-    this.register("$essence", this);
+    // register this instance as $essencejs.
+    this.register("$essencejs", this);
 };
 
 /**
@@ -206,6 +206,7 @@ EssenceJs.prototype.getKeys = function getKeys(namespace) {
  * Config object passed for importing files from the file system.
  * @typedef {object} EssenceJs~importsOptions
  * @prop {string} [namespace] namespace to register with.
+ * @prop {string} [cwd] Current working directory. Defaults to process.cwd().
  */
 
 /**
@@ -220,9 +221,19 @@ EssenceJs.prototype.imports = function imports(pattern, config, callback) {
     var self = this,
         namespacePrefix = config.namespace ? config.namespace + "__" : "";
 
+    config.cwd = config.cwd || process.cwd();
+
+    function normaliseFilePath(filePath) {
+        if (filePath.match(/^\./)) {
+            filePath = path.join(config.cwd, filePath);
+        }
+
+        return filePath;
+    }
+
     function importsStrategy(filePath, callback) {
         var namespaceKey = namespacePrefix + util.variableNameFromFilePath(filePath);
-        var required = require(filePath);
+        var required = require(normaliseFilePath(filePath));
 
         if (typeof required === "function") {
             // required is a function. inject into this function and register the result against the key.
@@ -240,7 +251,9 @@ EssenceJs.prototype.imports = function imports(pattern, config, callback) {
         }
     }
 
-    self.registerByStrategy(pattern, importsStrategy, {}, callback);
+    self.registerByStrategy(pattern, importsStrategy, {
+        cwd : config.cwd
+    }, callback);
 };
 
 /**
@@ -473,18 +486,23 @@ EssenceJs.prototype.instance = EssenceJs.prototype.register;
  * @param {?EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
  */
 EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, strategy, options, callback) {
-    var self = this,
-        cwd = (options && options.cwd) || process.cwd();
+    var self = this;
+
+    options = options || {}
 
     strategy = strategy || function defaultStrategy(filePath, callback) {
         var namespaceKey =
                 (options && options.namespace ? options.namespace + "__" : "") +
-                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
+                path.basename(filePath, path.extname(filePath)).replace(/\s/g, ""),
+            cwd = (options && options.cwd) || process.cwd();
 
         this.register(namespaceKey, require(path.join(cwd, filePath)));
 
         callback(null, filePath);
     };
+
+    // ensure the relative directory name for glob is set. Defaults to process.cwd().
+    options.cwd = options.cwd || process.cwd();
 
     glob(pattern, options, function (err, files) {
         files = files || [];
@@ -501,87 +519,6 @@ EssenceJs.prototype.registerByStrategy = function registerByStrategy(pattern, st
             });
         }
     });
-};
-
-/**
- * Register all exported objects from files matching the specified pattern with this essence.js instance using the register exact strategy.
- * @param {string|string[]} pattern Pattern to search for.
- * @param {Object|EssenceJs~registeredCallback} [options] Options object for glob, or callback.
- * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
- */
-EssenceJs.prototype.registerPath = function registerPath(pattern, options, callback) {
-    if (arguments.length === 2 && typeof options === "function") {
-        callback = options;
-        options = null;
-    }
-
-    var cwd = (options && options.cwd) || process.cwd();
-
-    this.registerByStrategy(pattern, function exactStrategy(filePath, callback) {
-        var namespaceKey =
-                (options && options.namespace ? options.namespace + "__" : "") +
-                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
-
-        this.register(namespaceKey, require(path.join(cwd, filePath)));
-
-        callback(null, filePath);
-    }, options, callback);
-};
-
-/**
- * Register all exported functions as singletons from files matching the specified pattern with this essence.js instance.
- * @param {string|string[]} pattern Pattern to search for
- * @param {EssenceJs~registerByOptions|EssenceJs~registeredCallback} [options] Options object, or callback.
- * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
- */
-EssenceJs.prototype.registerSingletons = function registerSingletons(pattern, options, callback) {
-    if (arguments.length === 2 && typeof options === "function") {
-        callback = options;
-        options = null;
-    }
-
-    var cwd = (options && options.cwd) || process.cwd();
-
-    this.registerByStrategy(pattern, function singletonStrategy(filePath, callback) {
-        var namespaceKey =
-                (options && options.namespace ? options.namespace + "__" : "") +
-                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
-
-        this.singleton(
-            namespaceKey,
-            require(path.join(cwd, filePath))
-        );
-
-        callback(null, filePath);
-    }, options, callback);
-};
-
-/**
- * Register all exported functions as factories from files matching the specified pattern with this essence.js instance.
- * @param {string|string[]} pattern Pattern to search for
- * @param {EssenceJs~registerByOptions|EssenceJs~registeredCallback} [options] Options object, or callback.
- * @param {EssenceJs~registeredCallback} [callback] function containing any errors and files matched.
- */
-EssenceJs.prototype.registerFactories = function registerFactories(pattern, options, callback) {
-    if (arguments.length === 2 && typeof options === "function") {
-        callback = options;
-        options = null;
-    }
-
-    var cwd = (options && options.cwd) || process.cwd();
-
-    this.registerByStrategy(pattern, function factoryStrategy(filePath, callback) {
-        var namespaceKey =
-                (options && options.namespace ? options.namespace + "__" : "") +
-                path.basename(filePath, path.extname(filePath)).replace(/\s/g, "");
-
-        this.factory(
-            namespaceKey,
-            require(path.join(cwd, filePath))
-        );
-
-        callback(null, filePath);
-    }, options, callback);
 };
 
 /**

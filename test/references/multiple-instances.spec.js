@@ -28,24 +28,24 @@ module.exports = {
 
             test.done();
         },
-    "$essence is not equal to $essence in different instance":
+    "$essencejs is not equal to $essencejs in different instance":
         function (test) {
             test.expect(3);
 
-            var $essence1, $essence2;
+            var $essencejs1, $essencejs2;
 
             function runTests() {
-                test.equal(!!$essence1, true);
-                test.equal(!!$essence2, true);
-                test.notEqual($essence1, $essence2);
+                test.equal(!!$essencejs1, true);
+                test.equal(!!$essencejs2, true);
+                test.notEqual($essencejs1, $essencejs2);
 
                 test.done();
             }
 
-            essencejs1.inject(function ($essence) {
-                $essence1 = $essence;
-                essencejs2.inject(function ($essence) {
-                    $essence2 = $essence;
+            essencejs1.inject(function ($essencejs) {
+                $essencejs1 = $essencejs;
+                essencejs2.inject(function ($essencejs) {
+                    $essencejs2 = $essencejs;
 
                     runTests();
                 });

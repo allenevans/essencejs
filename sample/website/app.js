@@ -9,7 +9,7 @@ var path = require('path'); // GRRR FIX PATHS!!!!
 var EssenceJs = require('essencejs').EssenceJs;
 var essencejs = new EssenceJs();
 
-essencejs.imports(path.join(__dirname, "bootstrap/*.js"));
+essencejs.imports("./bootstrap/*.js");
 
 var express = require('express');
 
