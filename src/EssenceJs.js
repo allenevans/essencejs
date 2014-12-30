@@ -40,8 +40,8 @@ var EssenceJs = function EssenceJs() {
     this._timers = [];
 
 
-    // register this instance as $essence.
-    this.register("$essence", this);
+    // register this instance as $essencejs.
+    this.register("$essencejs", this);
 };
 
 /**

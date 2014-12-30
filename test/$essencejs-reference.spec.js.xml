@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+  
+  <testsuite name="$essencejs-reference.spec.js"
+             errors="0"
+             failures="0"
+             tests="2">
+    
+      
+      <testcase name="Should be able to inject $essencejs into function">
+        
+      </testcase>
+    
+      
+      <testcase name="Should be able to register with $essencejs inside an injected function">
+        
+      </testcase>
+    
+  </testsuite>
+
