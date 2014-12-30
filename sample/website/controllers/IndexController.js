@@ -3,13 +3,11 @@
  * Description  :   Index default controller.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
-    router,
     BaseController,
     IndexModel) {
     "use strict";
 
     function IndexController() {
-        this.router = router;
         this.path = '/';
 
         BaseController.call(this);

@@ -3,7 +3,6 @@
  * Description  :   Users default controller.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
-    router,
     BaseController,
     UserModel) {
     "use strict";

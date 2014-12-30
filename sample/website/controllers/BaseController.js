@@ -2,7 +2,7 @@
  * File         :   BaseController.js
  * Description  :   Base controller from which other controllers should inherit.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function (app, router) {
+module.exports = function () {
     "use strict";
 
     function BaseController() {
@@ -10,27 +10,15 @@ module.exports = function (app, router) {
 
         if (this.path) {
             this.path = Array.isArray(this.path) ? this.path : [this.path];
-
-            for (var i = 0; i < this.path.length; i += 1) {
-                router.
-                    route(this.path[i]).
-                    all(this.all).
-                    delete(this.delete).
-                    get(this.get).
-                    post(this.post).
-                    put(this.put);
-
-                app.use(this.path, router);
-            }
         }
     }
 
     // Run for all http verbs
-    BaseController.prototype.all = function get(req, res, next) {
+    BaseController.prototype.all = function all(req, res, next) {
         next();
     };
 
-    BaseController.prototype.delete = function get(req, res) {
+    BaseController.prototype.delete = function delete_(req, res) {
         res.status(400);
         res.send('Not implemented');
     };
@@ -40,17 +28,17 @@ module.exports = function (app, router) {
         res.send('Not implemented');
     };
 
-    BaseController.prototype.options = function get(req, res) {
+    BaseController.prototype.options = function options(req, res) {
         res.status(400);
         res.send('Not implemented');
     };
 
-    BaseController.prototype.post = function get(req, res) {
+    BaseController.prototype.post = function post(req, res) {
         res.status(400);
         res.send('Not implemented');
     };
 
-    BaseController.prototype.put = function get(req, res) {
+    BaseController.prototype.put = function put(req, res) {
         res.status(400);
         res.send('Not implemented');
     };

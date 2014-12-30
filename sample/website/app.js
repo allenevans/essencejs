@@ -1,15 +1,25 @@
+/*
+ * File         :   app.js
+ * Description  :   Website main application file.
+ * ------------------------------------------------------------------------------------------------ */
+
+// set up the essencejs container.
+var path = require('path'); // GRRR FIX PATHS!!!!
+
+var EssenceJs = require('essencejs').EssenceJs;
+var essencejs = new EssenceJs();
+
+essencejs.imports(path.join(__dirname, "bootstrap/*.js"));
+
 var express = require('express');
-var path = require('path');
+
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var EssenceJs = require('essencejs').EssenceJs;
-var essencejs = new EssenceJs();
 essencejs.config.timeout = 1000;
 
-var users = require('./routes/users');
 
 var app = express();
 
@@ -35,9 +45,27 @@ essencejs.imports(path.join(__dirname, "controllers/**/*Controller.js"), { names
         throw err;
     }
 
-    // initialise controllers
+    // initialise controllers.
     controllers.forEach(function (Controller) {
-        new Controller();
+        var controller = new Controller();
+
+        if (controller.path) {
+            controller.path = Array.isArray(controller.path) ? controller.path : [controller.path];
+
+            controller.path.forEach(function (path) {
+                var router = express.Router();
+
+                    router.
+                        route(path).
+                        all(controller.all).
+                        delete(controller.delete).
+                        get(controller.get).
+                        post(controller.post).
+                        put(controller.put);
+
+                app.use(path, router);
+            });
+        }
     });
 
     essencejs.register("controllersRegistered", true, { namespace : "bootstrap" });
