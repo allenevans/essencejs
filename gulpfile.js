@@ -11,7 +11,12 @@ var gulp = require("gulp"),
     nodeunit = require("gulp-nodeunit");
 
 gulp.task("clean-coverage", function () {
-    return gulp.src(["./coverage"], { read : false }).
+    return gulp.src(["./coverage", "./test/*.js.xml"], { read : false }).
+        pipe(remove({force : true}));
+});
+
+gulp.task("clean-coverage-xml", function () {
+    return gulp.src(["./test/*.js.xml"], { read : false }).
         pipe(remove({force : true}));
 });
 
@@ -100,6 +105,7 @@ gulp.task("test", function (callback) {
     runSequence(
         "clean-coverage",
         "coverage",
+        "clean-coverage-xml",
         callback
     );
 });
