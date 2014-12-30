@@ -17,13 +17,18 @@ module.exports = function (
     UserController.prototype.constructor = UserController;
 
     UserController.prototype.get = function (req, res) {
-        /* GET home page. */
-        res.render('users',
-            new UserModel({
-                id : req.params.id,
-                name : "User " + req.params.id
-            })
-        );
+        var userId = req.params.id;
+
+        if (userId) {
+            res.render('user',
+                new UserModel({
+                    id : req.params.id,
+                    name : "User " + req.params.id
+                })
+            );
+        } else {
+            res.render('users', {});
+        }
     };
 
     return UserController;
