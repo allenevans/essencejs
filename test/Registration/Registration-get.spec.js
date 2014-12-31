@@ -1,5 +1,5 @@
 /*
- * File         :   Registration-get.js
+ * File         :   Registration-get.spec.js
  * Description  :   TEST Registration class get method tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

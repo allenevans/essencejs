@@ -1,5 +1,5 @@
 /*
- * File         :   CancelError.js
+ * File         :   CancelError.spec.js
  * Description  :   TEST Cancel Error class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

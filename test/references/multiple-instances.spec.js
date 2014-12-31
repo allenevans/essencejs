@@ -1,5 +1,5 @@
 /*
- * File         :   multiple-instances.js
+ * File         :   multiple-instances.spec.js
  * Description  :   TEST using multiple instances of essencejs.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

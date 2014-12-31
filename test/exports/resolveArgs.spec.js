@@ -1,5 +1,5 @@
 /*
- * File         :   resolveArgs.js
+ * File         :   resolveArgs.spec.js
  * Description  :   TEST exported resolveArgs method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
@@ -10,7 +10,7 @@ var path = require("path"),
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        essencejs = new (require(process.cwd()).EssenceJs)();
         callback();
     },
     tearDown : function(callback) {
@@ -163,7 +163,7 @@ module.exports = {
             essencejs.resolveArgs(["testObject", "testObject2", "testObject3"], null, 50, null, function (err, args) {
                 test.equal(!!err, true);
                 test.equal(err instanceof CancelError, true);
-                test.equal(err.message, "Cancelled.");
+                test.equal(err.message, "Cancelled testObject2.");
                 test.done();
             });
         },

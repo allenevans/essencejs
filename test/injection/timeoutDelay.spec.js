@@ -1,5 +1,5 @@
 /*
- * File         :   timeoutDelay.js
+ * File         :   timeoutDelay.spec.js
  * Description  :   TEST inject timeout delay functionality.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
@@ -13,7 +13,7 @@ function createTimeout(test, duration) {
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        essencejs = new (require(process.cwd()).EssenceJs)();
         callback();
     },
     tearDown : function(callback) {

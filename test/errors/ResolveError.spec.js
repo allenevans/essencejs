@@ -1,5 +1,5 @@
 /*
- * File         :   ResolveError.js
+ * File         :   ResolveError.spec.js
  * Description  :   TEST Resolve Error class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

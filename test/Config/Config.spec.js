@@ -1,5 +1,5 @@
 /*
- * File         :   Config.js
+ * File         :   Config.spec.js
  * Description  :   TEST Config class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

@@ -1,5 +1,5 @@
 /*
- * File         :   util-lowerCaseFirst.js
+ * File         :   util-lowerCaseFirst.spec.js
  * Description  :   TEST util lowerCaseFirst method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

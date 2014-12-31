@@ -1,5 +1,5 @@
 /*
- * File         :   util-splitNamespaceKey.js
+ * File         :   util-splitNamespaceKey.spec.js
  * Description  :   TEST util namespaceKey method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

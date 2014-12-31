@@ -1,5 +1,5 @@
 /*
- * File         :   Resolvable.js
+ * File         :   Resolvable.spec.js
  * Description  :   TEST Resolvable class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

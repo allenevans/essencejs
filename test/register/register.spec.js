@@ -1,5 +1,5 @@
 /*
- * File         :   register.js
+ * File         :   register.spec.js
  * Description  :   TEST exported register method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
@@ -9,7 +9,7 @@ var path = require("path"),
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        essencejs = new (require(process.cwd()).EssenceJs)();
         callback();
     },
     tearDown : function(callback) {

@@ -1,5 +1,5 @@
 /*
- * File         :   overrides.js
+ * File         :   overrides.spec.js
  * Description  :   TEST overrides for singleton dependencies.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
@@ -9,7 +9,7 @@ var path = require("path"),
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        essencejs = new (require(process.cwd()).EssenceJs)();
         callback();
     },
     tearDown : function(callback) {

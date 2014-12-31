@@ -13,7 +13,7 @@ module.exports = function (
     express,
     path,
     app,
-    $essencejs
+    $inject
 ) {
     "use strict";
 
@@ -37,7 +37,7 @@ module.exports = function (
             return function () {
                 var middlewareArgs = Array.prototype.slice.apply(arguments, [0]);
 
-                $essencejs.inject(Controller, {
+                $inject(Controller, {
                       overrides : {
                         req : arguments[0],
                         res : arguments[1],

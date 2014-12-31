@@ -1,5 +1,5 @@
 /*
- * File         :   BaseError.js
+ * File         :   BaseError.spec.js
  * Description  :   TEST Base Error class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

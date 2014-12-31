@@ -1,5 +1,5 @@
 /*
- * File         :   inject.js
+ * File         :   inject.spec.js
  * Description  :   TEST exported inject method
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
@@ -13,7 +13,7 @@ function createTimeout(test, duration) {
 
 module.exports = {
     setUp : function (callback) {
-        essencejs = new (require(path.join(process.cwd(), "index")).EssenceJs)();
+        essencejs = new (require(process.cwd()).EssenceJs)();
         callback();
     },
     tearDown : function (callback) {

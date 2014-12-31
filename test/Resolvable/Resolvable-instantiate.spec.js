@@ -1,5 +1,5 @@
 /*
- * File         :   Resolvable-instantiate.js
+ * File         :   Resolvable-instantiate.spec.js
  * Description  :   TEST instantiating the Resolvable class.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

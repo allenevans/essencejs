@@ -1,5 +1,5 @@
 /*
- * File         :   Registration-keys.js
+ * File         :   Registration-keys.spec.js
  * Description  :   TEST Registration class keys property tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

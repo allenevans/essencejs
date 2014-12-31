@@ -1,5 +1,5 @@
 /*
- * File         :   can-require-essence.js
+ * File         :   can-require-essence.spec.js
  * Description  :   TEST exported EssenceJs class.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

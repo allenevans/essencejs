@@ -1,5 +1,5 @@
 /*
- * File         :   Resolvable-dispose.js
+ * File         :   Resolvable-dispose.spec.js
  * Description  :   TEST dispose of an instantiated Resolvable class.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

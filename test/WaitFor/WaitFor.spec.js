@@ -1,5 +1,5 @@
 /*
- * File         :   WaitFor.js
+ * File         :   WaitFor.spec.js
  * Description  :   TEST WaitFor class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
