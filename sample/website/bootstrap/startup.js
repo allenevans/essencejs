@@ -2,10 +2,8 @@
  * File         :   startup.js
  * Description  :   App startup bootstrap.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function ($essencejs, config, path) {
+module.exports = function ($essencejs, express, config, path) {
     "use strict";
-
-    var express = require("express");
 
     // create the instance of the express app.
     var app = express();

@@ -16,5 +16,5 @@ module.exports = function (app, express, path) {
     app.use(cookieParser());
 
     // uncomment after placing your favicon in /public
-    //app.use(favicon(__dirname + '/public/favicon.ico'));
+    //app.use(favicon(process.cwd() + '/public/favicon.ico'));
 };

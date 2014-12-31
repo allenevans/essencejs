@@ -7,6 +7,7 @@
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
     IndexController,
+    LoginController,
     UserController,
     router,
     express,
@@ -20,6 +21,7 @@ module.exports = function (
     // This simply assumes that router paths are all mounted onto the root i.e. /
     var routes = {
         "/"                 : IndexController,
+        "/login"            : LoginController,
         "/users/:id?"       : UserController
     };
 
@@ -27,27 +29,6 @@ module.exports = function (
     Object.keys(routes).forEach(function (path) {
         var Controller = routes[path],
             handler;
-
-        // Bind a singleton instance of the controller to the route.
-        // The controller will only ever be instantiated once and last for the lifespan of the application.
-        // ================================================================================================
-        // var controller = new Controller(),
-        // function singletonControllerHandler(method) {
-        //     return function () { method.apply(controller, arguments); }
-        // }
-        // handler = singletonControllerHandler;
-        //
-        // Bind a new controller instance with a parameter-less constructor to every single request.
-        // The controller lasts only for the lifespan of the request.
-        // ================================================================================================
-        // function parameterLessConstructorControllerHandler(method) {
-        //     return function () {
-        //         method.apply(new Controller(), arguments);
-        //         controller.dispose();
-        //         controller = null;
-        //     }
-        // }
-        // handler = parameterLessConstructorControllerHandler;
 
         // Use dependency injection to instantiate the controller will any necessary dependencies.
         // The controller lasts only for the lifespan of the request.
@@ -113,3 +94,28 @@ module.exports = function (
         });
     });
 };
+
+/*
+    Snippets
+
+     // Bind a singleton instance of the controller to the route.
+     // The controller will only ever be instantiated once and last for the lifespan of the application.
+     // ================================================================================================
+     // var controller = new Controller(),
+     // function singletonControllerHandler(method) {
+     //     return function () { method.apply(controller, arguments); }
+     // }
+     // handler = singletonControllerHandler;
+     //
+     // Bind a new controller instance with a parameter-less constructor to every single request.
+     // The controller lasts only for the lifespan of the request.
+     // ================================================================================================
+     // function parameterLessConstructorControllerHandler(method) {
+     //     return function () {
+     //         method.apply(new Controller(), arguments);
+     //         controller.dispose();
+     //         controller = null;
+     //     }
+     // }
+     // handler = parameterLessConstructorControllerHandler;
+ */

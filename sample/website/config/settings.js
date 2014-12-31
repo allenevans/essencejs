@@ -1,5 +1,5 @@
 /*
- * File         :   config.js
+ * File         :   settings.js
  * Description  :   Application configuration settings.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = {
