@@ -7,7 +7,7 @@
 var path = require("path"),
     CancelError = require(path.join(process.cwd(), "src/CancelError")),
     ResolveError = require(path.join(process.cwd(), "src/ResolveError")),
-    EssenceJs = require(path.join(process.cwd(), "index")).EssenceJs,
+    EssenceJs = require(process.cwd()).EssenceJs,
     essencejs;
 
 module.exports = {

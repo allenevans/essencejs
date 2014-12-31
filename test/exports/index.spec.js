@@ -11,7 +11,7 @@ module.exports = {
         function (test) {
             test.expect(7);
 
-            var essencejsExports = require(path.join(process.cwd(), "index"));
+            var essencejsExports = require(process.cwd());
 
             test.equal(!!essencejsExports, true);
             test.equal(!!essencejsExports.EssenceJs, true);
