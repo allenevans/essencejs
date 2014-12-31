@@ -1,5 +1,5 @@
 /*
- * File         :   parser-getArgs.js
+ * File         :   parser-getArgs.spec.js
  * Description  :   TEST parser getArgs method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

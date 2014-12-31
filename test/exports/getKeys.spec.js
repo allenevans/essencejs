@@ -1,5 +1,5 @@
 /*
- * File         :   getKeys.js
+ * File         :   getKeys.spec.js
  * Description  :   TEST get registration keys method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

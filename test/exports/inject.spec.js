@@ -1,5 +1,5 @@
 /*
- * File         :   inject.js
+ * File         :   inject.spec.js
  * Description  :   TEST exported inject method
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

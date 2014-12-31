@@ -1,5 +1,5 @@
 /*
- * File         :   registering.js
+ * File         :   registering.spec.js
  * Description  :   TEST register objects in a namespace.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

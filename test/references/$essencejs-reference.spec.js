@@ -1,5 +1,5 @@
 /*
- * File         :   $essencejs-reference.js
+ * File         :   $essencejs-reference.spec.js
  * Description  :   TEST injection method testing $essencejs.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

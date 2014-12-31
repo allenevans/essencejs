@@ -1,5 +1,5 @@
 /*
- * File         :   objects.js
+ * File         :   objects.spec.js
  * Description  :   TEST register objects as singletons.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

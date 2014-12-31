@@ -1,5 +1,5 @@
 /*
- * File         :   Registration-remove.js
+ * File         :   Registration-remove.spec.js
  * Description  :   TEST Registration class remove method tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

@@ -1,5 +1,5 @@
 /*
- * File         :   factory.js
+ * File         :   factory.spec.js
  * Description  :   TEST exported factory method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

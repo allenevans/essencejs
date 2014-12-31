@@ -1,5 +1,5 @@
 /*
- * File         :   Registration.js
+ * File         :   Registration.spec.js
  * Description  :   TEST Registration class definition tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

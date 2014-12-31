@@ -1,5 +1,5 @@
 /*
- * File         :   Registration-namespaces.js
+ * File         :   Registration-namespaces.spec.js
  * Description  :   TEST Registration class namespaces property tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

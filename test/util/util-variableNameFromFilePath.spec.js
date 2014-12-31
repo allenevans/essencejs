@@ -1,5 +1,5 @@
 /*
- * File         :   util-variableNameFromFilePath.js
+ * File         :   util-variableNameFromFilePath.spec.js
  * Description  :   TEST util variableNameFromFilePath method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

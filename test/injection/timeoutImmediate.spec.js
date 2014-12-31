@@ -1,5 +1,5 @@
 /*
- * File         :   timeoutImmediate.js
+ * File         :   timeoutImmediate.spec.js
  * Description  :   TEST inject timeout (-1) immediate functionality.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

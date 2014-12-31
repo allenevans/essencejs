@@ -1,5 +1,5 @@
 /*
- * File         :   index.js
+ * File         :   index.spec.js
  * Description  :   TEST exported essence js namespace.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

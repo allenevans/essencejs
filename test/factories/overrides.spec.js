@@ -1,5 +1,5 @@
 /*
- * File         :   overrides.js
+ * File         :   overrides.spec.js
  * Description  :   TEST overrides for factory dependencies.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

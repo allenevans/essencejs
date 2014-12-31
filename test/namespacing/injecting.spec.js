@@ -1,5 +1,5 @@
 /*
- * File         :   injecting.js
+ * File         :   injecting.spec.js
  * Description  :   TEST injecting using namespace.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

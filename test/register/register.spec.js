@@ -1,5 +1,5 @@
 /*
- * File         :   register.js
+ * File         :   register.spec.js
  * Description  :   TEST exported register method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

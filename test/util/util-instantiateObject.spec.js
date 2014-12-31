@@ -1,5 +1,5 @@
 /*
- * File         :   util-instantiateObject.js
+ * File         :   util-instantiateObject.spec.js
  * Description  :   TEST util instantiateObject method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

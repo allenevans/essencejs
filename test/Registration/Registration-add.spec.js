@@ -1,5 +1,5 @@
 /*
- * File         :   Registration-add.js
+ * File         :   Registration-add.spec.js
  * Description  :   TEST Registration class add method tests.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

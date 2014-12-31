@@ -1,5 +1,5 @@
 /*
- * File         :   timeoutDelay.js
+ * File         :   timeoutDelay.spec.js
  * Description  :   TEST inject timeout delay functionality.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

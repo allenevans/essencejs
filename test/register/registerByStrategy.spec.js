@@ -1,5 +1,5 @@
 /*
- * File         :   registerByStrategy.js
+ * File         :   registerByStrategy.spec.js
  * Description  :   TEST register by strategy method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

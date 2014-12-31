@@ -1,5 +1,5 @@
 /*
- * File         :   util-isObjectConstructor.js
+ * File         :   util-isObjectConstructor.spec.js
  * Description  :   TEST util isObjectConstructor method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

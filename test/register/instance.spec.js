@@ -1,5 +1,5 @@
 /*
- * File         :   instance.js
+ * File         :   instance.spec.js
  * Description  :   TEST instance method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

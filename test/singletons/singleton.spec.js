@@ -1,5 +1,5 @@
 /*
- * File         :   singleton.js
+ * File         :   singleton.spec.js
  * Description  :   TEST exported singleton method.
  * ------------------------------------------------------------------------------------------------ */
 "use strict";

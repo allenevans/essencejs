@@ -10,6 +10,7 @@ var async = require("async"),
     util = require("./util"),
     CancelError = require("./CancelError"),
     Config = require("./Config"),
+    EventEmitter = require('events').EventEmitter,
     Registration = require("./Registration"),
     Resolvable = require("./Resolvable"),
     ResolveError = require("./ResolveError"),
@@ -39,6 +40,12 @@ var EssenceJs = function EssenceJs() {
      */
     this._timers = [];
 
+    /**
+     * Event emitter.
+     * @type {EventEmitter}
+     */
+    this._emitter = new EventEmitter();
+
     // register this instance as $essencejs.
     this.register("$essencejs", this);
 };
@@ -59,7 +66,7 @@ EssenceJs.prototype.clearTimeout = function (timerRef) {
 /**
  * Create a timeout with tracking.
  * @param {function} func function to execute when timer interval has been reached.
- * @param {Object} interval number of milliseconds to wait for.
+ * @param {number} interval number of milliseconds to wait for.
  */
 EssenceJs.prototype.setTimeout = function (func, interval) {
     var self = this,
@@ -75,11 +82,20 @@ EssenceJs.prototype.setTimeout = function (func, interval) {
 
 /**
  * Method for tidying up any references and disposing of essencejs.
+ *
+ * @fires EssenceJs#disposing
  */
 EssenceJs.prototype.dispose = function dispose() {
     var self = this,
         method,
         timers = self._timers;
+
+    /**
+     * EssenceJs instance is in the process of being disposed of event.
+     * @event EssenceJs#disposing
+     * @type {EssenceJs}
+     */
+    self._emitter.emit("disposing", self);
 
     if (self._timers && self._timers.length) {
         timers.forEach(function (timer) {
@@ -89,6 +105,8 @@ EssenceJs.prototype.dispose = function dispose() {
 
     self.registrations && self.registrations.dispose();
     delete self.registrations;
+
+    self._emitter.removeAllListeners();
 
     for (method in self) {
         if (!self.hasOwnProperty(method) &&
@@ -101,6 +119,7 @@ EssenceJs.prototype.dispose = function dispose() {
         }
     }
 
+    self._emitter = null;
     self.isDisposed = function () { return true; };
 };
 
@@ -370,6 +389,26 @@ EssenceJs.prototype.isRegistered = function isRegistered(key, namespaces) {
 };
 
 /**
+ * Add an event listener to be fired every time the event is emitted.
+ * @param {string} event name to listen for.
+ * @param {function} listener callback function executed when the event is emitted.
+ * @returns {EventEmitter} reference to the listener.
+ */
+EssenceJs.prototype.on = function (event, listener) {
+    return this._emitter.on(event, listener);
+};
+
+/**
+ * Add an event listener to be fired only once when the event is emitted.
+ * @param {string} event name to listen for.
+ * @param {function} listener callback function executed when the event is emitted.
+ * @returns {EventEmitter} reference to the listener.
+ */
+EssenceJs.prototype.once = function (event, listener) {
+    return this._emitter.once(event, listener);
+};
+
+/**
  * Config object passed when registering an object.
  * @typedef {object} EssenceJs~registerOptions
  * @prop {string} [namespace] Namespace the object will be registered in. Set this as an alternative to
@@ -382,6 +421,9 @@ EssenceJs.prototype.isRegistered = function isRegistered(key, namespaces) {
  *    will be determined from the object e.g. constructor.name.
  * @param {object} [item] to be registered against the key given. Only used if first parameter @param itemOrKey is a string.
  * @param {EssenceJs~registerOptions} [config] registration configuration options.
+ *
+ * @fires EssenceJs#registered
+ * @fires EssenceJs#cancelled
  */
 EssenceJs.prototype.register = function register(itemOrKey, item, config) {
     var self = this,
@@ -412,20 +454,40 @@ EssenceJs.prototype.register = function register(itemOrKey, item, config) {
         if (resolvable && resolvable.isPlaceholder) {
             // cancel any waitFors callbacks.
             self.registrations.get(key, [namespace]).waitFors.forEach(function (waitFor) {
-                waitFor.callback(new CancelError());
+                var cancelError = new CancelError({
+                    message : "Cancelled " + key + "."
+                });
+
+                waitFor.callback(cancelError);
+
+                /**
+                 * Dependency resolving cancelled event.
+                 * @event EssenceJs#cancelled
+                 * @type {CancelError}
+                 */
+                self._emitter && self._emitter.emit("cancelled", cancelError);
             });
         }
 
         self.registrations && self.registrations.remove(key);
     } else {
-        var placeholderResolvable = resolvable && resolvable.isPlaceholder ?
-            resolvable : null;
+        var placeholderResolvable = resolvable && resolvable.isPlaceholder ? resolvable : null,
+            newRegistration;
 
-        self.registrations.add(new Resolvable({
+        newRegistration = new Resolvable({
             namespace : namespace,
             key: key,
             item: item
-        }));
+        });
+
+        self.registrations.add(newRegistration);
+
+        /**
+         *  A dependency has been registered with this instance of the EssenceJs container event.
+         *  @event EssenceJs#registered
+         *  @type {Resolvable}
+         */
+        self._emitter.emit("registered", newRegistration);
 
         if (placeholderResolvable) {
             // notify any waitFors in the placeholder registration
@@ -445,6 +507,14 @@ EssenceJs.prototype.register = function register(itemOrKey, item, config) {
  * @see EssenceJs#register
  */
 EssenceJs.prototype.instance = EssenceJs.prototype.register;
+
+/**
+ * Returns a list of listeners for the specified event.
+ * @param {string} event name of the event.
+ */
+EssenceJs.prototype.listeners = function listeners(event) {
+    return this._emitter.listeners(event);
+};
 
 /**
  * @callback EssenceJs~registeredCallback Callback function to execute containing any errors, and the file names matching
@@ -530,6 +600,16 @@ EssenceJs.prototype.remove = function remove(key, namespaces) {
 };
 
 /**
+ * Remove an event listener.
+ * @param {string} event name of the event the listener was bound to
+ * @param {EventEmitter} listener Emitter reference to remove.
+ * @returns {EventEmitter} reference to the event emitter
+ */
+EssenceJs.prototype.removeListener = function (event, listener) {
+    return this._emitter.removeListener(event, listener);
+};
+
+/**
  * @callback EssenceJs~resolveArgsCallback Callback function to execute containing any errors, and the resolve arguments array.
  * @param {object|string} error Object or string that contains the error that occurred.
  * @param {object[]} result The resolved arguments corresponding to the input args.
@@ -546,6 +626,8 @@ EssenceJs.prototype.remove = function remove(key, namespaces) {
  * @param {string[]} [resolveStack] Recursive resolve stack array holding the initiator of the resolveArgs request.
  * This parameter should only be used internally by EssenceJs.
  * Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
+ *
+ * @fires EssenceJs#resolveError
  */
 EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout, overrides, callback, resolveStack) {
     overrides = overrides || {};
@@ -594,6 +676,13 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout
 
         callback && callback(error);
         callback = null;
+
+        /**
+         * Error resolving one or more dependencies event.
+         * @event EssenceJs#resolveError
+         * @type {ResolveError}
+         */
+        self._emitter && self._emitter.emit("resolveError", error);
     }, timeout);
 
     args.map(function (arg, i) {
