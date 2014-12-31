@@ -21,6 +21,8 @@ var async = require("async"),
  * @constructor
  */
 var EssenceJs = function EssenceJs() {
+    var self = this;
+
     /**
      * EssenceJs configuration.
      * @type {Config}
@@ -46,8 +48,12 @@ var EssenceJs = function EssenceJs() {
      */
     this._emitter = new EventEmitter();
 
-    // register this instance as $essencejs.
+    // register convenience methods can can be injected.
     this.register("$essencejs", this);
+    this.register("$factory", function () { return self.factory.apply(self, arguments); });
+    this.register("$inject", function () { return self.inject.apply(self, arguments); });
+    this.register("$register", function () { return self.register.apply(self, arguments); });
+    this.register("$singleton", function () { return self.singleton.apply(self, arguments); });
 };
 
 /**
