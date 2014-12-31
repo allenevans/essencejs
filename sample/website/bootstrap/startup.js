@@ -2,19 +2,19 @@
  * File         :   startup.js
  * Description  :   App startup bootstrap.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function ($essencejs, express, session, settings, path) {
+module.exports = function ($essencejs, express, settings, path, hogan) {
     "use strict";
 
     // create the instance of the express app.
     var app = express();
-    app.use(session({
-        secret: 'some-secret-you-really-should-change-this-todo',
-        resave : false,
-        saveUninitialized : true
-    })); // session secret
 
     app.set('views', path.join(process.cwd(), 'views'));
-    app.set('view engine', 'jade');
+    app.engine("html", hogan);
+    app.set('view engine', 'html');
+    app.set('layout', path.join(process.cwd(), 'views/layouts/default'));
+    app.set('partials', {
+        header : path.join(process.cwd(), "views/partials/header")
+    });
 
     $essencejs.instance("app", app);
     $essencejs.register("express", express);

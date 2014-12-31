@@ -14,6 +14,7 @@ module.exports = function ($register) {
     // Express web server.
     $register("express", require("express"), { namespace : "requires"});
     $register("session", require("express-session"), { namespace : "requires"});
+    $register("hogan", require("hogan-express"), { namespace : "requires"});
 
     // core node modules
     $register("path", require('path'), { namespace : "requires"});
