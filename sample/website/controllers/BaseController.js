@@ -5,7 +5,7 @@
 module.exports = function () {
     "use strict";
 
-    function BaseController() { }
+    function BaseController(params) { this.name = params && params.name; }
 
     BaseController.prototype.delete = function delete_(req, res) {
         res.status(400);

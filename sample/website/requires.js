@@ -8,12 +8,14 @@ module.exports = function ($essencejs) {
 
     // passport - for handing authentication.
     // https://scotch.io/tutorials/easy-node-authentication-setup-and-local
-    $essencejs.register("passport", require("passport"));
-    $essencejs.register("LocalPassportStrategy", require('passport-local').Strategy);
+    $essencejs.register("passport", require("passport"), { namespace : "requires"});
+    $essencejs.register("LocalPassportStrategy", require('passport-local').Strategy, { namespace : "requires"});
 
     // Express web server.
-    $essencejs.register("express", require("express"));
+    $essencejs.register("express", require("express"), { namespace : "requires"});
+    $essencejs.register("session", require("express-session"), { namespace : "requires"});
 
     // core node modules
-    $essencejs.register("path", require('path'));
+    $essencejs.register("path", require('path'), { namespace : "requires"});
+    $essencejs.register("util", require('util'), { namespace : "requires"});
 };

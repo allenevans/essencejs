@@ -3,6 +3,7 @@
  * Description  :   User log in controller.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
+    util,
     BaseController,
     LoginModel,
     passport) {
@@ -12,8 +13,7 @@ module.exports = function (
         BaseController.call(this);
     }
 
-    LoginController.prototype = new BaseController();
-    LoginController.prototype.constructor = LoginController;
+    util.inherits(LoginController, BaseController);
 
     LoginController.prototype.get = function (req, res) {
         /* GET home page. */
@@ -23,7 +23,7 @@ module.exports = function (
     LoginController.prototype.post = function (req, res, next) {
         return passport.authenticate("local-login", {
             failureRedirect: '/login',
-            successRedirect: '/user'
+            successRedirect: '/users'
         })(req, res, next);
     };
 

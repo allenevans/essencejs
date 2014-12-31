@@ -3,16 +3,16 @@
  * Description  :   Users default controller.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
+    util,
     BaseController,
     UserModel) {
     "use strict";
 
-    function UserController() {
-        BaseController.call(this);
+    function UserController(req, res) {
+        this.constructor.super_.apply(this, arguments);
     }
 
-    UserController.prototype = new BaseController();
-    UserController.prototype.constructor = UserController;
+    util.inherits(UserController, BaseController);
 
     UserController.prototype.get = function (req, res) {
         var userId = req.params.id;
@@ -21,7 +21,7 @@ module.exports = function (
             res.render('user',
                 new UserModel({
                     id : req.params.id,
-                    name : "User " + req.params.id
+                    name : "User " + this.name
                 })
             );
         } else {

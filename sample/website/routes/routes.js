@@ -36,14 +36,25 @@ module.exports = function (
         function dependencyInjectedConstructorControllerHandler(method) {
             return function () {
                 var middlewareArgs = Array.prototype.slice.apply(arguments, [0]);
-                $essencejs.inject(Controller, function (err, controller) {
-                    if (err) { throw err; }
 
-                    method.apply(controller, middlewareArgs);
+                $essencejs.inject(Controller, {
+                      overrides : {
+                        req : arguments[0],
+                        res : arguments[1],
+                        next : arguments[2]
+                      }
+                    },
+                    function injectedConstructor(err, controller) {
+                        if (err) { throw err; }
 
-                    controller.dispose();
-                    controller = null;
-                });
+                        // call the controller method e.g. get() with the arguments passed into the middleware,
+                        // typically req, res, next.
+                        method.apply(controller, middlewareArgs);
+
+                        // dispose of the controller for this request.
+                        controller.dispose();
+                        controller = null;
+                    });
             }
         }
 
@@ -54,7 +65,9 @@ module.exports = function (
         // only configure the all route if all method has been defined on the controller.
         // defining an all method will cause the controller code to be executed more than once.
         // e.g. GET /users => all(new Controller()) => get(new Controller())
-        if (Controller.prototype.all) { route.all(handler(Controller.prototype.all)); }
+        if (Controller.prototype.all) {
+            route.all(handler(Controller.prototype.all));
+        }
 
         route.
             delete(handler(Controller.prototype.delete)).
@@ -94,28 +107,3 @@ module.exports = function (
         });
     });
 };
-
-/*
-    Snippets
-
-     // Bind a singleton instance of the controller to the route.
-     // The controller will only ever be instantiated once and last for the lifespan of the application.
-     // ================================================================================================
-     // var controller = new Controller(),
-     // function singletonControllerHandler(method) {
-     //     return function () { method.apply(controller, arguments); }
-     // }
-     // handler = singletonControllerHandler;
-     //
-     // Bind a new controller instance with a parameter-less constructor to every single request.
-     // The controller lasts only for the lifespan of the request.
-     // ================================================================================================
-     // function parameterLessConstructorControllerHandler(method) {
-     //     return function () {
-     //         method.apply(new Controller(), arguments);
-     //         controller.dispose();
-     //         controller = null;
-     //     }
-     // }
-     // handler = parameterLessConstructorControllerHandler;
- */

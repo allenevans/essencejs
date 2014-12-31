@@ -3,6 +3,7 @@
  * Description  :   Index default controller.
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
+    util,
     BaseController,
     IndexModel) {
     "use strict";
@@ -13,8 +14,7 @@ module.exports = function (
         BaseController.call(this);
     }
 
-    IndexController.prototype = new BaseController();
-    IndexController.prototype.constructor = IndexController;
+    util.inherits(IndexController, BaseController);
 
     IndexController.prototype.get = function (req, res) {
         /* GET home page. */

@@ -2,7 +2,7 @@
  * File         :   passport.js
  * Description  :   Configure the passport authentication handler.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function (passport, LocalPassportStrategy) {
+module.exports = function (passport, LocalPassportStrategy, authenticateService) {
     "use strict";
 
     // used to serialize the user for the session
@@ -13,7 +13,7 @@ module.exports = function (passport, LocalPassportStrategy) {
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
         // todo: get from db.
-        done(null, { id : id, email : "a@b.c", frientlyName : "bob"});
+        done(null, { id : id, email : "a@b.c", friendlyName : "bob"});
     });
 
     passport.use('local-login',
@@ -24,14 +24,8 @@ module.exports = function (passport, LocalPassportStrategy) {
             passReqToCallback : true
         },
         function(req, email, password, done) {
-            if (email === "a@b.c" && password === "123") {
-                // user successfully authenticated.
-                done(null, { id : 1, email : email, friendlyName : "bob" });
-
-                return;
-            }
-
-            done(null, false);
+            authenticateService.authenticate(email, password, function authResult(err, user) {
+                done(err, user);
+            });
         }));
-
 };

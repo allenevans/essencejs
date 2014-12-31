@@ -2,15 +2,17 @@
  * File         :   IndexModel.js
  * Description  :   The index model.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function (BaseModel) {
+module.exports = function (
+    util,
+    BaseModel
+) {
     "use strict";
 
     function IndexModel(params) {
         this.title = params && params.title;
     }
 
-    IndexModel.prototype = new BaseModel();
-    IndexModel.prototype.constructor = IndexModel;
+    util.inherits(IndexModel, BaseModel);
 
     return IndexModel;
 };

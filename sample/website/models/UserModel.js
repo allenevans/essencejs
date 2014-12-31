@@ -2,7 +2,10 @@
  * File         :   UserModel.js
  * Description  :   The user model.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function (BaseModel) {
+module.exports = function (
+    util,
+    BaseModel
+) {
     "use strict";
 
     function UserModel(params) {
@@ -10,8 +13,7 @@ module.exports = function (BaseModel) {
         this.name = params && params.name;
     }
 
-    UserModel.prototype = new BaseModel();
-    UserModel.prototype.constructor = UserModel;
+    util.inherits(UserModel, BaseModel);
 
     return UserModel;
 };

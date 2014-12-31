@@ -5,16 +5,38 @@
 
 // set up the essencejs container.
 var EssenceJs = require('essencejs').EssenceJs;
-var essencejs = new EssenceJs();
-essencejs.config.timeout = 1000;
+var essencejs = new EssenceJs({});
 
-essencejs.imports("./requires.js");
+essencejs.config.timeout = 10;
+
+/**
+ * Register each class as a factory. The essence js default naming convention will lower case the first character
+ * of the class when registering an factory method for that class e.g. AuthenticationService => authenticationService.
+ * @param {object} Any errors during import of the classes.
+ * @params {object[]} Classes to be registered as factories.
+ */
+function registerFactoryClasses(err, services) {
+    if (!err) {
+        services.forEach(function (service) {
+            essencejs.factory(service);
+        });
+    }
+}
 
 // import modules.
-essencejs.imports("./config/settings/**/*.js", { namespace : "config" });
+essencejs.imports("./requires.js");
+essencejs.imports("./config/**/*.js", { namespace : "config" });
 essencejs.imports("./bootstrap/**/*.js");
 essencejs.imports("./models/**/*.js", { namespace : "models" });
+essencejs.imports("./services/**/*.js", { namespace : "services" }, registerFactoryClasses);
 essencejs.imports("./controllers/**/*Controller.js", { namespace : "controllers" });
 
 // import routes
 essencejs.imports("./routes/routes.js");
+
+essencejs.on("resolveError", function (err) {
+    // fatal error resolving dependencies.
+    console.error(err);
+    process.exit(1);
+});
+

@@ -2,11 +2,16 @@
  * File         :   startup.js
  * Description  :   App startup bootstrap.
  * ------------------------------------------------------------------------------------------------ */
-module.exports = function ($essencejs, express, config, path) {
+module.exports = function ($essencejs, express, session, settings, path) {
     "use strict";
 
     // create the instance of the express app.
     var app = express();
+    app.use(session({
+        secret: 'some-secret-you-really-should-change-this-todo',
+        resave : false,
+        saveUninitialized : true
+    })); // session secret
 
     app.set('views', path.join(process.cwd(), 'views'));
     app.set('view engine', 'jade');
@@ -18,7 +23,7 @@ module.exports = function ($essencejs, express, config, path) {
         return express.Router();
     });
 
-    var server = app.listen(config.port, function() {
+    var server = app.listen(settings.port, function() {
         console.log('Express server listening on port ' + server.address().port);
     });
 };
