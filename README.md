@@ -4,16 +4,18 @@ essence.js
 About
 -----
 Essence.js is a async dependency injection framework to help build loosely coupled Node.js applications.
+Check out the sample website app to see how essence js goodness helps constructing a web application.
 
 ###Why?
 Creating loosely coupled applications helps to reduce complexity, improve code reusable and make your code more testable.
 
 Install
 -------
-    TODO
+    npm install --save essencejs
 
 Getting Started
 ---------------
+
     // require the EssenceJs class.
     var EssenceJs = require("essencejs").EssenceJs;
 
@@ -51,11 +53,6 @@ Getting Started
 
     // the start time will always remain the same for the duration of the node process because it is a singleton.
     // the random value will change because a new factory instance is injected every time it is needed.
-
-Examples
---------
-    TODO
-In the meantime, take a look at the tests to get an idea of how essence.js will work.
 
 Testing
 -------

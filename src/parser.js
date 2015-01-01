@@ -1,6 +1,9 @@
 /*
  * File         :   parser.js
  * Description  :   Helper methods for parsing.
+ *                  This is based on the angular.js parsing for dependency injection.
+ *                  @link https://angularjs.org/
+ *                  @link http://taoofcode.net/studying-the-angular-injector-annotate/
  * ------------------------------------------------------------------------------------------------ */
 "use strict";
 
