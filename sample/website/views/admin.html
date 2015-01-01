@@ -1,0 +1,20 @@
+<section class="container">
+    <p>
+        <a class="btn btn-primary btn-lg" href="/logout" role="button">Log out</a>
+    </p>
+    <div class="well">
+        <h1>Database Admin</h1>
+    </div>
+
+    <div class="well">
+        <h2>Users</h2>
+
+        <ul>
+            {{#users}}
+                <li>
+                    <a href="/users/{{id}}">{{firstName}} {{surname}}</a>
+                </li>
+            {{/users}}
+        </ul>
+    </div>
+</section>

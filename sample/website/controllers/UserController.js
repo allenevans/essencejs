@@ -4,29 +4,29 @@
  * ------------------------------------------------------------------------------------------------ */
 module.exports = function (
     util,
-    BaseController,
+    AuthenticatedController,
     UserModel) {
     "use strict";
 
-    function UserController(req, res) {
+    function UserController(req, res, userService) {
         this.constructor.super_.apply(this, arguments);
+
+        this.userService = userService;
     }
 
-    util.inherits(UserController, BaseController);
+    util.inherits(UserController, AuthenticatedController);
 
-    UserController.prototype.get = function (req, res) {
+    UserController.prototype.get = function (req, res, next) {
         var userId = req.params.id;
 
-        if (userId) {
-            res.render('user',
-                new UserModel({
-                    id : req.params.id,
-                    name : "User " + this.name
-                })
-            );
-        } else {
-            res.render('users', {});
-        }
+        this.userService.getById(userId, function (err, user) {
+            if (err) {
+                console.error(err);
+                next(err);
+            } else {
+                res.render('user', user);
+            }
+        });
     };
 
     return UserController;

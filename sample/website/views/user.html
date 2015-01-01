@@ -1,3 +1,46 @@
-<h1>title</h1>
+<section class="container">
+    <p>
+        <a class="btn btn-primary btn-lg" href="/admin" role="button">Back to menu</a>
+    </p>
 
-<p>Hello {{friendlyName}}.Your Id is {{id}}</p>
+    <div class="jumbotron">
+        <h1>Hello {{firstName}}</h1>
+    </div>
+
+    <div class="well">
+        <table class="table">
+            <tr>
+                <th>Name</th>
+                <td>{{displayName}}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{email}}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{gender}}</td>
+            </tr>
+            <tr>
+                <th>Registered</th>
+                <td>{{registered}}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>
+                    {{#isActive}}
+                        <i class="glyphicon glyphicon-ok"></i> Yes
+                    {{/isActive}}
+                    {{^isActive}}
+                        <i class="glyphicon glyphicon-remove"></i> No
+                    {{/isActive}}
+                </td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{password}}</td>
+            </tr>
+        </table>
+    </div>
+
+</section>

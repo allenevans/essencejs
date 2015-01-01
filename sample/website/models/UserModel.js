@@ -10,10 +10,20 @@ module.exports = function (
 
     function UserModel(params) {
         this.id = params && params.id;
-        this.name = params && params.name;
+        this.firstName = params && params.firstName;
+        this.surname = params && params.surname;
+        this.email = params && params.email;
+        this.registered = params && params.registered;
+        this.isActive = params && params.isActive;
+        this.gender = params && params.gender;
+        this.password = params && params.password;
     }
 
     util.inherits(UserModel, BaseModel);
+
+    UserModel.prototype.displayName = function displayName() {
+        return this.firstName + " " + this.surname;
+    };
 
     return UserModel;
 };

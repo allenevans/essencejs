@@ -8,7 +8,8 @@ Take a look at the sample applications to see why essence.js is useful.
 website/
 --------
 
-website is a sample express mvc demo application based on the express generator with essence.js goodness added.
+website is a really basic sample express mvc demo application with authentication to demonstrate the goodness of
+essence.js.
 The structure is loosely based upon a .Net MVC default project.
 
 To run (default port 3000):

@@ -23,7 +23,7 @@ module.exports = function (
     LoginController.prototype.post = function (req, res, next) {
         return passport.authenticate("local-login", {
             failureRedirect: '/login',
-            successRedirect: '/users'
+            successRedirect: '/admin'
         })(req, res, next);
     };
 

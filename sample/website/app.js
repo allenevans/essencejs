@@ -7,7 +7,7 @@
 var EssenceJs = require('essencejs').EssenceJs;
 var essencejs = new EssenceJs({});
 
-essencejs.config.timeout = 10;
+essencejs.config.timeout = 250;
 
 /**
  * Register each class as a factory. The essence js default naming convention will lower case the first character
@@ -15,10 +15,10 @@ essencejs.config.timeout = 10;
  * @param {object} Any errors during import of the classes.
  * @params {object[]} Classes to be registered as factories.
  */
-function registerFactoryClasses(err, services) {
+function registerAsFactories(err, classes) {
     if (!err) {
-        services.forEach(function (service) {
-            essencejs.factory(service);
+        classes.forEach(function(Class) {
+            essencejs.factory(Class);
         });
     }
 }
@@ -26,9 +26,10 @@ function registerFactoryClasses(err, services) {
 // import modules.
 essencejs.imports("./requires.js");
 essencejs.imports("./config/**/*.js", { namespace : "config" });
+essencejs.imports("./db.js");
 essencejs.imports("./bootstrap/**/*.js");
 essencejs.imports("./models/**/*.js", { namespace : "models" });
-essencejs.imports("./services/**/*.js", { namespace : "services" }, registerFactoryClasses);
+essencejs.imports("./services/**/*.js", { namespace : "services" }, registerAsFactories);
 essencejs.imports("./controllers/**/*Controller.js", { namespace : "controllers" });
 
 // import routes
@@ -39,4 +40,3 @@ essencejs.on("resolveError", function (err) {
     console.error(err);
     process.exit(1);
 });
-
