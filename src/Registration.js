@@ -70,6 +70,16 @@ Registration.prototype.add = function add(resolvable) {
         this.remove(dictionaryKey);
     }
 
+    if (resolvable.namespace &&
+        !resolvable.isPlaceholder &&
+        this.dictionary[resolvable.key] && this.dictionary[resolvable.key].isPlaceholder) {
+        // there exists a global dependency that's waiting to be resolved by something.
+        // this is the first dependency to be registered matching the global dependency requirement so remove the global
+        // temporary dependency from the dictionary. this may potentially introduce a race condition where two things with
+        // the same key but existing in different namespaces race to replace the global key with their value.
+        this.dictionary[resolvable.key] = resolvable;
+    }
+
     this.dictionary[dictionaryKey] = resolvable;
 };
 

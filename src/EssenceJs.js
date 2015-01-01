@@ -634,6 +634,7 @@ EssenceJs.prototype.removeListener = function (event, listener) {
  * Callback parameters are error (if there is one) and resolved - array of resolutions relative to the given args.
  *
  * @fires EssenceJs#resolveError
+ * @fires EssenceJs#waiting
  */
 EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout, overrides, callback, resolveStack) {
     overrides = overrides || {};
@@ -701,7 +702,15 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout
             // if undefined entries exist, then the keys are still waiting to be resolved.
             for (var i = 0; i < args.length; i += 1) {
                 if (mapped[i] === undefined) {
-                    // not complete. do not notify.
+                    // not complete. do not notify waitFors.
+
+                    /**
+                     * EssenceJs instance is waiting for this argument to be defined.
+                     * @event EssenceJs#waiting
+                     * @type {EssenceJs}
+                     */
+                    self._emitter.emit("waiting", args[i]);
+
                     return;
                 }
             }
@@ -792,6 +801,13 @@ EssenceJs.prototype.resolveArgs = function resolveArgs(args, namespaces, timeout
                 resolvable.waitFors &&
                     resolvable.waitFors.splice(resolvable.waitFors.indexOf(waitFor), 1);
             }, timeout);
+
+            /**
+             * EssenceJs instance is waiting for this argument to be defined.
+             * @event EssenceJs#waiting
+             * @type {EssenceJs}
+             */
+            self._emitter.emit("waiting", resolvable.key);
 
             resolvable.waitFors.push(waitFor);
         } else {

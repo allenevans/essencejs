@@ -58,5 +58,33 @@ module.exports = {
             test.equal(registration.dictionary["test"], resolvable);
 
             test.done();
+        },
+    "Should replace any temporary resolvable with the first matching namespaced resolvable":
+        function (test) {
+            test.expect(2);
+
+            var registration = new Registration(),
+                tempResolvable,
+                actualResolvable;
+
+            tempResolvable = new Resolvable({
+                key : "test",
+                item : 123,
+                isPlaceholder : true
+            });
+
+            actualResolvable = new Resolvable({
+                key : "test",
+                namespace : "objects",
+                item : 123
+            });
+
+            registration.add(tempResolvable);
+            registration.add(actualResolvable);
+
+            test.equal(registration.dictionary["test"], actualResolvable);
+            test.equal(!!registration.dictionary["objects__test"], true);
+
+            test.done();
         }
 };
