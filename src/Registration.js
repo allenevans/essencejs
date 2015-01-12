@@ -120,6 +120,12 @@ Registration.prototype.get = function get(key, namespaces) {
         return self.dictionary[matches[0]];
     }
 
+    if (key[0] === "_" && key[key.length - 1] === "_" && self.dictionary[key] === undefined) {
+        // we have a key prefixed with _ and suffixed with _.
+        // strip these off and try to get the registration again as this is an alias look up.
+        return self.get(key.substr(1, key.length - 2), namespaces);
+    }
+
     // fallback, return lookup by key.
     return self.dictionary[key];
 };
