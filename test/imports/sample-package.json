@@ -1,0 +1,9 @@
+{
+  "name": "mock--package-json-file",
+  "version": "0.0.1",
+  "dependencies": {
+    "express" : "*",
+    "body-parser" : "*",
+    "underscore.string" : "*"
+  }
+}

@@ -5,6 +5,7 @@
 var async = require("async"),
     clone = require("clone"),
     glob = require("glob").Glob,
+    jsonfile = require("jsonfile"),
     parser = require("./parser"),
     path = require("path"),
     util = require("./util"),
@@ -278,6 +279,28 @@ EssenceJs.prototype.imports = function imports(pattern, config, callback) {
     self.registerByStrategy(pattern, importsStrategy, {
         cwd : config.cwd
     }, callback);
+};
+
+/**
+ * Imports into the container the dependencies defined in the package.json file.
+ * @param {string} [packageJsonPath] Optional path to the json file to automatically require the dependencies for.
+ * Defaults to load the package.json file in the process current working directory.
+ * @param {EssenceJs~registerOptions} [config] Optional registration configuration object.
+ */
+EssenceJs.prototype.importPackageJson = function importPackageJson(packageJsonPath, config) {
+    var self = this,
+        package;
+
+    packageJsonPath = packageJsonPath || path.join(process.cwd(), "package.json");
+
+    package = jsonfile.readFileSync(packageJsonPath);
+
+    package && package.dependencies &&
+        Object.keys(package.dependencies).forEach(function (dependency) {
+            self.register(
+                dependency.trim().replace(/^(\d)|[^a-zA-Z\d\$\_]/g, "_$1"),
+                require(dependency), config);
+        });
 };
 
 /**
