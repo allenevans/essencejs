@@ -289,14 +289,14 @@ EssenceJs.prototype.imports = function imports(pattern, config, callback) {
  */
 EssenceJs.prototype.importPackageJson = function importPackageJson(packageJsonPath, config) {
     var self = this,
-        package;
+        packageJson;
 
     packageJsonPath = packageJsonPath || path.join(process.cwd(), "package.json");
 
-    package = jsonfile.readFileSync(packageJsonPath);
+    packageJson = jsonfile.readFileSync(packageJsonPath);
 
-    package && package.dependencies &&
-        Object.keys(package.dependencies).forEach(function (dependency) {
+    packageJson && packageJson.dependencies &&
+        Object.keys(packageJson.dependencies).forEach(function (dependency) {
             self.register(
                 dependency.trim().replace(/^(\d)|[^a-zA-Z\d\$\_]/g, "_$1"),
                 require(dependency), config);
