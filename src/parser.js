@@ -8,7 +8,7 @@
 "use strict";
 
 // Regex for parsing functions when converted to strings.
-var FN_ARGS = /^function\s*[^\(]*\(\s*([^\)]*)\)/m,
+var FN_ARGS = /^(function|class)\s*[^\(]*\(\s*([^\)]*)\)/m,
     RM_COMMENTS = /(\/\*([\s\S]*?)\*\/)|(\/\/(.*)$)/mg;
 
 /**
@@ -29,7 +29,7 @@ function getArgs(itemDeclaration) {
 
         return text.
             replace(RM_COMMENTS, "").
-            match(FN_ARGS)[1].
+            match(FN_ARGS)[2].
             split(",").
             reduce(function (args, arg) {
                 if (arg.length) {

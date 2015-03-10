@@ -166,5 +166,43 @@ module.exports = {
 
             test.expect(5);
             test.done();
+        },
+
+    "Parse ES6 class definition with 0 parameters":
+        function (test) {
+            var args;
+
+            // This is a work around because ES6 class definitions are not supported in ES5.1.
+            var FakeES6Class = function () { };
+            FakeES6Class.toString = function () {
+                return "class FakeES6Class() { }"
+            };
+
+            args = parser.getArgs(FakeES6Class);
+
+            test.ok(parser, args);
+            test.equal(args.length, 0, "Expected 0 arguments to be returned");
+
+            test.expect(2);
+            test.done();
+        },
+
+    "Parse ES6 class definition with 3 parameters":
+        function (test) {
+            var args;
+
+            // This is a work around because ES6 class definitions are not supported in ES5.1.
+            var FakeES6Class = function () { };
+            FakeES6Class.toString = function () {
+                return "class FakeES6Class(p1, p2, p3) { }"
+            };
+
+            args = parser.getArgs(FakeES6Class);
+
+            test.ok(parser, args);
+            test.equal(args.length, 3, "Expected 3 arguments to be returned");
+
+            test.expect(2);
+            test.done();
         }
 };
